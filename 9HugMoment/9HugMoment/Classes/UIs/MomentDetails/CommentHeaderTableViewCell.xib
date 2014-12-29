@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="30" id="KGk-i7-Jjw" customClass="CommentHeaderTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KP9-eU-oOW">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="29"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COMMENT" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qhH-93-cox">
+                                <rect key="frame" x="20" y="4" width="258" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="Lqv-3Z-exF"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7I4-e0-SDA">
+                                <rect key="frame" x="288" y="4" width="22" height="22"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="22" id="Grg-HB-twl"/>
+                                    <constraint firstAttribute="width" constant="22" id="lML-7y-eIa"/>
+                                </constraints>
+                                <color key="tintColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="addCommentButtonAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="QHz-dY-cug"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="qhH-93-cox" firstAttribute="leading" secondItem="KP9-eU-oOW" secondAttribute="leading" constant="20" id="32o-F3-JuY"/>
+                            <constraint firstAttribute="centerY" secondItem="qhH-93-cox" secondAttribute="centerY" id="KgI-c0-Gms"/>
+                            <constraint firstAttribute="centerY" secondItem="7I4-e0-SDA" secondAttribute="centerY" id="VgM-5T-GWK"/>
+                            <constraint firstItem="7I4-e0-SDA" firstAttribute="leading" secondItem="qhH-93-cox" secondAttribute="trailing" constant="10" id="n6d-pV-WFh"/>
+                            <constraint firstAttribute="trailing" secondItem="7I4-e0-SDA" secondAttribute="trailing" constant="10" id="yes-7f-a50"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="KP9-eU-oOW" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="BKN-qf-R90"/>
+                    <constraint firstAttribute="bottom" secondItem="KP9-eU-oOW" secondAttribute="bottom" id="VAR-1L-MHT"/>
+                    <constraint firstAttribute="trailing" secondItem="KP9-eU-oOW" secondAttribute="trailing" id="cnn-C9-tNP"/>
+                    <constraint firstItem="KP9-eU-oOW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="hVk-hD-wAJ"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="addCommentButton" destination="7I4-e0-SDA" id="bhA-0X-RKa"/>
+            </connections>
+            <point key="canvasLocation" x="140" y="113"/>
+        </tableViewCell>
+    </objects>
+</document>

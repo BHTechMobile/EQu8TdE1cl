@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="ZFV-iY-99t">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="Ajx-YL-KKQ">
+            <objects>
+                <navigationController navigationBarHidden="YES" id="ZFV-iY-99t" sceneMemberID="viewController">
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="DmT-fb-U5F">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="KkB-45-Tpv" kind="relationship" relationship="rootViewController" id="tbP-pA-uj2"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sge-QH-vV4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-200" y="308"/>
+        </scene>
+        <!--My Moments View Controller-->
+        <scene sceneID="EyU-ti-33a">
+            <objects>
+                <viewController id="KkB-45-Tpv" customClass="MyMomentsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2UJ-vw-vlr"/>
+                        <viewControllerLayoutGuide type="bottom" id="S1I-O2-MSr"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FLP-bl-B9g">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rFv-XW-9s2" userLabel="Content View">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b4b-oo-Vua" userLabel="Header View">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Moments" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vCO-Bc-KWY">
+                                                <rect key="frame" x="50" y="12" width="220" height="21"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="220" id="Xwg-UI-vBJ"/>
+                                                    <constraint firstAttribute="height" constant="21" id="thH-kv-N9y"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="centerX" secondItem="vCO-Bc-KWY" secondAttribute="centerX" id="Lf9-on-T1p"/>
+                                            <constraint firstAttribute="height" constant="45" id="Sth-du-75f"/>
+                                            <constraint firstItem="vCO-Bc-KWY" firstAttribute="top" secondItem="b4b-oo-Vua" secondAttribute="top" constant="12" id="ZdL-y6-Eqv"/>
+                                            <constraint firstAttribute="bottom" secondItem="vCO-Bc-KWY" secondAttribute="bottom" constant="12" id="fC9-n4-7iC"/>
+                                        </constraints>
+                                    </view>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="272" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vxD-9R-APz">
+                                        <rect key="frame" x="0.0" y="45" width="320" height="386"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="KkB-45-Tpv" id="iW0-5S-zgx"/>
+                                        </connections>
+                                    </tableView>
+                                </subviews>
+                                <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="vxD-9R-APz" secondAttribute="bottom" id="4iU-0y-FnX"/>
+                                    <constraint firstItem="vxD-9R-APz" firstAttribute="leading" secondItem="rFv-XW-9s2" secondAttribute="leading" id="CH0-nM-i4h"/>
+                                    <constraint firstAttribute="trailing" secondItem="b4b-oo-Vua" secondAttribute="trailing" id="EM3-xl-UOd"/>
+                                    <constraint firstItem="b4b-oo-Vua" firstAttribute="leading" secondItem="rFv-XW-9s2" secondAttribute="leading" id="Lyb-mT-Zxa"/>
+                                    <constraint firstItem="b4b-oo-Vua" firstAttribute="top" secondItem="rFv-XW-9s2" secondAttribute="top" id="XZE-Tm-Qhx"/>
+                                    <constraint firstItem="vxD-9R-APz" firstAttribute="top" secondItem="b4b-oo-Vua" secondAttribute="bottom" id="Yc7-AB-ODO"/>
+                                    <constraint firstItem="vxD-9R-APz" firstAttribute="top" secondItem="b4b-oo-Vua" secondAttribute="bottom" id="gUM-XU-Bpl"/>
+                                    <constraint firstAttribute="trailing" secondItem="vxD-9R-APz" secondAttribute="trailing" id="pjF-ej-FDd"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="rFv-XW-9s2" firstAttribute="leading" secondItem="FLP-bl-B9g" secondAttribute="leading" id="0Gt-us-rol"/>
+                            <constraint firstAttribute="trailing" secondItem="rFv-XW-9s2" secondAttribute="trailing" id="KSU-kX-Hmq"/>
+                            <constraint firstItem="rFv-XW-9s2" firstAttribute="top" secondItem="2UJ-vw-vlr" secondAttribute="bottom" id="URr-D7-Lft"/>
+                            <constraint firstItem="S1I-O2-MSr" firstAttribute="top" secondItem="rFv-XW-9s2" secondAttribute="bottom" id="qlG-XD-QIv"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="5da-aO-nfS"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <outlet property="contentView" destination="rFv-XW-9s2" id="D5J-Nk-Hgr"/>
+                        <outlet property="myMessagesTableView" destination="vxD-9R-APz" id="rs3-w8-YhT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bt4-0z-lad" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" id="xDU-yZ-uqy" userLabel="Content View">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="431"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4AY-YW-2SB" userLabel="Header View">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My Moments" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u12-1A-KMX">
+                                    <rect key="frame" x="50" y="12" width="220" height="21"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="21" id="RBu-av-Zc6"/>
+                                        <constraint firstAttribute="width" constant="220" id="lZL-dk-ea2"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="centerX" secondItem="u12-1A-KMX" secondAttribute="centerX" id="APx-tT-0vP"/>
+                                <constraint firstItem="u12-1A-KMX" firstAttribute="top" secondItem="4AY-YW-2SB" secondAttribute="top" constant="12" id="CFq-WM-vTc"/>
+                                <constraint firstAttribute="height" constant="45" id="vat-Sa-7vo"/>
+                            </constraints>
+                        </view>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="272" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="V3E-Va-c1p">
+                            <rect key="frame" x="0.0" y="45" width="320" height="386"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <constraints>
+                        <constraint firstItem="4AY-YW-2SB" firstAttribute="top" secondItem="xDU-yZ-uqy" secondAttribute="top" id="3ah-yV-x0S"/>
+                        <constraint firstItem="4AY-YW-2SB" firstAttribute="leading" secondItem="xDU-yZ-uqy" secondAttribute="leading" id="8Xp-Fu-0g9"/>
+                        <constraint firstItem="V3E-Va-c1p" firstAttribute="leading" secondItem="xDU-yZ-uqy" secondAttribute="leading" id="H1C-l2-2zB"/>
+                        <constraint firstAttribute="trailing" secondItem="4AY-YW-2SB" secondAttribute="trailing" id="PeN-iI-vEV"/>
+                        <constraint firstAttribute="bottom" secondItem="V3E-Va-c1p" secondAttribute="bottom" id="n2C-oC-q0o"/>
+                        <constraint firstItem="V3E-Va-c1p" firstAttribute="top" secondItem="4AY-YW-2SB" secondAttribute="bottom" id="vFP-QU-gqo"/>
+                        <constraint firstAttribute="trailing" secondItem="V3E-Va-c1p" secondAttribute="trailing" id="ziv-No-JWf"/>
+                    </constraints>
+                </view>
+            </objects>
+            <point key="canvasLocation" x="179" y="308"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

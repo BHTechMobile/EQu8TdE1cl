@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="DownloadVideoView">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F6c-gg-NbW">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dgq-zJ-2HK">
+                    <rect key="frame" x="20" y="234" width="280" height="100"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="awy-9x-IwY">
+                            <rect key="frame" x="0.0" y="40" width="280" height="1"/>
+                            <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OMc-rd-CY3" customClass="YLProgressBar">
+                            <rect key="frame" x="20" y="57" width="240" height="2"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Video Downloader" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="72P-eK-fFh">
+                            <rect key="frame" x="0.0" y="11" width="280" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="280" id="HwU-C6-gGB"/>
+                                <constraint firstAttribute="height" constant="21" id="n3B-3b-DTd"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Downloading" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j7z-lF-EgA">
+                            <rect key="frame" x="0.0" y="69" width="280" height="21"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="awy-9x-IwY" secondAttribute="bottom" constant="59" id="3YT-CR-O3m"/>
+                        <constraint firstItem="OMc-rd-CY3" firstAttribute="top" secondItem="Dgq-zJ-2HK" secondAttribute="top" constant="57" id="6Db-zP-zyC"/>
+                        <constraint firstAttribute="bottom" secondItem="j7z-lF-EgA" secondAttribute="bottom" constant="10" id="7Sy-Wq-zCJ"/>
+                        <constraint firstItem="awy-9x-IwY" firstAttribute="top" secondItem="Dgq-zJ-2HK" secondAttribute="top" constant="40" id="9jY-PC-A8B"/>
+                        <constraint firstAttribute="height" constant="100" id="A7F-G0-zGM"/>
+                        <constraint firstAttribute="trailing" secondItem="OMc-rd-CY3" secondAttribute="trailing" constant="20" id="D4m-Tg-Mlj"/>
+                        <constraint firstAttribute="width" constant="280" id="GXK-8d-mSS"/>
+                        <constraint firstItem="awy-9x-IwY" firstAttribute="leading" secondItem="Dgq-zJ-2HK" secondAttribute="leading" id="L3m-yX-bXd"/>
+                        <constraint firstAttribute="trailing" secondItem="72P-eK-fFh" secondAttribute="trailing" id="SLZ-fn-eZ1"/>
+                        <constraint firstItem="72P-eK-fFh" firstAttribute="leading" secondItem="Dgq-zJ-2HK" secondAttribute="leading" id="TDx-LV-NRO"/>
+                        <constraint firstItem="j7z-lF-EgA" firstAttribute="leading" secondItem="Dgq-zJ-2HK" secondAttribute="leading" id="VMH-Ve-v35"/>
+                        <constraint firstItem="OMc-rd-CY3" firstAttribute="leading" secondItem="Dgq-zJ-2HK" secondAttribute="leading" constant="20" id="aN9-4d-D95"/>
+                        <constraint firstAttribute="trailing" secondItem="j7z-lF-EgA" secondAttribute="trailing" id="bbp-cP-sVU"/>
+                        <constraint firstAttribute="bottom" secondItem="OMc-rd-CY3" secondAttribute="bottom" constant="41" id="laM-Sq-bEO"/>
+                        <constraint firstAttribute="trailing" secondItem="awy-9x-IwY" secondAttribute="trailing" id="r5o-G5-K6c"/>
+                        <constraint firstItem="72P-eK-fFh" firstAttribute="top" secondItem="Dgq-zJ-2HK" secondAttribute="top" constant="11" id="zbi-Jm-fEU"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="F6c-gg-NbW" secondAttribute="trailing" id="20M-l5-LLR"/>
+                <constraint firstAttribute="trailing" secondItem="F6c-gg-NbW" secondAttribute="trailing" id="6f1-6z-tTM"/>
+                <constraint firstItem="F6c-gg-NbW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="E8h-He-CGw"/>
+                <constraint firstItem="F6c-gg-NbW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="F6k-AX-gRr"/>
+                <constraint firstAttribute="centerX" secondItem="Dgq-zJ-2HK" secondAttribute="centerX" id="JLe-Lv-mon"/>
+                <constraint firstAttribute="bottom" secondItem="F6c-gg-NbW" secondAttribute="bottom" id="OAb-lo-FPy"/>
+                <constraint firstAttribute="centerY" secondItem="Dgq-zJ-2HK" secondAttribute="centerY" id="SkP-si-zwY"/>
+                <constraint firstItem="F6c-gg-NbW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="SuL-TQ-Arj"/>
+                <constraint firstItem="F6c-gg-NbW" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="chi-fJ-azc"/>
+                <constraint firstAttribute="bottom" secondItem="F6c-gg-NbW" secondAttribute="bottom" id="d0V-6f-O8C"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <connections>
+                <outlet property="activeView" destination="Dgq-zJ-2HK" id="eca-tR-v3o"/>
+                <outlet property="progressLabel" destination="j7z-lF-EgA" id="SeF-Ow-5Vz"/>
+                <outlet property="progressView" destination="OMc-rd-CY3" id="KFV-f0-Kzh"/>
+            </connections>
+        </view>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

@@ -1,0 +1,15 @@
+//
+//  9HugMoment-Prefix.pch
+//  9HugMoment
+//  Copyright (c) 2014 BHTech Mobile. All rights reserved.
+//
+#import <Availability.h>
+#ifndef _HugMoment__HugMoment_Prefix_pch
+#define _HugMoment__HugMoment_Prefix_pch
+
+#import "Constants.h"
+#import "AppDelegate.h"
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif

@@ -1,0 +1,24 @@
+source 'https://github.com/CocoaPods/Specs.git'
+platform :ios, '7.0'
+
+inhibit_all_warnings!
+
+pod 'MBProgressHUD', '~> 0.8'
+pod 'Facebook-iOS-SDK'
+pod 'GPUImage', '~> 0.1.4'
+pod 'AFNetworking', '~> 2.3.1'
+pod 'VideoPlayerKit', '~> 1.0.0'
+pod 'YLProgressBar'#, '~> 3.1.1'
+pod 'SDWebImage', '~>3.6'
+pod 'PBJVision'
+
+post_install do |installer|
+    installer.project.targets.each do |target|
+        target.build_configurations.each do |config|
+            s = config.build_settings['GCC_PREPROCESSOR_DEFINITIONS']
+            if s==nil then s = [ '$(inherited)' ] end
+            s.push('MR_ENABLE_ACTIVE_RECORD_LOGGING=0');
+            config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] = s
+        end
+    end
+end
