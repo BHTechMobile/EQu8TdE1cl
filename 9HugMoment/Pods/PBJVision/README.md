@@ -2,11 +2,17 @@
 
 ## PBJVision
 
-`PBJVision` is an iOS camera engine that supports touch-to-record video, slow motion video (120 fps on [supported hardware](https://www.apple.com/iphone/compare/)), and photo capture. It is compatible with both iOS 7 and iOS 8 and is 64-bit ready. Pause and resume video capture is also possible without having to use a touch gesture as the sample project provides.
+`PBJVision` is an iOS camera engine library that supports touch-to-record video, slow motion video (120 fps on [supported hardware](https://www.apple.com/iphone/compare/)), and photo capture.
 
-I created this library at [DIY](http://diy.org) as a fun means for kids to author video and share their skills. This same recording interaction was pioneered by [Vine](http://vine.co) and also adopted by [Instagram](http://instagram.com).
+The library also supports features such as onion skinning (ghosting), flash/torch usage, white balance adjustment, focus adjustment, exposure adjustment, and mirroring. Pause and resume video capture is also possible without having to use the touch-to-record gesture interaction as the sample project provides.
 
-Please review the [release history](https://github.com/piemonte/PBJVision/releases) for a summary of the latest changes and more information. Contributions and help are welcome!
+I created this library at [DIY](http://diy.org) as a fun means for young people to author video and share their skills. The touch-to-record interaction was originally pioneered by [Vine](http://vine.co) and also adopted by [Instagram](http://instagram.com). Thanks to everyone who has contributed and helped make this a fun project and community.
+
+If you need a video player, check out [PBJVideoPlayer (obj-c)](https://github.com/piemonte/PBJVideoPlayer) and [Player (Swift)](https://github.com/piemonte/player).
+
+Please review the [release history](https://github.com/piemonte/PBJVision/releases) for a summary of the latest changes and more information.
+
+Contributions are welcome!
 
 [![Build Status](https://travis-ci.org/piemonte/PBJVision.svg?branch=master)](https://travis-ci.org/piemonte/PBJVision)
 
@@ -19,9 +25,28 @@ pod 'PBJVision'
 ```
 
 ## Usage
+
+Import the header.
+
 ```objective-c
 #import "PBJVision.h"
 ```
+
+Setup the camera preview using `[[PBJVision sharedInstance] previewLayer]`.
+
+```objective-c
+    // preview and AV layer
+    _previewView = [[UIView alloc] initWithFrame:CGRectZero];
+    _previewView.backgroundColor = [UIColor blackColor];
+    CGRect previewFrame = CGRectMake(0, 60.0f, CGRectGetWidth(self.view.frame), CGRectGetWidth(self.view.frame));
+    _previewView.frame = previewFrame;
+    _previewLayer = [[PBJVision sharedInstance] previewLayer];
+    _previewLayer.frame = _previewView.bounds;
+    _previewLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
+    [_previewView.layer addSublayer:_previewLayer];
+```
+
+Setup and configure the `PBJVision` controller, then start the camera preview.
 
 ```objective-c
 - (void)_setup
@@ -30,14 +55,16 @@ pod 'PBJVision'
 
     PBJVision *vision = [PBJVision sharedInstance];
     vision.delegate = self;
-    [vision setCameraMode:PBJCameraModeVideo];
-    [vision setCameraDevice:PBJCameraDeviceBack];
-    [vision setCameraOrientation:PBJCameraOrientationPortrait];
-    [vision setFocusMode:PBJFocusModeAutoFocus];
+    vision.cameraMode = PBJCameraModeVideo;
+    vision.cameraOrientation = PBJCameraOrientationPortrait;
+    vision.focusMode = PBJFocusModeContinuousAutoFocus;
+    vision.outputFormat = PBJOutputFormatSquare;
 
     [vision startPreview];
 }
 ```
+
+Start/pause/resume recording.
 
 ```objective-c
 - (void)_handleLongPressGestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
@@ -64,25 +91,52 @@ pod 'PBJVision'
 }
 ```
 
+End recording.
+
 ```objective-c
-- (void)_handleDoneButton:(UIButton *)button
-{
-    [self _endCapture];
-}
+    [[PBJVision sharedInstance] endVideoCapture];
 ```
+
+Handle the final video output or error accordingly.
 
 ```objective-c
 - (void)vision:(PBJVision *)vision capturedVideo:(NSDictionary *)videoDict error:(NSError *)error
 {   
+    if (error && [error.domain isEqual:PBJVisionErrorDomain] && error.code == PBJVisionErrorCancelled) {
+        NSLog(@"recording session cancelled");
+        return;
+    } else if (error) {
+        NSLog(@"encounted an error in video capture (%@)", error);
+        return;
+    }
+
+    _currentVideo = videoDict;
+    
     NSString *videoPath = [_currentVideo  objectForKey:PBJVisionVideoPathKey];
     [_assetLibrary writeVideoAtPathToSavedPhotosAlbum:[NSURL URLWithString:videoPath] completionBlock:^(NSURL *assetURL, NSError *error1) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Saved!" message: @"Saved to the camera roll."
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Video Saved!" message: @"Saved to the camera roll."
                                                        delegate:self
                                               cancelButtonTitle:nil
                                               otherButtonTitles:@"OK", nil];
         [alert show];
     }];
 }
+```
+
+To specify an automatic end capture maximum duration, set the following property on the 'PBJVision' controller.
+
+```objective-c
+    [[PBJVision sharedInstance] setMaximumCaptureDuration:CMTimeMakeWithSeconds(5, 600)]; // ~ 5 seconds
+```
+
+To adjust the video quality and compression bit rate, modify the following properties on the `PBJVision` controller.
+
+```objective-c
+    @property (nonatomic, copy) NSString *captureSessionPreset;
+
+    @property (nonatomic) CGFloat videoBitRate;
+    @property (nonatomic) NSInteger audioBitRate;
+    @property (nonatomic) NSDictionary *additionalCompressionProperties;
 ```
 
 ## Community
@@ -96,7 +150,8 @@ pod 'PBJVision'
 ## Resources
 
 * [AV Foundation Programming Guide](https://developer.apple.com/library/ios/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/00_Introduction.html)
-* [PBJVideoPlayer, a simple iOS video player](https://github.com/piemonte/PBJVideoPlayer)
+* [PBJVideoPlayer, a simple iOS video player in Objective-C](https://github.com/piemonte/PBJVideoPlayer)
+* [Player, a simple iOS video player in Swift](https://github.com/piemonte/player)
 
 ## License
 

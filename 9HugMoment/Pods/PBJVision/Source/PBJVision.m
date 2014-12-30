@@ -28,10 +28,11 @@
 #import "PBJMediaWriter.h"
 #import "PBJGLProgram.h"
 
+#import <CoreImage/CoreImage.h>
 #import <ImageIO/ImageIO.h>
 #import <OpenGLES/EAGL.h>
 
-#define LOG_VISION 0
+#define LOG_VISION 1
 #ifndef DLog
 #if !defined(NDEBUG) && LOG_VISION
 #   define DLog(fmt, ...) NSLog((@"VISION: " fmt), ##__VA_ARGS__);
@@ -107,7 +108,7 @@ typedef NS_ENUM(GLint, PBJVisionUniformLocationTypes)
     PBJMediaWriter *_mediaWriter;
 
     dispatch_queue_t _captureSessionDispatchQueue;
-    dispatch_queue_t _captureVideoDispatchQueue;
+    dispatch_queue_t _captureCaptureDispatchQueue;
 
     PBJCameraDevice _cameraDevice;
     PBJCameraMode _cameraMode;
@@ -142,8 +143,7 @@ typedef NS_ENUM(GLint, PBJVisionUniformLocationTypes)
     CGRect _cleanAperture;
 
     CMTime _startTimestamp;
-    CMTime _lastTimestamp;
-    
+    CMTime _timeOffset;
     CMTime _maximumCaptureDuration;
 
     // sample buffer rendering
@@ -160,6 +160,8 @@ typedef NS_ENUM(GLint, PBJVisionUniformLocationTypes)
     CVOpenGLESTextureRef _chromaTexture;
     CVOpenGLESTextureCacheRef _videoTextureCache;
     
+    CIContext *_ciContext;
+    
     // flags
     
     struct {
@@ -173,6 +175,7 @@ typedef NS_ENUM(GLint, PBJVisionUniformLocationTypes)
         unsigned int audioCaptureEnabled:1;
         unsigned int thumbnailEnabled:1;
         unsigned int defaultVideoThumbnails:1;
+        unsigned int videoCaptureFrame:1;
     } __block _flags;
 }
 
@@ -288,9 +291,6 @@ typedef NS_ENUM(GLint, PBJVisionUniformLocationTypes)
 - (Float64)capturedVideoSeconds
 {
     if (_mediaWriter && CMTIME_IS_VALID(_mediaWriter.videoTimestamp)) {
-        if (CMTimeGetSeconds(CMTimeSubtract(_mediaWriter.videoTimestamp, _startTimestamp)) < 0) {
-            _startTimestamp = _mediaWriter.videoTimestamp;
-        }
         return CMTimeGetSeconds(CMTimeSubtract(_mediaWriter.videoTimestamp, _startTimestamp));
     } else {
         return 0.0;
@@ -334,9 +334,8 @@ typedef NS_ENUM(GLint, PBJVisionUniformLocationTypes)
         case PBJCameraOrientationLandscapeLeft:
             orientation = AVCaptureVideoOrientationLandscapeLeft;
             break;
-        default:
         case PBJCameraOrientationPortrait:
-            orientation = AVCaptureVideoOrientationPortrait;
+        default:
             break;
     }
 
@@ -721,7 +720,7 @@ typedef NS_ENUM(GLint, PBJVisionUniformLocationTypes)
 
         // setup queues
         _captureSessionDispatchQueue = dispatch_queue_create("PBJVisionSession", DISPATCH_QUEUE_SERIAL); // protects session
-        _captureVideoDispatchQueue = dispatch_queue_create("PBJVisionVideo", DISPATCH_QUEUE_SERIAL); // protects capture
+        _captureCaptureDispatchQueue = dispatch_queue_create("PBJVisionCapture", DISPATCH_QUEUE_SERIAL); // protects capture
         
         _previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:nil];
         
@@ -764,7 +763,7 @@ typedef void (^PBJVisionBlock)();
 
 - (void)_enqueueBlockOnCaptureVideoQueue:(PBJVisionBlock)block
 {
-    dispatch_async(_captureVideoDispatchQueue, ^{
+    dispatch_async(_captureCaptureDispatchQueue, ^{
         block();
     });
 }
@@ -849,9 +848,9 @@ typedef void (^PBJVisionBlock)();
     _captureOutputVideo = [[AVCaptureVideoDataOutput alloc] init];
     
     if (_cameraMode != PBJCameraModePhoto && _flags.audioCaptureEnabled) {
-    	[_captureOutputAudio setSampleBufferDelegate:self queue:_captureVideoDispatchQueue];
+    	[_captureOutputAudio setSampleBufferDelegate:self queue:_captureCaptureDispatchQueue];
     }
-    [_captureOutputVideo setSampleBufferDelegate:self queue:_captureVideoDispatchQueue];
+    [_captureOutputVideo setSampleBufferDelegate:self queue:_captureCaptureDispatchQueue];
 
     // capture device initial settings
     _videoFrameRate = 30;
@@ -1033,7 +1032,7 @@ typedef void (^PBJVisionBlock)();
             }
 
             _captureOutputAudio = [[AVCaptureAudioDataOutput alloc] init];
-            [_captureOutputAudio setSampleBufferDelegate:self queue:_captureVideoDispatchQueue];
+            [_captureOutputAudio setSampleBufferDelegate:self queue:_captureCaptureDispatchQueue];
             
         }
         
@@ -1101,7 +1100,7 @@ typedef void (^PBJVisionBlock)();
         }
         
         // discard late frames
-        [_captureOutputVideo setAlwaysDiscardsLateVideoFrames:NO];
+        [_captureOutputVideo setAlwaysDiscardsLateVideoFrames:YES];
         
         // specify video preset
         sessionPreset = _captureSessionPreset;
@@ -1127,8 +1126,9 @@ typedef void (^PBJVisionBlock)();
         } else if (supportsVideoRangeYUV) {
             videoSettings = @{ (id)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange) };
         }
-        if (videoSettings)
+        if (videoSettings) {
             [_captureOutputVideo setVideoSettings:videoSettings];
+        }
         
         // setup video device configuration
         if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_6_1) {
@@ -1461,9 +1461,8 @@ typedef void (^PBJVisionBlock)();
         case PBJMirroringAuto:
         default:
 		{
-			BOOL mirror = (_cameraDevice == PBJCameraDeviceFront);
-        
 			if ([videoConnection isVideoMirroringSupported]) {
+                BOOL mirror = (_cameraDevice == PBJCameraDeviceFront);
 				[videoConnection setVideoMirrored:mirror];
 			}
 			if ([previewConnection isVideoMirroringSupported]) {
@@ -1534,9 +1533,9 @@ typedef void (^PBJVisionBlock)();
         if (imageSource) {
             if (CGImageSourceGetCount(imageSource) > 0) {
                 NSMutableDictionary *options = [[NSMutableDictionary alloc] initWithCapacity:3];
-                [options setObject:@(YES) forKey:(id)kCGImageSourceCreateThumbnailFromImageAlways];
-                [options setObject:@(PBJVisionThumbnailWidth) forKey:(id)kCGImageSourceThumbnailMaxPixelSize];
-                [options setObject:@(YES) forKey:(id)kCGImageSourceCreateThumbnailWithTransform];
+                options[(id)kCGImageSourceCreateThumbnailFromImageAlways] = @(YES);
+                options[(id)kCGImageSourceThumbnailMaxPixelSize] = @(PBJVisionThumbnailWidth);
+                options[(id)kCGImageSourceCreateThumbnailWithTransform] = @(YES);
                 thumbnailCGImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, (__bridge CFDictionaryRef)options);
             }
             CFRelease(imageSource);
@@ -1595,8 +1594,9 @@ typedef void (^PBJVisionBlock)();
     if ([_delegate respondsToSelector:@selector(visionWillCapturePhoto:)])
         [_delegate visionWillCapturePhoto:self];
     
-    if (_autoFreezePreviewDuringCapture)
+    if (_autoFreezePreviewDuringCapture) {
         [self freezePreview];
+    }
 }
 
 - (void)_didCapturePhoto
@@ -1604,6 +1604,72 @@ typedef void (^PBJVisionBlock)();
     if ([_delegate respondsToSelector:@selector(visionDidCapturePhoto:)])
         [_delegate visionDidCapturePhoto:self];
     DLog(@"did capture photo");
+}
+
+- (void)_capturePhotoFromSampleBuffer:(CMSampleBufferRef)sampleBuffer
+{
+    if (!sampleBuffer) {
+        return;
+    }
+    DLog(@"capturing photo from sample buffer");
+
+    // create associated data
+    NSMutableDictionary *photoDict = [[NSMutableDictionary alloc] init];
+    NSDictionary *metadata = nil;
+    NSError *error = nil;
+
+    // add photo metadata (ie EXIF: Aperture, Brightness, Exposure, FocalLength, etc)
+    metadata = (__bridge NSDictionary *)CMCopyDictionaryOfAttachments(kCFAllocatorDefault, sampleBuffer, kCMAttachmentMode_ShouldPropagate);
+    if (metadata) {
+        photoDict[PBJVisionPhotoMetadataKey] = metadata;
+        CFRelease((__bridge CFTypeRef)(metadata));
+    } else {
+        DLog(@"failed to generate metadata for photo");
+    }
+    
+    if (!_ciContext) {
+        _ciContext = [CIContext contextWithEAGLContext:[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2]];
+    }
+
+    CVPixelBufferRef pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBuffer];
+    
+    CGImageRef cgImage = [_ciContext createCGImage:ciImage fromRect:CGRectMake(0, 0, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer))];
+
+    // add UIImage
+    UIImage *uiImage = [UIImage imageWithCGImage:cgImage];
+    
+    if (cgImage) {
+        CFRelease(cgImage);
+    }
+    
+    if (uiImage) {
+        photoDict[PBJVisionPhotoImageKey] = uiImage;
+        
+        // add JPEG, thumbnail
+        NSData *jpegData = UIImageJPEGRepresentation(uiImage, 0);
+        if (jpegData) {
+            // add JPEG
+            photoDict[PBJVisionPhotoJPEGKey] = jpegData;
+            
+            // add thumbnail
+            if (_flags.thumbnailEnabled) {
+                UIImage *thumbnail = [self _thumbnailJPEGData:jpegData];
+                if (thumbnail) {
+                    photoDict[PBJVisionPhotoThumbnailKey] = thumbnail;
+                }
+            }
+        }
+    } else {
+        DLog(@"failed to create image from JPEG");
+        error = [NSError errorWithDomain:PBJVisionErrorDomain code:PBJVisionErrorCaptureFailed userInfo:nil];
+    }
+    
+    [self _enqueueBlockOnMainQueue:^{
+        if ([_delegate respondsToSelector:@selector(vision:capturedPhoto:error:)]) {
+            [_delegate vision:self capturedPhoto:photoDict error:error];
+        }
+    }];
 }
 
 - (void)capturePhoto
@@ -1637,7 +1703,7 @@ typedef void (^PBJVisionBlock)();
         // add photo metadata (ie EXIF: Aperture, Brightness, Exposure, FocalLength, etc)
         metadata = (__bridge NSDictionary *)CMCopyDictionaryOfAttachments(kCFAllocatorDefault, imageDataSampleBuffer, kCMAttachmentMode_ShouldPropagate);
         if (metadata) {
-            [photoDict setObject:metadata forKey:PBJVisionPhotoMetadataKey];
+            photoDict[PBJVisionPhotoMetadataKey] = metadata;
             CFRelease((__bridge CFTypeRef)(metadata));
         } else {
             DLog(@"failed to generate metadata for photo");
@@ -1647,22 +1713,23 @@ typedef void (^PBJVisionBlock)();
         NSData *jpegData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
         if (jpegData) {
             // add JPEG
-            [photoDict setObject:jpegData forKey:PBJVisionPhotoJPEGKey];
+            photoDict[PBJVisionPhotoJPEGKey] = jpegData;
             
             // add image
             UIImage *image = [self _uiimageFromJPEGData:jpegData];
             if (image) {
-                [photoDict setObject:image forKey:PBJVisionPhotoImageKey];
+                photoDict[PBJVisionPhotoImageKey] = image;
             } else {
                 DLog(@"failed to create image from JPEG");
-                // TODO: return delegate on error
+                error = [NSError errorWithDomain:PBJVisionErrorDomain code:PBJVisionErrorCaptureFailed userInfo:nil];
             }
             
             // add thumbnail
             if (_flags.thumbnailEnabled) {
                 UIImage *thumbnail = [self _thumbnailJPEGData:jpegData];
-                if (thumbnail)
-                    [photoDict setObject:thumbnail forKey:PBJVisionPhotoThumbnailKey];
+                if (thumbnail) {
+                    photoDict[PBJVisionPhotoThumbnailKey] = thumbnail;
+                }
             }
             
         }
@@ -1722,7 +1789,7 @@ typedef void (^PBJVisionBlock)();
         if ([[NSFileManager defaultManager] fileExistsAtPath:outputPath]) {
             NSError *error = nil;
             if (![[NSFileManager defaultManager] removeItemAtPath:outputPath error:&error]) {
-                [self _failVideoCaptureWithErrorCode:PBJVisionErrorBadOutputFile];
+                [self _failVideoCaptureWithErrorCode:PBJVisionErrorOutputFileExists];
 
                 DLog(@"could not setup an output file (file exists)");
                 return;
@@ -1736,9 +1803,10 @@ typedef void (^PBJVisionBlock)();
             return;
         }
         
-        if (_mediaWriter)
+        if (_mediaWriter) {
             _mediaWriter.delegate = nil;
-        
+            _mediaWriter = nil;
+        }
         _mediaWriter = [[PBJMediaWriter alloc] initWithOutputURL:outputURL];
         _mediaWriter.delegate = self;
 
@@ -1746,7 +1814,7 @@ typedef void (^PBJVisionBlock)();
         [self _setOrientationForConnection:videoConnection];
 
         _startTimestamp = CMClockGetTime(CMClockGetHostTimeClock());
-        _lastTimestamp = kCMTimeInvalid;
+        _timeOffset = kCMTimeInvalid;
         
         _flags.recording = YES;
         _flags.paused = NO;
@@ -1831,7 +1899,7 @@ typedef void (^PBJVisionBlock)();
         void (^finishWritingCompletionHandler)(void) = ^{
             Float64 capturedDuration = self.capturedVideoSeconds;
             
-            _lastTimestamp = kCMTimeInvalid;
+            _timeOffset = kCMTimeInvalid;
             _startTimestamp = CMClockGetTime(CMClockGetHostTimeClock());
             _flags.interrupted = NO;
 
@@ -1842,7 +1910,7 @@ typedef void (^PBJVisionBlock)();
                 NSMutableDictionary *videoDict = [[NSMutableDictionary alloc] init];
                 NSString *path = [_mediaWriter.outputURL path];
                 if (path) {
-                    [videoDict setObject:path forKey:PBJVisionVideoPathKey];
+                    videoDict[PBJVisionVideoPathKey] = path;
                     
                     if (_flags.thumbnailEnabled) {
                         if (_flags.defaultVideoThumbnails) {
@@ -1853,7 +1921,7 @@ typedef void (^PBJVisionBlock)();
                     }
                 }
 
-                [videoDict setObject:@(capturedDuration) forKey:PBJVisionVideoCapturedDurationKey];
+                videoDict[PBJVisionVideoCapturedDurationKey] = @(capturedDuration);
 
                 NSError *error = [_mediaWriter error];
                 if ([_delegate respondsToSelector:@selector(vision:capturedVideo:error:)]) {
@@ -1877,7 +1945,7 @@ typedef void (^PBJVisionBlock)();
         [_captureThumbnailFrames removeAllObjects];
         
         void (^finishWritingCompletionHandler)(void) = ^{
-            _lastTimestamp = kCMTimeInvalid;
+            _timeOffset = kCMTimeInvalid;
             _startTimestamp = CMClockGetTime(CMClockGetHostTimeClock());
             _flags.interrupted = NO;
 
@@ -1890,6 +1958,11 @@ typedef void (^PBJVisionBlock)();
         };
         [_mediaWriter finishWritingWithCompletionHandler:finishWritingCompletionHandler];
     }];
+}
+
+- (void)captureVideoFrameAsPhoto
+{
+    _flags.videoCaptureFrame = YES;
 }
 
 - (void)captureCurrentVideoThumbnail
@@ -1970,7 +2043,7 @@ typedef void (^PBJVisionBlock)();
     }
 }
 
-#pragma mark - sample buffer setup
+#pragma mark - media writer setup
 
 - (BOOL)_setupMediaWriterAudioInputWithSampleBuffer:(CMSampleBufferRef)sampleBuffer
 {
@@ -1997,7 +2070,7 @@ typedef void (^PBJVisionBlock)();
                                                 AVEncoderBitRateKey : @(_audioBitRate),
                                                 AVChannelLayoutKey : currentChannelLayoutData };
 
-    return [_mediaWriter setupAudioOutputDeviceWithSettings:audioCompressionSettings];
+    return [_mediaWriter setupAudioWithSettings:audioCompressionSettings];
 }
 
 - (BOOL)_setupMediaWriterVideoInputWithSampleBuffer:(CMSampleBufferRef)sampleBuffer
@@ -2017,7 +2090,7 @@ typedef void (^PBJVisionBlock)();
         case PBJOutputFormatWidescreen:
         {
             videoDimensions.width = dimensions.width;
-            videoDimensions.height = (int32_t)(dimensions.width / 1.5f);
+            videoDimensions.height = (int32_t)(dimensions.width * 9 / 16.0f);
             break;
         }
         case PBJOutputFormatStandard:
@@ -2035,8 +2108,8 @@ typedef void (^PBJVisionBlock)();
     
     if (_additionalCompressionProperties && [_additionalCompressionProperties count] > 0) {
         NSMutableDictionary *mutableDictionary = [NSMutableDictionary dictionaryWithDictionary:_additionalCompressionProperties];
-        [mutableDictionary setObject:@(_videoBitRate) forKey:AVVideoAverageBitRateKey];
-        [mutableDictionary setObject:@(_videoFrameRate) forKey:AVVideoMaxKeyFrameIntervalKey];
+        mutableDictionary[AVVideoAverageBitRateKey] = @(_videoBitRate);
+        mutableDictionary[AVVideoMaxKeyFrameIntervalKey] = @(_videoFrameRate);
         compressionSettings = mutableDictionary;
     } else {
         compressionSettings = @{ AVVideoAverageBitRateKey : @(_videoBitRate),
@@ -2049,7 +2122,30 @@ typedef void (^PBJVisionBlock)();
                                      AVVideoHeightKey : @(videoDimensions.height),
                                      AVVideoCompressionPropertiesKey : compressionSettings };
     
-    return [_mediaWriter setupVideoOutputDeviceWithSettings:videoSettings];
+    return [_mediaWriter setupVideoWithSettings:videoSettings];
+}
+
+- (void)_automaticallyEndCaptureIfMaximumDurationReachedWithSampleBuffer:(CMSampleBufferRef)sampleBuffer
+{
+    CMTime currentTimestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
+
+    if (!_flags.interrupted && CMTIME_IS_VALID(currentTimestamp) && CMTIME_IS_VALID(_startTimestamp) && CMTIME_IS_VALID(_maximumCaptureDuration)) {
+        if (CMTIME_IS_VALID(_timeOffset)) {
+            // Current time stamp is actually timstamp with data from globalClock
+            // In case, if we had interruption, then _timeOffset
+            // will have information about the time diff between globalClock and assetWriterClock
+            // So in case if we had interruption we need to remove that offset from "currentTimestamp"
+            currentTimestamp = CMTimeSubtract(currentTimestamp, _timeOffset);
+        }
+        CMTime currentCaptureDuration = CMTimeSubtract(currentTimestamp, _startTimestamp);
+        if (CMTIME_IS_VALID(currentCaptureDuration)) {
+            if (CMTIME_COMPARE_INLINE(currentCaptureDuration, >=, _maximumCaptureDuration)) {
+                [self _enqueueBlockOnMainQueue:^{
+                    [self endVideoCapture];
+                }];
+            }
+        }
+    }
 }
 
 #pragma mark - AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureVideoDataOutputSampleBufferDelegate
@@ -2075,9 +2171,8 @@ typedef void (^PBJVisionBlock)();
     }
     
     // setup media writer
-    BOOL isAudio = (connection == [_captureOutputAudio connectionWithMediaType:AVMediaTypeAudio]);
-    BOOL isVideo = (connection == [_captureOutputVideo connectionWithMediaType:AVMediaTypeVideo]);
-    if (isAudio && !_mediaWriter.isAudioReady) {
+    BOOL isVideo = (captureOutput == _captureOutputVideo);
+    if (!isVideo && !_mediaWriter.isAudioReady) {
         [self _setupMediaWriterAudioInputWithSampleBuffer:sampleBuffer];
         DLog(@"ready for audio (%d)", _mediaWriter.isAudioReady);
     }
@@ -2091,31 +2186,34 @@ typedef void (^PBJVisionBlock)();
         CFRelease(sampleBuffer);
         return;
     }
-
+    
     CMTime currentTimestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
 
-    // calculate the length of the interruption
-    if (_flags.interrupted && isAudio) {
-        _flags.interrupted = NO;
-
+    // calculate the length of the interruption and store the offsets
+    if (_flags.interrupted) {
+        if (isVideo) {
+            CFRelease(sampleBuffer);
+            return;
+        }
+        
         // calculate the appropriate time offset
-        if (CMTIME_IS_VALID(currentTimestamp)) {
-            if (CMTIME_IS_VALID(_lastTimestamp)) {
-                currentTimestamp = CMTimeSubtract(currentTimestamp, _lastTimestamp);
+        if (CMTIME_IS_VALID(currentTimestamp) && CMTIME_IS_VALID(_mediaWriter.audioTimestamp)) {
+            if (CMTIME_IS_VALID(_timeOffset)) {
+                currentTimestamp = CMTimeSubtract(currentTimestamp, _timeOffset);
             }
             
             CMTime offset = CMTimeSubtract(currentTimestamp, _mediaWriter.audioTimestamp);
-            _lastTimestamp = (_lastTimestamp.value == 0) ? offset : CMTimeAdd(_lastTimestamp, offset);
-            DLog(@"new calculated offset %f valid (%d)", CMTimeGetSeconds(_lastTimestamp), CMTIME_IS_VALID(_lastTimestamp));
-        } else {
-            DLog(@"invalid audio timestamp, no offset update");
+            _timeOffset = CMTIME_IS_INVALID(_timeOffset) ? offset : CMTimeAdd(_timeOffset, offset);
+            DLog(@"new calculated offset %f valid (%d)", CMTimeGetSeconds(_timeOffset), CMTIME_IS_VALID(_timeOffset));
         }
+        _flags.interrupted = NO;
     }
     
+    // adjust the sample buffer if there is a time offset
     CMSampleBufferRef bufferToWrite = NULL;
-
-    if (_lastTimestamp.value > 0) {
-        bufferToWrite = [PBJVisionUtilities createOffsetSampleBufferWithSampleBuffer:sampleBuffer usingTimeOffset:_lastTimestamp];
+    if (CMTIME_IS_VALID(_timeOffset)) {
+        //CMTime duration = CMSampleBufferGetDuration(sampleBuffer);
+        bufferToWrite = [PBJVisionUtilities createOffsetSampleBufferWithSampleBuffer:sampleBuffer withTimeOffset:_timeOffset];
         if (!bufferToWrite) {
             DLog(@"error subtracting the timeoffset from the sampleBuffer");
         }
@@ -2123,25 +2221,27 @@ typedef void (^PBJVisionBlock)();
         bufferToWrite = sampleBuffer;
         CFRetain(bufferToWrite);
     }
+    
+    // write the sample buffer
+    if (bufferToWrite && !_flags.interrupted) {
+    
+        if (isVideo) {
 
-    if (isVideo && !_flags.interrupted) {
+            [_mediaWriter writeSampleBuffer:bufferToWrite withMediaTypeVideo:isVideo];
+
+            _flags.videoWritten = YES;
         
-        if (bufferToWrite) {
-            // update video and the last timestamp
-            CMTime time = CMSampleBufferGetPresentationTimeStamp(bufferToWrite);
-            CMTime duration = CMSampleBufferGetDuration(bufferToWrite);
-            if (duration.value > 0)
-                time = CMTimeAdd(time, duration);
-            
-            if (time.value > _mediaWriter.videoTimestamp.value) {
-                [_mediaWriter writeSampleBuffer:bufferToWrite ofType:AVMediaTypeVideo];
-                _flags.videoWritten = YES;
-            }
-            
-            // process the sample buffer for rendering
-            if (_flags.videoRenderingEnabled && _flags.videoWritten) {
+            // process the sample buffer for rendering onion layer or capturing video photo
+            if ( (_flags.videoRenderingEnabled || _flags.videoCaptureFrame) && _flags.videoWritten) {
                 [self _executeBlockOnMainQueue:^{
                     [self _processSampleBuffer:bufferToWrite];
+                    
+                    if (_flags.videoCaptureFrame) {
+                        _flags.videoCaptureFrame = NO;
+                        [self _willCapturePhoto];
+                        [self _capturePhotoFromSampleBuffer:bufferToWrite];
+                        [self _didCapturePhoto];
+                    }
                 }];
             }
             
@@ -2150,52 +2250,26 @@ typedef void (^PBJVisionBlock)();
                     [_delegate vision:self didCaptureVideoSampleBuffer:bufferToWrite];
                 }
             }];
-        }
         
-    } else if (isAudio && !_flags.interrupted) {
-
-        if (bufferToWrite && _flags.videoWritten) {
-            // update the last audio timestamp
-            CMTime time = CMSampleBufferGetPresentationTimeStamp(bufferToWrite);
-            CMTime duration = CMSampleBufferGetDuration(bufferToWrite);
-            if (duration.value > 0)
-                time = CMTimeAdd(time, duration);
-
-            if (time.value > _mediaWriter.audioTimestamp.value) {
-                [_mediaWriter writeSampleBuffer:bufferToWrite ofType:AVMediaTypeAudio];
-            }
+        } else if (!isVideo && _flags.videoWritten) {
+            
+            [_mediaWriter writeSampleBuffer:bufferToWrite withMediaTypeVideo:isVideo];
             
             [self _enqueueBlockOnMainQueue:^{
                 if ([_delegate respondsToSelector:@selector(vision:didCaptureAudioSample:)]) {
                     [_delegate vision:self didCaptureAudioSample:bufferToWrite];
                 }
             }];
+        
         }
+    
     }
     
-    currentTimestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer);
-    
-    if (!_flags.interrupted && CMTIME_IS_VALID(currentTimestamp) && CMTIME_IS_VALID(_startTimestamp) && CMTIME_IS_VALID(_maximumCaptureDuration)) {
+    [self _automaticallyEndCaptureIfMaximumDurationReachedWithSampleBuffer:sampleBuffer];
         
-        if (CMTIME_IS_VALID(_lastTimestamp)) {
-            // Current time stamp is actually timstamp with data from globalClock
-            // In case, if we had interruption, then _lastTimeStamp
-            // will have infromation about the time diff between globalClock and assetWriterClock
-            // So in case if we had interruption we need to remove that offset from "currentTimestamp"
-            currentTimestamp = CMTimeSubtract(currentTimestamp, _lastTimestamp);
-        }
-        CMTime currentCaptureDuration = CMTimeSubtract(currentTimestamp, _startTimestamp);
-        if (CMTIME_IS_VALID(currentCaptureDuration)) {
-            if (CMTIME_COMPARE_INLINE(currentCaptureDuration, >=, _maximumCaptureDuration)) {
-                [self _enqueueBlockOnMainQueue:^{
-                    [self endVideoCapture];
-                }];
-            }
-        }
-    }
-        
-    if (bufferToWrite)
+    if (bufferToWrite) {
         CFRelease(bufferToWrite);
+    }
     
     CFRelease(sampleBuffer);
 
@@ -2568,7 +2642,6 @@ typedef void (^PBJVisionBlock)();
 }
 
 #pragma mark - OpenGLES context support
-// TODO: abstract this in future, put in separate file
 
 - (void)_setupBuffers
 {
