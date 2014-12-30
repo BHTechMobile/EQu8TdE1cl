@@ -29,12 +29,14 @@
 
 - (id)init{
     if (self = [super init]) {
+        id mainVC  = [self viewControllerFromStoryBoard:@"Main" withImage:kImageTabbarTrend withImageSelected:kImageTabbarTrendHighlight];
+    
         id trendVC  = [self viewControllerFromStoryBoard:kStoryBoardTrending withImage:kImageTabbarTrend withImageSelected:kImageTabbarTrendHighlight];
         id recentVC = [self viewControllerFromStoryBoard:kStoryBoardRecent withImage:kImageTabbarRecent withImageSelected:kImageTabbarRecentHightlight];
         id friendVC = [self viewControllerFromStoryBoard:kStoryBoardFromFriend withImage:kImageTabbarFromFriend withImageSelected:kImageTabbarFromFriendHightlight];
         id youVC = [self viewControllerFromStoryBoard:kStoryBoardMyMoments withImage:kImageTabbarMyMoment withImageSelected:kImageTabbarMyMomentHightlight];
-        self.viewControllers = [NSArray arrayWithObjects:trendVC,recentVC,friendVC,youVC, nil];
-        self.selectedIndex = 0;
+        self.viewControllers = [NSArray arrayWithObjects:recentVC,friendVC,mainVC,youVC,trendVC, nil];
+        self.selectedIndex = 2;
     }
     return self;
 }
@@ -52,7 +54,6 @@
     [viewController.tabBarItem setImageInsets:UIEdgeInsetsMake(7, 0, -7, 0)];
     return viewController;
 }
-
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
