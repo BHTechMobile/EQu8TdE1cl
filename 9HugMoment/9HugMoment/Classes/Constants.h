@@ -230,5 +230,6 @@ typedef NS_ENUM(NSInteger, MomentDetailCellType)
 #define TITLES_MYMOMENTS @"My Moments"
 #define TRENDING_STORY_BOARD @"Trending"
 #define MOMENTS_DETAILS_TRENDING_INDENTIFIER @"momentDetailsTrending"
+#define CAPTURE_VIDEO_TRENDING_INDENTIFIER @"captureVideoTrending"
 
 #endif

@@ -7,6 +7,44 @@
 #import "CaptureVideoViewController.h"
 #import "AppDelegate.h"
 #import "UIImageView+WebCache.h"
+#import "MomentDetailViewController.h"
+#import <ZXingObjC/ZXingObjC.h>
+#import "MessageObject.h"
+#import "QuartzCore/CALayer.h"
+#import "DownloadVideoView.h"
+#import "VolumeView.h"
+#import <FacebookSDK/FacebookSDK.h>
+#import <QuartzCore/QuartzCore.h>
+@interface CodeViewController ()<ZXCaptureDelegate,DownloadVideoDelegate,UITextFieldDelegate,AVCaptureMetadataOutputObjectsDelegate>{
+    int _yesSwipe;
+}
+
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *topHeightConstraint;
+@property (strong, nonatomic) IBOutlet UIView *topView;
+@property (strong, nonatomic) IBOutlet UIView *bottomView;
+@property (strong, nonatomic) IBOutlet UIView *centerView;
+
+@property (strong, nonatomic) IBOutlet UIButton *checkCodeButton;
+@property (strong, nonatomic) IBOutlet UIView *scanRectView;
+@property (strong, nonatomic) IBOutlet UIView *enterCodeView;
+@property (strong, nonatomic) IBOutlet UITextField *enterCodeTextField;
+@property (strong, nonatomic) IBOutlet UILabel *lblSwipe;
+@property (strong, nonatomic) IBOutlet UIImageView *imvAvatar;
+@property (strong, nonatomic) IBOutlet UILabel *lblName;
+@property (strong, nonatomic) IBOutlet UIImageView *scannerSquareImv;
+@property (nonatomic, strong) DownloadVideoView *downloadView;
+
+@property (nonatomic, strong) ZXCapture *capture;
+@property (nonatomic, strong) MessageObject *message;
+@property (nonatomic, strong) NSString *mKey;
+@property (nonatomic, assign) BOOL scaned;
+@property (nonatomic, strong) AVCaptureSession *session;
+
+- (IBAction)checkCodeButtonTapped:(UIButton *)sender;
+- (IBAction)okButtonTapped:(id)sender;
+@end
+
 @implementation CodeViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil
@@ -20,8 +58,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _topHeightConstraint.constant = 60.0f;
     _scaned = NO;
-    //    _capture = nil;
     [self createCapture];
     [self createUI];
     [_imvAvatar.layer setMasksToBounds:YES];
@@ -61,6 +99,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     _scaned = NO;
     [self createCapture];
@@ -70,10 +109,11 @@
     }
     
     //#warning TEST DATA
-    // _enterCodeTextField.text = @"2xlr0";
+     _enterCodeTextField.text = @"jcxzg";
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [self removeCapture];
 }
 
@@ -122,26 +162,59 @@
         _capture = [[ZXCapture alloc] init];
         _capture.camera = _capture.back;
         _capture.focusMode = AVCaptureFocusModeContinuousAutoFocus;
-        //        _capture.rotation = 90.0f;
-        
         _capture.layer.frame = self.view.bounds;
         [self.view.layer insertSublayer:_capture.layer atIndex:0];
         
         _capture.delegate = self;
     }
+    [_capture start];
 }
 
 - (void)removeCapture {
-    _capture.delegate = nil;
-    [_capture stop];
-    NSLog(@"stopped");
+    [_capture order_skip];
+    [_capture hard_stop];
     _capture = nil;
 }
+
+//- (void) setupScanner{
+//    AVCaptureDevice * device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+//    
+//    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:nil];
+//    
+//    AVCaptureSession* session = [[AVCaptureSession alloc] init];
+//    
+//    AVCaptureMetadataOutput *output = [[AVCaptureMetadataOutput alloc] init];
+//    [session addOutput:output];
+//    [session addInput:input];
+//    
+//    [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
+//    output.metadataObjectTypes = @[AVMetadataObjectTypeQRCode];
+//    
+//    AVCaptureVideoPreviewLayer *preview = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
+//    preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
+//    preview.frame = self.view.bounds;
+//    
+//    AVCaptureConnection *con = preview.connection;
+//    
+//    con.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
+//    
+//    [self.view.layer insertSublayer:preview atIndex:0];
+//}
+//
+//- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects
+//       fromConnection:(AVCaptureConnection *)connection{
+//    for(AVMetadataObject *current in metadataObjects) {
+//        if([current isKindOfClass:[AVMetadataMachineReadableCodeObject class]]) {
+//            NSString *scannedValue = [((AVMetadataMachineReadableCodeObject *) current) stringValue];
+//            NSLog(@"%@",scannedValue);
+//        }
+//    }
+//}
 
 #pragma mark - ZXCaptureDelegate Methods
 
 - (void)captureResult:(ZXCapture *)capture result:(ZXResult *)result {
-    
+    NSLog(@"%s %@",__PRETTY_FUNCTION__,result);
     if (!result)
         return;
     if (_downloadView.alpha == 1.0) {
@@ -160,73 +233,70 @@
 }
 
 - (void)getMessageByKey:(NSString *)key {
-//    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    [BaseServices getMessageByKey:key
-//                          sussess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//                              
-//                              NSDictionary *dict = (NSDictionary *)responseObject;
-//                              
-//                              // NSLog(@"%@",_message.code);
-//                              
-//                              [MBProgressHUD hideHUDForView:self.view animated:YES];
-//                              
-//                              if (![HMessage downloadedByDictionary:dict]) {
-//                                  _message = [HMessage createByDictionary:dict];
-//                                  [[NSManagedObjectContext MR_defaultContext]
-//                                   MR_saveOnlySelfWithCompletion:nil];
-//                                  [_downloadView showWithAnimation];
-//                                  [_downloadView downloadVideoByMessage:_message];
-//                                  return;
-//                              }
-//                              
-//                              _message = [HMessage createByDictionary:dict];
-//                              [[NSManagedObjectContext MR_defaultContext]
-//                               MR_saveOnlySelfWithCompletion:nil];
-//                              
-//                              MSGDetailViewController *msgDetailCtr =
-//                              [[MSGDetailViewController alloc] initWithNibName:nil bundle:nil];
-//                              
-//                              HMessage *message = _message;
-//                              
-//                              msgDetailCtr.mKey = key;
-//                              msgDetailCtr.capturePath =
-//                              [NSURL fileURLWithPath:message.localVideoPath];
-//                              
-//                              [msgDetailCtr getMessageByKey:message.key];
-//                              
-//                              [self.navigationController pushViewController:msgDetailCtr
-//                                                                   animated:YES];
-//                          }
-//                          failure:^(NSString *bodyString, NSError *error) {
-//                              
-//                              if ([bodyString isEqualToString:@"\"message has not been sent\""]) {
-//                                  _mKey = key;
-//                                  
-//                                  CaptureVideoViewController *captureVideoVC =
-//                                  [[CaptureVideoViewController alloc] initWithNibName:nil
-//                                                                               bundle:nil];
-//                                  
-//                                  [self.navigationController pushViewController:captureVideoVC
-//                                                                       animated:YES];
-//                                  captureVideoVC.mKey = _mKey;
-//                                  
-//                              } else if ([bodyString isEqualToString:@"\"message not found\""]) {
-//                                  [UIAlertView showMessage:bodyString];
-//                                  _scaned = NO;
-//                              } else if (bodyString) {
-//                                  [UIAlertView showMessage:bodyString];
-//                                  _scaned = NO;
-//                              } else {
-//                                  [UIAlertView showMessage:@"Please scan again"];
-//                                  _scaned = NO;
-//                              }
-//                              
-//                              [MBProgressHUD hideHUDForView:self.view animated:YES];
-//                          }];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [BaseServices getMessageByKey:key sussess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSDictionary *dict = (NSDictionary *)responseObject;
+        
+        // NSLog(@"%@",_message.code);
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        _message = [MessageObject createMessageByDictionnary:dict];
+        
+        if (!_message) {
+            [_downloadView showWithAnimation];
+            [_downloadView downloadVideoByMessage:_message];
+            return;
+        }
+        
+        if (!_message.downloaded && _message.localVideoPath) {
+            _downloadView.alpha = 1;
+            [_downloadView showWithAnimation];
+            [_downloadView downloadVideoByMessage:_message];
+        }else {
+            //TODO: Go to detail message
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil];
+            MomentDetailViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:MOMENTS_DETAILS_TRENDING_INDENTIFIER];
+            lvc.capturePath = [NSURL fileURLWithPath:_message.localVideoPath];
+            lvc.messageObject = _message;
+            lvc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:lvc animated:YES];
+        }
+        
+    } failure:^(NSString *bodyString, NSError *error) {
+        
+        if ([bodyString isEqualToString:@"\"message has not been sent\""]) {
+            _mKey = key;
+            
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil];
+            CaptureVideoViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:CAPTURE_VIDEO_TRENDING_INDENTIFIER];
+            lvc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:lvc animated:YES];
+            
+            
+        } else if ([bodyString isEqualToString:@"\"message not found\""]) {
+            [UIAlertView showMessage:bodyString];
+            _scaned = NO;
+        } else if (bodyString) {
+            [UIAlertView showMessage:bodyString];
+            _scaned = NO;
+        } else {
+            [UIAlertView showMessage:@"Please scan again"];
+            _scaned = NO;
+        }
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+    }];
 }
 
 - (void)downloadVideoSuccess:(MessageObject*)message  {
     [_downloadView hideWithAnimation];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil];
+    MomentDetailViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:MOMENTS_DETAILS_TRENDING_INDENTIFIER];
+    lvc.capturePath = [NSURL fileURLWithPath:_message.localVideoPath];
+    lvc.messageObject = _message;
+    lvc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:lvc animated:YES];
 
 }
 

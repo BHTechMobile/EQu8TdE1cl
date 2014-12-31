@@ -63,23 +63,24 @@
     swipeRightGest.direction = UISwipeGestureRecognizerDirectionRight;
     _imvFrame.gestureRecognizers = @[swipeLeftGest,swipeRightGest];
     _imvFrame.userInteractionEnabled = YES;
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+
+    unlink([_capturePath UTF8String]);
+    [[PBJVision sharedInstance] startPreview];
+    [self _resetCapture];
+
     _imgIndex = 0;
     _imvFrame.image = nil;
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
     _imvCapture.userInteractionEnabled = YES;
     navigationView.titleNvgLabel.text = @"New Moment";
     self.touchMixVideoButton.enabled = NO;
     _count = 12;
     _timeLabel.text = [NSString stringWithFormat:@"00:%ld",(long)_count];
-    [[PBJVision sharedInstance] startPreview];
-    [self _resetCapture];
-    unlink([_capturePath UTF8String]);
     [self createProcessView];
     [self touchResetCapturedButton:nil];
     [self hightButtonCaptureConstraint];
@@ -90,9 +91,9 @@
     [super viewDidAppear:animated];
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
+-(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -122,6 +123,8 @@
 
 - (void)backNvgAction {
     [self.navigationController popViewControllerAnimated:YES];
+    [[PBJVision sharedInstance] stopPreview];
+
 }
 
 - (void)facebookNvgAction {
@@ -495,14 +498,13 @@
 }
 
 - (void)_resetCapture{
-    self.touchMixVideoButton.enabled = NO;
-    if ([PBJVision sharedInstance].isRecording) {
-        [[PBJVision sharedInstance] cancelVideoCapture];
-    }
-    if ([PBJVision sharedInstance].isRecording) {
-        [[PBJVision sharedInstance] resumeVideoCapture];
-    }
     PBJVision *vision = [PBJVision sharedInstance];
+
+    self.touchMixVideoButton.enabled = NO;
+    if (vision.isRecording) {
+        [vision cancelVideoCapture];
+        [vision startVideoCapture];
+    }
     vision.delegate = self;
     
     if ([vision isCameraDeviceAvailable:PBJCameraDeviceBack]) {
