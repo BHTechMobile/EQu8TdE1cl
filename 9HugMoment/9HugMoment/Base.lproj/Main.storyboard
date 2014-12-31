@@ -113,10 +113,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pF0-7t-kpR" userLabel="View-Center">
-                                <rect key="frame" x="0.0" y="89" width="320" height="320"/>
+                                <rect key="frame" x="0.0" y="80" width="320" height="320"/>
                                 <subviews>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="swipe to enter code manually" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iek-Hl-nc1">
-                                        <rect key="frame" x="0.0" y="299" width="320" height="21"/>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="swipe to enter code manually" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iek-Hl-nc1">
+                                        <rect key="frame" x="0.0" y="288" width="320" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="21" id="thb-IO-oaq"/>
                                         </constraints>
@@ -181,7 +181,7 @@
                                         </constraints>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BVQ-HD-tW4">
-                                        <rect key="frame" x="87" y="257" width="142" height="63"/>
+                                        <rect key="frame" x="87" y="246" width="142" height="63"/>
                                         <state key="normal" title="Enter code">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -195,16 +195,19 @@
                                     <constraint firstAttribute="width" secondItem="pF0-7t-kpR" secondAttribute="height" multiplier="1:1" id="71Y-d3-UGc"/>
                                     <constraint firstAttribute="centerX" secondItem="PxN-lA-wuS" secondAttribute="centerX" id="7AV-Ib-lAv"/>
                                     <constraint firstItem="iek-Hl-nc1" firstAttribute="leading" secondItem="pF0-7t-kpR" secondAttribute="leading" id="N5G-eV-lvx"/>
-                                    <constraint firstAttribute="bottom" secondItem="iek-Hl-nc1" secondAttribute="bottom" id="RSE-by-PZn"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="320" id="fHM-1v-PPq"/>
+                                    <constraint firstAttribute="bottom" secondItem="iek-Hl-nc1" secondAttribute="bottom" constant="10" id="RSE-by-PZn"/>
+                                    <constraint firstAttribute="width" constant="320" id="fHM-1v-PPq"/>
                                     <constraint firstAttribute="centerY" secondItem="PxN-lA-wuS" secondAttribute="centerY" id="lwA-em-Aif"/>
                                     <constraint firstAttribute="trailing" secondItem="iek-Hl-nc1" secondAttribute="trailing" id="zLy-9u-otp"/>
                                 </constraints>
                             </view>
                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iW4-oX-JSY" userLabel="View-Bottom">
-                                <rect key="frame" x="0.0" y="424" width="320" height="56"/>
+                                <rect key="frame" x="0.0" y="400" width="320" height="80"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <accessibility key="accessibilityConfiguration" label=""/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="jKj-Hb-YtD"/>
+                                </constraints>
                                 <inset key="insetFor6xAndEarlier" minX="0.0" minY="-20" maxX="0.0" maxY="40"/>
                             </view>
                         </subviews>
@@ -213,13 +216,12 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="lfo-HB-RSw" secondAttribute="trailing" id="830-IB-y6y"/>
                             <constraint firstAttribute="trailing" secondItem="3Wj-5U-Tnp" secondAttribute="trailing" id="9HZ-zR-gRC"/>
-                            <constraint firstAttribute="centerY" secondItem="pF0-7t-kpR" secondAttribute="centerY" constant="-9" id="9Z7-r1-cBv"/>
+                            <constraint firstAttribute="centerY" secondItem="pF0-7t-kpR" secondAttribute="centerY" id="9Z7-r1-cBv"/>
                             <constraint firstItem="3Wj-5U-Tnp" firstAttribute="leading" secondItem="Vkd-er-ixs" secondAttribute="leading" id="Dyn-3a-JB0"/>
                             <constraint firstItem="3Wj-5U-Tnp" firstAttribute="top" secondItem="lfo-HB-RSw" secondAttribute="bottom" id="EEs-XE-4UF"/>
-                            <constraint firstItem="iW4-oX-JSY" firstAttribute="top" secondItem="pF0-7t-kpR" secondAttribute="bottom" constant="15" id="IJA-Gc-Pbd"/>
+                            <constraint firstItem="kIy-ma-DXR" firstAttribute="top" secondItem="iW4-oX-JSY" secondAttribute="bottom" id="F4A-4g-SOv"/>
                             <constraint firstItem="iW4-oX-JSY" firstAttribute="leading" secondItem="Vkd-er-ixs" secondAttribute="leading" id="Q2M-J8-1zL"/>
                             <constraint firstAttribute="centerX" secondItem="pF0-7t-kpR" secondAttribute="centerX" id="YgL-du-aUJ"/>
-                            <constraint firstItem="kIy-ma-DXR" firstAttribute="top" secondItem="iW4-oX-JSY" secondAttribute="bottom" id="c7k-dm-JCH"/>
                             <constraint firstItem="lfo-HB-RSw" firstAttribute="top" secondItem="lgz-oz-iZP" secondAttribute="bottom" id="kSW-ne-ZSB"/>
                             <constraint firstItem="lfo-HB-RSw" firstAttribute="leading" secondItem="Vkd-er-ixs" secondAttribute="leading" id="pJy-KG-L0g"/>
                             <constraint firstAttribute="trailing" secondItem="iW4-oX-JSY" secondAttribute="trailing" id="pjH-n6-wP5"/>
@@ -233,6 +235,7 @@
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
+                        <outlet property="bottomHeightConstraint" destination="jKj-Hb-YtD" id="9Zp-JC-WAU"/>
                         <outlet property="bottomView" destination="iW4-oX-JSY" id="RIy-hQ-hod"/>
                         <outlet property="centerView" destination="pF0-7t-kpR" id="Z9V-cd-YKk"/>
                         <outlet property="checkCodeButton" destination="BVQ-HD-tW4" id="rxQ-Dw-epP"/>

@@ -15,10 +15,13 @@
 #import "VolumeView.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import <QuartzCore/QuartzCore.h>
-@interface CodeViewController ()<ZXCaptureDelegate,DownloadVideoDelegate,UITextFieldDelegate,AVCaptureMetadataOutputObjectsDelegate>{
+#import "FBConnectViewController.h"
+
+@interface CodeViewController ()<ZXCaptureDelegate,DownloadVideoDelegate,UITextFieldDelegate,AVCaptureMetadataOutputObjectsDelegate,UIAlertViewDelegate,FBConnectViewControllerDelegate>{
     int _yesSwipe;
 }
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomHeightConstraint;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *topHeightConstraint;
 @property (strong, nonatomic) IBOutlet UIView *topView;
@@ -58,7 +61,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _topHeightConstraint.constant = 60.0f;
+    
+    if (!APP_DELEGATE.session.isOpen) {
+        APP_DELEGATE.session = [[FBSession alloc] initWithPermissions:@[@"publish_actions",@"public_profile", @"user_friends",@"read_friendlists"]];
+        if (APP_DELEGATE.session.state == FBSessionStateCreatedTokenLoaded) {
+            [APP_DELEGATE.session openWithCompletionHandler:^(FBSession *session,
+                                                              FBSessionState status,
+                                                              NSError *error) {
+                [FBSession setActiveSession:session];
+                APP_DELEGATE.session = session;
+            }];
+        }else{
+            [self showLoginFB];
+        }
+    }
+    
+    
+    _bottomHeightConstraint.constant = _topHeightConstraint.constant = (self.view.bounds.size.height - self.view.bounds.size.width)/2 - 40;
     _scaned = NO;
     [self createCapture];
     [self createUI];
@@ -83,6 +102,13 @@
     swiperight.direction = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:swiperight];
     
+}
+
+- (void)showLoginFB {
+    FBConnectViewController* fbConnectViewController = (FBConnectViewController *)[[UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil] instantiateViewControllerWithIdentifier:PRESENT_TRENDING];
+    fbConnectViewController.delegate = self;
+    fbConnectViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+    [self presentViewController:fbConnectViewController animated:YES completion:nil];
 }
 
 - (void)handleTapFrom:(UITapGestureRecognizer *)recognizer {
@@ -114,7 +140,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [self removeCapture];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -161,55 +186,22 @@
     if (!_capture) {
         _capture = [[ZXCapture alloc] init];
         _capture.camera = _capture.back;
-        _capture.focusMode = AVCaptureFocusModeContinuousAutoFocus;
+//        _capture.focusMode = AVCaptureFocusModeContinuousAutoFocus;
         _capture.layer.frame = self.view.bounds;
         [self.view.layer insertSublayer:_capture.layer atIndex:0];
         
         _capture.delegate = self;
     }
-    [_capture start];
+//    [_capture start];
 }
 
 - (void)removeCapture {
+    _capture.camera = _capture.front;
+    _capture.delegate = nil;
     [_capture order_skip];
     [_capture hard_stop];
     _capture = nil;
 }
-
-//- (void) setupScanner{
-//    AVCaptureDevice * device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-//    
-//    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:nil];
-//    
-//    AVCaptureSession* session = [[AVCaptureSession alloc] init];
-//    
-//    AVCaptureMetadataOutput *output = [[AVCaptureMetadataOutput alloc] init];
-//    [session addOutput:output];
-//    [session addInput:input];
-//    
-//    [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
-//    output.metadataObjectTypes = @[AVMetadataObjectTypeQRCode];
-//    
-//    AVCaptureVideoPreviewLayer *preview = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
-//    preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
-//    preview.frame = self.view.bounds;
-//    
-//    AVCaptureConnection *con = preview.connection;
-//    
-//    con.videoOrientation = AVCaptureVideoOrientationLandscapeLeft;
-//    
-//    [self.view.layer insertSublayer:preview atIndex:0];
-//}
-//
-//- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects
-//       fromConnection:(AVCaptureConnection *)connection{
-//    for(AVMetadataObject *current in metadataObjects) {
-//        if([current isKindOfClass:[AVMetadataMachineReadableCodeObject class]]) {
-//            NSString *scannedValue = [((AVMetadataMachineReadableCodeObject *) current) stringValue];
-//            NSLog(@"%@",scannedValue);
-//        }
-//    }
-//}
 
 #pragma mark - ZXCaptureDelegate Methods
 
@@ -266,23 +258,22 @@
     } failure:^(NSString *bodyString, NSError *error) {
         
         if ([bodyString isEqualToString:@"\"message has not been sent\""]) {
-            _mKey = key;
-            
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil];
-            CaptureVideoViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:CAPTURE_VIDEO_TRENDING_INDENTIFIER];
-            lvc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:lvc animated:YES];
-            
-            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                _mKey = key;
+                [self removeCapture];
+                UIStoryboard *storyboard = [UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil];
+                CaptureVideoViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:CAPTURE_VIDEO_TRENDING_INDENTIFIER];
+                lvc.mKey = key;
+                lvc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:lvc animated:YES];
+            });
         } else if ([bodyString isEqualToString:@"\"message not found\""]) {
-            [UIAlertView showMessage:bodyString];
-            _scaned = NO;
+            [[[UIAlertView alloc] initWithTitle:@"" message:bodyString delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
+
         } else if (bodyString) {
-            [UIAlertView showMessage:bodyString];
-            _scaned = NO;
+            [[[UIAlertView alloc] initWithTitle:@"" message:bodyString delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
         } else {
-            [UIAlertView showMessage:@"Please scan again"];
-            _scaned = NO;
+            [[[UIAlertView alloc] initWithTitle:@"" message:@"Please scan again" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil] show];
         }
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -371,5 +362,18 @@
     [self okButtonTapped:nil];
     return YES;
 }
+
+#pragma mark - UIAlertView Delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    _scaned = NO;
+}
+
+#pragma mark - FBConnectVC Delegate
+
+-(void)fbConnectViewController:(FBConnectViewController*)vc didConnectFacebookSuccess:(id)response{
+    
+}
+
 
 @end

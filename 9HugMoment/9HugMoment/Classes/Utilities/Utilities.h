@@ -18,6 +18,8 @@
 + (void)setBorderForView:(UIView *)view;
 + (NSString*)timeFromAudio:(float)value;
 + (UIImage *)imageWithImage:(UIImage *)image scaledToFillSize:(CGSize)size;
++ (UIImage *)imageWithImage:(UIImage *)image scaledToRatio:(CGFloat)ratio;
+
 + (CGFloat)getTextHeight :(UITextView *)m_pDesTextView;
 + (NSArray *)findFiles:(NSString *)extension;
 + (void)setImage :(UIImageView *)imageView andURLImage :(NSString *)strUrl addToArray:(NSMutableArray *)arrCache;

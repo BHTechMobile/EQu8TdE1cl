@@ -851,37 +851,32 @@
 }
 
 -(void)uploadWithImage:(UIImage*)image{
-    [BaseServices createMomentForUser:[[UserData currentAccount] strId] withType:@"1" success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString* key = [[responseObject firstObject] valueForKey:@"key"];
-        NSString *latitudeLocal = [NSString stringWithFormat:@"%f", currentLocation.coordinate.latitude];
-        NSString *longitudeLocal = [NSString stringWithFormat:@"%f", currentLocation.coordinate.longitude];
-        NSLog(@"latitudeLocal %f ",currentLocation.coordinate.latitude);
-        NSLog(@"longitudeLocal %f ",currentLocation.coordinate.longitude);
-        [BaseServices updateMessage:_message?_message:@""
-                                key:key
-                              frame:@"1"
-                               path:_exportUrl
-                           latitude:latitudeLocal
-                          longitude:longitudeLocal
-                       notification:_notificationButton.selected
-                          thumbnail:image
-                            sussess:^(AFHTTPRequestOperation *operation, id responseObject) {
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                    [self makeRequestToShareLink:[NSString stringWithFormat:@"http://www.9hug.com/message/%@",key]];
-                                    [UIAlertView showMessage:@"Video is uploaded!"];
-                                    [[NSNotificationCenter defaultCenter] postNotificationName:CALL_PUSH_NOTIFICATIONS object:nil];
-                                    [self.navigationController popToRootViewControllerAnimated:YES];
-                                });
-                            } failure:^(NSString *bodyString, NSError *error) {
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                });
-                                _mixed = NO;
-                            }];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"error %@",error);
-    }];
+    
+    NSString *latitudeLocal = [NSString stringWithFormat:@"%f", currentLocation.coordinate.latitude];
+    NSString *longitudeLocal = [NSString stringWithFormat:@"%f", currentLocation.coordinate.longitude];
+    NSLog(@"latitudeLocal %f ",currentLocation.coordinate.latitude);
+    NSLog(@"longitudeLocal %f ",currentLocation.coordinate.longitude);
+    [BaseServices updateMessage:_message?_message:@""
+                            key:_mKey
+                          frame:@"1"
+                           path:_exportUrl
+                       latitude:latitudeLocal
+                      longitude:longitudeLocal
+                   notification:_notificationButton.selected
+                      thumbnail:image
+                        sussess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                [[NSNotificationCenter defaultCenter] postNotificationName:CALL_PUSH_NOTIFICATIONS object:nil];
+                                [self.navigationController popToRootViewControllerAnimated:YES];
+                            });
+                        } failure:^(NSString *bodyString, NSError *error) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [MBProgressHUD hideHUDForView:self.view animated:YES];
+                            });
+                            _mixed = NO;
+                        }];
+    
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{

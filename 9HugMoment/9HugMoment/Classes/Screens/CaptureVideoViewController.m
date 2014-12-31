@@ -48,7 +48,8 @@
     [self initNavigationView];
     [self createUI];
     [self.navigationCustomView addSubview:navigationView];
-    
+    [self _resetCapture];
+
     _previewView.backgroundColor = [UIColor blackColor];
     CGRect previewFrame = CGRectMake(0, 60.0f, CGRectGetWidth(self.view.frame), CGRectGetWidth(self.view.frame));
     _previewView.frame = previewFrame;
@@ -71,8 +72,9 @@
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 
     unlink([_capturePath UTF8String]);
-    [[PBJVision sharedInstance] startPreview];
     [self _resetCapture];
+
+    [[PBJVision sharedInstance] startPreview];
 
     _imgIndex = 0;
     _imvFrame.image = nil;
@@ -122,8 +124,13 @@
 }
 
 - (void)backNvgAction {
-    [self.navigationController popViewControllerAnimated:YES];
+//    [PBJVision sharedInstance].cameraDevice = PBJCameraDeviceFront;
+//
+    [PBJVision sharedInstance].delegate = nil;
+    [[PBJVision sharedInstance] endVideoCapture];
     [[PBJVision sharedInstance] stopPreview];
+
+    [self.navigationController popViewControllerAnimated:YES];
 
 }
 
@@ -438,10 +445,6 @@
 -(void)showMixScreen{
     [self performSegueWithIdentifier:@"pushMixVideoViewController" sender:nil];
     [[PBJVision sharedInstance] stopPreview];
-    mixVideoViewController.capturePath = [NSURL fileURLWithPath:_capturePath];
-    mixVideoViewController.imgFrame = _imvFrame.image;
-    mixVideoViewController.indexFrame = _imgIndex;
-    mixVideoViewController.duration = (_startCount*1.0)/100.0f;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -451,6 +454,7 @@
         mixVideoViewController.imgFrame = _imvFrame.image;
         mixVideoViewController.indexFrame = _imgIndex;
         mixVideoViewController.duration = (_startCount*1.0)/100.0f;
+        mixVideoViewController.mKey = _mKey;
     }
 }
 
@@ -499,23 +503,14 @@
 
 - (void)_resetCapture{
     PBJVision *vision = [PBJVision sharedInstance];
+    vision.delegate = self;
 
     self.touchMixVideoButton.enabled = NO;
     if (vision.isRecording) {
         [vision cancelVideoCapture];
-        [vision startVideoCapture];
     }
-    vision.delegate = self;
-    
-    if ([vision isCameraDeviceAvailable:PBJCameraDeviceBack]) {
-        vision.cameraDevice = PBJCameraDeviceBack;
-    } else {
-        vision.cameraDevice = PBJCameraDeviceFront;
-    }
-    
+//    vision.cameraDevice = PBJCameraDeviceBack;
     vision.cameraMode = PBJCameraModeVideo;
-    vision.cameraOrientation = PBJCameraOrientationPortrait;
-    vision.focusMode = PBJFocusModeContinuousAutoFocus;
     vision.outputFormat = PBJOutputFormatSquare;
     vision.videoRenderingEnabled = YES;
     vision.audioCaptureEnabled = YES;
@@ -713,7 +708,7 @@
 }
 
 - (IBAction)touchResetCapturedButton:(id)sender{
-    [self _resetCapture];
+//    [self _resetCapture];
     _timeLabel.text = [NSString stringWithFormat:@"00:%ld",(long)_count];
     CGRect frameCursorImageView = [_cursorImageView frame];
     frameCursorImageView.origin.x =0 ;

@@ -31,5 +31,6 @@
 
 @property (retain, nonatomic) IBOutlet NSLayoutConstraint *hightViewOffsetConstraint;
 @property (weak, nonatomic) IBOutlet UILabel *swipeFrameLabel;
+@property (weak, nonatomic) IBOutlet NSString *mKey;
 
 @end

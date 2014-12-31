@@ -147,6 +147,20 @@
     return newImage;
 }
 
++ (UIImage *)imageWithImage:(UIImage *)image scaledToRatio:(CGFloat)ratio
+{
+    CGFloat width = image.size.width * ratio;
+    CGFloat height = image.size.height * ratio;
+    CGRect imageRect = CGRectMake(0,0,width,height);
+    
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(width, height), NO, 0);
+    [image drawInRect:imageRect];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
+
 + (CGFloat)getTextHeight :(UITextView *)m_pDesTextView
 {
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 7.0f)

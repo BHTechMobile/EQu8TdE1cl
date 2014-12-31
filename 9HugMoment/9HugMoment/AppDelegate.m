@@ -18,6 +18,11 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    UIImage* tabBarBackground = [UIImage imageNamed:@"bgr_bottom_bar_white"];
+    [[UITabBar appearance] setBackgroundImage:[Utilities imageWithImage:tabBarBackground scaledToRatio:[[UIScreen mainScreen] scale]==3?1.3:1]];
+    [[UITabBar appearance] setBarStyle:UIBarStyleBlack];
+    
     JTTabBarController *tabBarController = [[JTTabBarController alloc] init];
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor blackColor];
@@ -44,10 +49,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application {
 }
 
--(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
-    return [FBAppCall handleOpenURL:url
-                  sourceApplication:sourceApplication
-                        withSession:self.session];
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:self.session];
 }
 @end

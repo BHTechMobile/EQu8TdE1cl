@@ -24,14 +24,14 @@
     
     CLLocation *currentLocation;
 }
+-(void)locationManager: (CLLocationManager *)manager didChangeAuthorizationStatus: (CLAuthorizationStatus)status;
 
 @property (nonatomic, assign) CLLocationCoordinate2D currenLocations;
 @property (strong, nonatomic) LocationManagement *locationManagement;
--(void)locationManager: (CLLocationManager *)manager didChangeAuthorizationStatus: (CLAuthorizationStatus)status;
-
 @property (nonatomic, strong) NSURL *capturePath;
 @property (nonatomic, strong) UIImage* imgFrame;
 @property (nonatomic, assign) NSInteger indexFrame;
 @property (nonatomic) CGFloat duration;
+@property (nonatomic, strong) NSString* mKey;
 
 @end
