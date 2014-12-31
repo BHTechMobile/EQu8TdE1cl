@@ -48,7 +48,8 @@
     [self initNavigationView];
     [self createUI];
     [self.navigationCustomView addSubview:navigationView];
-    
+    [self _resetCapture];
+
     _previewView.backgroundColor = [UIColor blackColor];
     CGRect previewFrame = CGRectMake(0, 60.0f, CGRectGetWidth(self.view.frame), CGRectGetWidth(self.view.frame));
     _previewView.frame = previewFrame;
@@ -63,23 +64,25 @@
     swipeRightGest.direction = UISwipeGestureRecognizerDirectionRight;
     _imvFrame.gestureRecognizers = @[swipeLeftGest,swipeRightGest];
     _imvFrame.userInteractionEnabled = YES;
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+
+    unlink([_capturePath UTF8String]);
+    [self _resetCapture];
+
+    [[PBJVision sharedInstance] startPreview];
+
     _imgIndex = 0;
     _imvFrame.image = nil;
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
     _imvCapture.userInteractionEnabled = YES;
     navigationView.titleNvgLabel.text = @"New Moment";
     self.touchMixVideoButton.enabled = NO;
     _count = 12;
     _timeLabel.text = [NSString stringWithFormat:@"00:%ld",(long)_count];
-    [[PBJVision sharedInstance] startPreview];
-    [self _resetCapture];
-    unlink([_capturePath UTF8String]);
     [self createProcessView];
     [self touchResetCapturedButton:nil];
     [self hightButtonCaptureConstraint];
@@ -90,9 +93,9 @@
     [super viewDidAppear:animated];
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
+-(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -121,7 +124,14 @@
 }
 
 - (void)backNvgAction {
+//    [PBJVision sharedInstance].cameraDevice = PBJCameraDeviceFront;
+//
+    [PBJVision sharedInstance].delegate = nil;
+    [[PBJVision sharedInstance] endVideoCapture];
+    [[PBJVision sharedInstance] stopPreview];
+
     [self.navigationController popViewControllerAnimated:YES];
+
 }
 
 - (void)facebookNvgAction {
@@ -435,10 +445,6 @@
 -(void)showMixScreen{
     [self performSegueWithIdentifier:@"pushMixVideoViewController" sender:nil];
     [[PBJVision sharedInstance] stopPreview];
-    mixVideoViewController.capturePath = [NSURL fileURLWithPath:_capturePath];
-    mixVideoViewController.imgFrame = _imvFrame.image;
-    mixVideoViewController.indexFrame = _imgIndex;
-    mixVideoViewController.duration = (_startCount*1.0)/100.0f;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -448,6 +454,7 @@
         mixVideoViewController.imgFrame = _imvFrame.image;
         mixVideoViewController.indexFrame = _imgIndex;
         mixVideoViewController.duration = (_startCount*1.0)/100.0f;
+        mixVideoViewController.mKey = _mKey;
     }
 }
 
@@ -495,25 +502,15 @@
 }
 
 - (void)_resetCapture{
-    self.touchMixVideoButton.enabled = NO;
-    if ([PBJVision sharedInstance].isRecording) {
-        [[PBJVision sharedInstance] cancelVideoCapture];
-    }
-    if ([PBJVision sharedInstance].isRecording) {
-        [[PBJVision sharedInstance] resumeVideoCapture];
-    }
     PBJVision *vision = [PBJVision sharedInstance];
     vision.delegate = self;
-    
-    if ([vision isCameraDeviceAvailable:PBJCameraDeviceBack]) {
-        vision.cameraDevice = PBJCameraDeviceBack;
-    } else {
-        vision.cameraDevice = PBJCameraDeviceFront;
+
+    self.touchMixVideoButton.enabled = NO;
+    if (vision.isRecording) {
+        [vision cancelVideoCapture];
     }
-    
+//    vision.cameraDevice = PBJCameraDeviceBack;
     vision.cameraMode = PBJCameraModeVideo;
-    vision.cameraOrientation = PBJCameraOrientationPortrait;
-    vision.focusMode = PBJFocusModeContinuousAutoFocus;
     vision.outputFormat = PBJOutputFormatSquare;
     vision.videoRenderingEnabled = YES;
     vision.audioCaptureEnabled = YES;
@@ -711,7 +708,7 @@
 }
 
 - (IBAction)touchResetCapturedButton:(id)sender{
-    [self _resetCapture];
+//    [self _resetCapture];
     _timeLabel.text = [NSString stringWithFormat:@"00:%ld",(long)_count];
     CGRect frameCursorImageView = [_cursorImageView frame];
     frameCursorImageView.origin.x =0 ;

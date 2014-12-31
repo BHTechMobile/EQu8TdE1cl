@@ -29,13 +29,13 @@
 // vision types
 
 typedef NS_ENUM(NSInteger, PBJCameraDevice) {
-    PBJCameraDeviceBack = UIImagePickerControllerCameraDeviceRear,
-    PBJCameraDeviceFront = UIImagePickerControllerCameraDeviceFront
+    PBJCameraDeviceBack = 0,
+    PBJCameraDeviceFront
 };
 
 typedef NS_ENUM(NSInteger, PBJCameraMode) {
-    PBJCameraModePhoto = UIImagePickerControllerCameraCaptureModePhoto,
-    PBJCameraModeVideo = UIImagePickerControllerCameraCaptureModeVideo
+    PBJCameraModePhoto = 0,
+    PBJCameraModeVideo
 };
 
 typedef NS_ENUM(NSInteger, PBJCameraOrientation) {
@@ -58,13 +58,13 @@ typedef NS_ENUM(NSInteger, PBJExposureMode) {
 };
 
 typedef NS_ENUM(NSInteger, PBJFlashMode) {
-    PBJFlashModeOff  = AVCaptureFlashModeOff,
-    PBJFlashModeOn   = AVCaptureFlashModeOn,
+    PBJFlashModeOff = AVCaptureFlashModeOff,
+    PBJFlashModeOn = AVCaptureFlashModeOn,
     PBJFlashModeAuto = AVCaptureFlashModeAuto
 };
 
 typedef NS_ENUM(NSInteger, PBJMirroringMode) {
-	PBJMirroringAuto,
+	PBJMirroringAuto = 0,
 	PBJMirroringOn,
 	PBJMirroringOff
 };
@@ -77,9 +77,9 @@ typedef NS_ENUM(NSInteger, PBJAuthorizationStatus) {
 
 typedef NS_ENUM(NSInteger, PBJOutputFormat) {
     PBJOutputFormatPreset = 0,
-    PBJOutputFormatSquare,
-    PBJOutputFormatWidescreen,
-    PBJOutputFormatStandard /* 4:3 */
+    PBJOutputFormatSquare, // 1:1
+    PBJOutputFormatWidescreen, // 16:9
+    PBJOutputFormatStandard // 4:3
 };
 
 // PBJError
@@ -91,7 +91,9 @@ typedef NS_ENUM(NSInteger, PBJVisionErrorType)
     PBJVisionErrorUnknown = -1,
     PBJVisionErrorCancelled = 100,
     PBJVisionErrorSessionFailed = 101,
-    PBJVisionErrorBadOutputFile = 102
+    PBJVisionErrorBadOutputFile = 102,
+    PBJVisionErrorOutputFileExists = 103,
+    PBJVisionErrorCaptureFailed = 104,
 };
 
 // photo dictionary keys

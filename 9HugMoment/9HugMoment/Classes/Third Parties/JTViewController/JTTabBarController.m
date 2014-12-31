@@ -29,17 +29,21 @@
 
 - (id)init{
     if (self = [super init]) {
-        id trendVC  = [self viewControllerFromStoryBoard:kStoryBoardTrending withImage:kImageTabbarTrend withImageSelected:kImageTabbarTrendHighlight];
-        id recentVC = [self viewControllerFromStoryBoard:kStoryBoardRecent withImage:kImageTabbarRecent withImageSelected:kImageTabbarRecentHightlight];
-        id friendVC = [self viewControllerFromStoryBoard:kStoryBoardFromFriend withImage:kImageTabbarFromFriend withImageSelected:kImageTabbarFromFriendHightlight];
-        id youVC = [self viewControllerFromStoryBoard:kStoryBoardMyMoments withImage:kImageTabbarMyMoment withImageSelected:kImageTabbarMyMomentHightlight];
-        self.viewControllers = [NSArray arrayWithObjects:trendVC,recentVC,friendVC,youVC, nil];
-        self.selectedIndex = 0;
+        id mainVC  = [self viewControllerFromStoryBoard:@"Main" withImage:@"btn_bar_code" withImageSelected:@"btn_bar_code_on" title:@"Code"];
+    
+        id trendVC  = [self viewControllerFromStoryBoard:kStoryBoardTrending withImage:@"btn_bar_public" withImageSelected:@"btn_bar_public_on" title:@"Public"];
+        
+        id recentVC = [self viewControllerFromStoryBoard:kStoryBoardRecent withImage:@"btn_bar_me" withImageSelected:@"btn_bar_me_on" title:@"Me"];
+        id friendVC = [self viewControllerFromStoryBoard:kStoryBoardFromFriend withImage:@"btn_bar_friends" withImageSelected:@"btn_bar_friends_on" title:@"Friends"];
+        id youVC = [self viewControllerFromStoryBoard:kStoryBoardMyMoments withImage:@"btn_bar_messages" withImageSelected:@"btn_bar_messages_on" title:@"Messages"];
+        
+        self.viewControllers = [NSArray arrayWithObjects:recentVC,friendVC,mainVC,youVC,trendVC, nil];
+        self.selectedIndex = 2;
     }
     return self;
 }
 
-- (JTNavigationController *)viewControllerFromStoryBoard :(NSString *)storyBoardName withImage:(NSString *)nameImage withImageSelected:(NSString *)nameImageSelected{
+- (JTNavigationController *)viewControllerFromStoryBoard :(NSString *)storyBoardName withImage:(NSString *)nameImage withImageSelected:(NSString *)nameImageSelected title:(NSString*)title{
     UIStoryboard* storyboard = [UIStoryboard storyboardWithName:storyBoardName bundle:nil];
     JTNavigationController *viewController = [storyboard instantiateInitialViewController];
     UIImage *imageNormal = [UIImage imageNamed:nameImage];
@@ -48,11 +52,18 @@
     imageNormal = [imageNormal imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     imageSelected = [imageSelected imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    viewController.tabBarItem = [[UITabBarItem alloc]initWithTitle:nil image:imageNormal selectedImage:imageSelected];
-    [viewController.tabBarItem setImageInsets:UIEdgeInsetsMake(7, 0, -7, 0)];
+    viewController.tabBarItem = [[UITabBarItem alloc]initWithTitle:title image:imageNormal selectedImage:imageSelected];
+    [viewController.tabBarItem setTitleTextAttributes:@{ NSForegroundColorAttributeName:[UIColor colorWithRed:119.0f/255.0f green:200.0f/255.0f blue:1 alpha:1.0]} forState:UIControlStateSelected];
+    
+
+    if ([title isEqualToString:@"Code"]) {
+        [viewController.tabBarItem setImageInsets:UIEdgeInsetsMake(-7, 0, 7, 0)];
+
+        
+    }
+//    [viewController.tabBarItem setImageInsets:UIEdgeInsetsMake(7, 0, -7, 0)];
     return viewController;
 }
-
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

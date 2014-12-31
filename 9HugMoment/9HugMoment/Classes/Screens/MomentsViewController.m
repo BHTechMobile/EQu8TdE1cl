@@ -8,7 +8,6 @@
 
 #import "MomentsViewController.h"
 #import "CaptureVideoViewController.h"
-#import "FBConnectViewController.h"
 #import "MomentsModel.h"
 #import "MomentDetailViewController.h"
 #import "ODRefreshControl.h"
@@ -23,7 +22,6 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 
 @implementation MomentsViewController{
     CaptureVideoViewController *captureVideoViewController;
-    FBConnectViewController *fbConnectViewController;
     MomentsModel *_momentModel;
     DownloadVideoView *_downloadVideoView;
     MomentDetailViewController *momentDetailViewController;
@@ -49,21 +47,7 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
     
     _refreshControl = [[ODRefreshControl alloc] initInScrollView:self.messagesTableView];
     [_refreshControl addTarget:self action:@selector(refreshTableView) forControlEvents:UIControlEventValueChanged];
-    
-    if (!APP_DELEGATE.session.isOpen) {
-        APP_DELEGATE.session = [[FBSession alloc] initWithPermissions:@[@"publish_actions",@"public_profile", @"user_friends",@"read_friendlists"]];
-        if (APP_DELEGATE.session.state == FBSessionStateCreatedTokenLoaded) {
-            [APP_DELEGATE.session openWithCompletionHandler:^(FBSession *session,
-                                                              FBSessionState status,
-                                                              NSError *error) {
-                [FBSession setActiveSession:session];
-                APP_DELEGATE.session = session;
-                [self getAllMessage];
-            }];
-        }else{
-            [self showLoginFB];
-        }
-    }
+    [self getAllMessage];
     
     CGRect frameExtend2 = [_newsMomentButton frame];
     frameExtend2.origin.y = WIDTH_BUTTON_NEW_MOMENTS;
@@ -113,12 +97,7 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 
 #pragma mark - Custom Methods
 
-- (void)showLoginFB {
-    fbConnectViewController = (FBConnectViewController *)[self.storyboard instantiateViewControllerWithIdentifier:PRESENT_TRENDING];
-    fbConnectViewController.delegate = self;
-    fbConnectViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    [self presentViewController:fbConnectViewController animated:YES completion:nil];
-}
+
 
 - (void)setupTable{
     for (int i=0; i<_momentModel.messages.count; i++) {
@@ -219,10 +198,5 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
     [_messagesTableView reloadData];
 }
 
-#pragma mark - FBConnectViewController Delegate
-
--(void)fbConnectViewController:(FBConnectViewController *)vc didConnectFacebookSuccess:(id)response{
-    [self getAllMessage];
-}
 
 @end
