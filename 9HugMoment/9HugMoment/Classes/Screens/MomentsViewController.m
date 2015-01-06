@@ -9,9 +9,9 @@
 #import "MomentsViewController.h"
 #import "CaptureVideoViewController.h"
 #import "MomentsModel.h"
-#import "MomentDetailViewController.h"
 #import "ODRefreshControl.h"
 #import "ArrayDataSource.h"
+#import "MessageDetailsViewController.h"
 
 static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 
@@ -24,11 +24,11 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
     CaptureVideoViewController *captureVideoViewController;
     MomentsModel *_momentModel;
     DownloadVideoView *_downloadVideoView;
-    MomentDetailViewController *momentDetailViewController;
     MessageObject *message;
     ODRefreshControl *_refreshControl;
     MBProgressHUD *_hud;
     NSCache *_avatarCache;
+    MessageDetailsViewController *_messageDetailsViewController;
 }
 @synthesize _facebookManager;
 
@@ -125,14 +125,11 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
     if ([[segue identifier] isEqualToString:PUSH_CAPTURE_VIDEOVIEWCONTROLLER]) {
         captureVideoViewController = [segue destinationViewController];
     }
-    
-    if ([[segue identifier] isEqualToString:@"pushMomentDetailsView"]) {
-        momentDetailViewController = [segue destinationViewController];
-        momentDetailViewController.capturePath = [NSURL fileURLWithPath:message.localVideoPath];
-        momentDetailViewController.messageObject = message;
-        momentDetailViewController.hidesBottomBarWhenPushed = YES;
-        NSLog(@"message.localVideoPath %@",message.localVideoPath);
-        NSLog(@"momentDetailViewController.capture %@",momentDetailViewController.capturePath);
+    if ([[segue identifier] isEqualToString:PUSH_MESSAGE_DETAILS_VIEW_CONTROLLER])
+    {
+        _messageDetailsViewController = [segue destinationViewController];
+        _messageDetailsViewController.messageObject = message;
+        _messageDetailsViewController.hidesBottomBarWhenPushed = YES;
     }
 }
 
@@ -152,14 +149,7 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     message = [_momentModel.messages objectAtIndex:indexPath.row];
-    if (!message.downloaded && message.localVideoPath) {
-        _downloadVideoView.alpha = 1;
-        [_downloadVideoView showWithAnimation];
-        [_downloadVideoView downloadVideoByMessage:message];
-    }else {
-        //TODO: Go to detail message
-        [self performSegueWithIdentifier:@"pushMomentDetailsView" sender:nil];
-    }
+    [self performSegueWithIdentifier:PUSH_MESSAGE_DETAILS_VIEW_CONTROLLER sender:nil];
 }
 
 #pragma mark - Button New moment
@@ -173,7 +163,7 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
     messageObject.downloaded = YES;
     [_downloadVideoView hideWithAnimation];
     //TODO: Go to detail message
-    [self performSegueWithIdentifier:@"pushMomentDetailsView" sender:nil];
+    [self performSegueWithIdentifier:PUSH_MESSAGE_DETAILS_VIEW_CONTROLLER sender:nil];
 }
 
 - (void)downloadVideoFailure:(MessageObject *)messageObject  {

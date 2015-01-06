@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" id="iN0-l3-epB" customClass="MessagePicturePreviewView">
+            <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hcC-fT-oCS">
+                    <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qRg-kR-fdD">
+                    <rect key="frame" x="0.0" y="0.0" width="70" height="70"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="previewAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="xj4-AH-Lk8"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="hcC-fT-oCS" secondAttribute="trailing" id="3sK-tX-u0M"/>
+                <constraint firstAttribute="trailing" secondItem="qRg-kR-fdD" secondAttribute="trailing" id="64T-LW-Ki5"/>
+                <constraint firstItem="hcC-fT-oCS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="U1J-lR-wA5"/>
+                <constraint firstItem="hcC-fT-oCS" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Vqc-8s-0zF"/>
+                <constraint firstAttribute="bottom" secondItem="qRg-kR-fdD" secondAttribute="bottom" id="hnk-1k-zVE"/>
+                <constraint firstItem="qRg-kR-fdD" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="mw1-Gu-BtX"/>
+                <constraint firstItem="qRg-kR-fdD" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="ven-NS-8eo"/>
+                <constraint firstAttribute="bottom" secondItem="hcC-fT-oCS" secondAttribute="bottom" id="xtW-fI-RXc"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="previewButton" destination="qRg-kR-fdD" id="eTn-f9-fZa"/>
+                <outlet property="previewImageView" destination="hcC-fT-oCS" id="6xH-Yo-KqJ"/>
+            </connections>
+        </view>
+    </objects>
+</document>
