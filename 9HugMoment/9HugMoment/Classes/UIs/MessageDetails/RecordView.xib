@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view autoresizesSubviews="NO" clipsSubviews="YES" contentMode="scaleToFill" id="iN0-l3-epB" customClass="RecordView">
+            <rect key="frame" x="0.0" y="0.0" width="147" height="147"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view alpha="0.69999998807907104" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m53-bx-csr">
+                    <rect key="frame" x="0.0" y="0.0" width="147" height="147"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recording...." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IlY-vj-bar">
+                            <rect key="frame" x="20" y="46" width="107" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="lyt-JR-jn7"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="IlY-vj-bar" firstAttribute="top" secondItem="m53-bx-csr" secondAttribute="top" constant="46" id="CqN-Ne-pnh"/>
+                        <constraint firstItem="IlY-vj-bar" firstAttribute="leading" secondItem="m53-bx-csr" secondAttribute="leading" constant="20" id="Kfn-Bm-2Lf"/>
+                        <constraint firstAttribute="trailing" secondItem="IlY-vj-bar" secondAttribute="trailing" constant="20" id="Zxc-3p-QMl"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Shi-yW-bno">
+                    <rect key="frame" x="20" y="106" width="107" height="21"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="21" id="oFn-BH-5zT"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
+                    <color key="textColor" red="0.1543173232" green="0.76438637109999996" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="m53-bx-csr" secondAttribute="trailing" id="6du-T9-xzZ"/>
+                <constraint firstItem="m53-bx-csr" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="LaQ-1c-1oa"/>
+                <constraint firstItem="m53-bx-csr" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="RB6-2X-kIu"/>
+                <constraint firstAttribute="bottom" secondItem="m53-bx-csr" secondAttribute="bottom" id="gmG-hm-tHn"/>
+                <constraint firstAttribute="trailing" secondItem="Shi-yW-bno" secondAttribute="trailing" constant="20" id="hYc-Qi-NZ4"/>
+                <constraint firstAttribute="bottom" secondItem="Shi-yW-bno" secondAttribute="bottom" constant="20" id="l37-Kb-Oh1"/>
+                <constraint firstItem="Shi-yW-bno" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="mPU-Ft-63f"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="currentTimeRecordLabel" destination="Shi-yW-bno" id="m17-uj-2nZ"/>
+                <outlet property="recordingTitleLabel" destination="IlY-vj-bar" id="NcF-py-pWj"/>
+            </connections>
+        </view>
+    </objects>
+</document>

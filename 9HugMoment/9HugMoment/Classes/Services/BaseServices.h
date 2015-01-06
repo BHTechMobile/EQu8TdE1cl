@@ -28,7 +28,7 @@ typedef void (^DownloadResponseBlock)(float progress);
 
 +(void)requestByMethod:(NSString*)method widthPath:(NSString*)path withParameters:(NSDictionary*)dict success:(SuccessBlock)success failure:(FailureBlock)failure;
 
-+(void)uploadAudioWithToken:(NSString*)token messageID:(NSString*)messageId type:(NSString*)type path:(NSURL*)audioPath sussess:(SuccessBlock)success failure:(MessageBlock)failure;
++(void)uploadAudioWithToken:(NSDictionary *)param path:(NSURL*)audioPath sussess:(SuccessBlock)success failure:(MessageBlock)failure;
 
 + (void)getMessageByKey:(NSString*)key sussess:(SuccessBlock)success failure:(MessageBlock)failure;
 
