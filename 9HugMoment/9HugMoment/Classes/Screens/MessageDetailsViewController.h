@@ -15,18 +15,16 @@
 #import "ImageCacheObject.h"
 #import "SquareCamViewController.h"
 #import "RecordObject.h"
+#import "UpvoteMessageTableViewCell.h"
 
 @interface MessageDetailsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MessageDetailsModelDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, CameraDelegate, MessagePictureTableViewCellDelegate, RecordObjectDelegate>
 {
     CGFloat heightMessageCaptionCell;
+    CGFloat heightMessageUpVoteCell;
     MessageDetailsModel *_messageDetailsModel;
-    ImageCacheObject *_imageCacheObject;
     MBProgressHUD *_hud;
     UIImagePickerController *_imagePicker;
     UIActionSheet *_imageSourceActionSheet;
-    NSTimer *_recordTimmer;
-    NSURL *_recordURL;
-    AVAudioPlayer *audioPlayer;
     MPMoviePlayerController *_moviePlayerStreaming;
     
     MessageAudioTableViewCell *_messageAudioTableViewCell;

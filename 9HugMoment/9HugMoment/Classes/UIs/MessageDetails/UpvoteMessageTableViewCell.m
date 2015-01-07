@@ -4,13 +4,13 @@
 //
 
 #import "UpvoteMessageTableViewCell.h"
+#import "MessageDetailsServices.h"
 
 @implementation UpvoteMessageTableViewCell
 
 - (void)awakeFromNib
 {
     _usersFacebookIDArray = [[NSMutableArray alloc] init];
-    _avatarCache = [[NSCache alloc] init];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -20,7 +20,16 @@
 - (void)showUserPhoto {
     [_userVoteScrollView removeAllSubviews];
     if (_usersFacebookIDArray.count > 0) {
-        for (int i = 0; i <_usersFacebookIDArray.count; i++) {
+        NSArray *usersFacebookIDSortedArray = _usersFacebookIDArray;
+        if (_usersFacebookIDArray.count > 1) {
+            usersFacebookIDSortedArray = [_usersFacebookIDArray sortedArrayUsingComparator:^(NSMutableDictionary *obj1,NSMutableDictionary *obj2) {
+                NSString *num1 = [NSString stringWithFormat:@"%d",[(NSNumber *)[obj1 objectForKey:KEY_SENT_DATE_2] intValue]];
+                NSString *num2 = [NSString stringWithFormat:@"%d",[(NSNumber *)[obj2 objectForKey:KEY_SENT_DATE_2] intValue]];
+                return (NSComparisonResult) [num2 compare:num1 options:(NSNumericSearch)];
+            }];
+        }
+        
+        for (int i = 0; i <usersFacebookIDSortedArray.count; i++) {
             UserPhotoView *userPhotoView = [[UserPhotoView alloc] initWithFrame:CGRectZero];
             CGFloat xOriginUserPhotoView;
             if (i == 0) {
@@ -33,11 +42,12 @@
             [_userVoteScrollView addSubview:userPhotoView];
             
             // Avatar
-            UIImage *userAvatar = [_avatarCache objectForKey:[_usersFacebookIDArray objectAtIndex:i]];
+            NSDictionary *currentDict = [usersFacebookIDSortedArray objectAtIndex:i];
+            UIImage *userAvatar = [[ImageCacheObject shareImageCache].imageCache objectForKey:[currentDict objectForKey:KEY_FACEBOOK_ID]];
             if (!userAvatar) {
-                [BaseServices downloadUserImageWithFacebookID:[_usersFacebookIDArray objectAtIndex:i] success:^(AFHTTPRequestOperation *operation, id responseObject){
+                [MessageDetailsServices downloadUserImageWithFacebookID:[currentDict objectForKey:KEY_FACEBOOK_ID] success:^(AFHTTPRequestOperation *operation, id responseObject){
                     userPhotoView.userPhotoImageView.image = responseObject;
-                    [_avatarCache setObject:responseObject forKey:[_usersFacebookIDArray objectAtIndex:i]];
+                    [[ImageCacheObject shareImageCache].imageCache setObject:responseObject forKey:[currentDict objectForKey:KEY_FACEBOOK_ID]];
                 }failure:^(AFHTTPRequestOperation *operation, NSError *error){
                     NSLog(@"Error get user image from facebook: %@",error);
                 }];
@@ -46,7 +56,6 @@
             }
         }
         _userVoteScrollView.contentSize = CGSizeMake(MARGIN_LEFT_DEFAULT_UP_VOTE_MESSAGE_TABLE_VIEW_CELL + (_usersFacebookIDArray.count * WIDTH_DEFAULT_USER_PHOTO_VIEW) + (_usersFacebookIDArray.count * MARGIN_RIGHT_DEFAULT_USER_PHOTO_VIEW), _userVoteScrollView.frame.size.height);
-
     }
 }
 

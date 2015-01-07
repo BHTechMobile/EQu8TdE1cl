@@ -16,6 +16,7 @@
 #define kStoryBoardRecent @"Recent"
 #define kStoryBoardFromFriend @"FromFriends"
 #define kStoryBoardMyMoments @"MyMoments"
+#define kStoryBoardMain @"Main"
 #define kImageTabbarTrend @"trending_grey"
 #define kImageTabbarTrendHighlight @"trending_red"
 #define kImageTabbarRecent @"recent_grey"
@@ -29,16 +30,31 @@
 
 - (id)init{
     if (self = [super init]) {
-        id mainVC  = [self viewControllerFromStoryBoard:@"Main" withImage:@"btn_bar_code" withImageSelected:@"btn_bar_code_on" title:@"Code"];
-    
-        id trendVC  = [self viewControllerFromStoryBoard:kStoryBoardTrending withImage:@"btn_bar_public" withImageSelected:@"btn_bar_public_on" title:@"Public"];
+        id mainVC  = [self viewControllerFromStoryBoard:kStoryBoardMain
+                                              withImage:IMAGE_NAME_BAR_CODE
+                                      withImageSelected:IMAGE_NAME_BAR_CODE_ON
+                                                  title:@"Code"];
+        id trendVC  = [self viewControllerFromStoryBoard:kStoryBoardTrending
+                                               withImage:IMAGE_NAME_BAR_PUBLIC
+                                       withImageSelected:IMAGE_NAME_BAR_PUBLIC_ON
+                                                   title:@"Public"];
+        id meVC = [self viewControllerFromStoryBoard:kStoryBoardMain
+                                           andBundle:BUNDLE_IDENTIFIER_ME_SCREEN_VIEW_CONTROLLER
+                                           withImage:IMAGE_NAME_BAR_ME
+                                   withImageSelected:IMAGE_NAME_BAR_ME_ON
+                                               title:@"Me"];
+        id friendVC = [self viewControllerFromStoryBoard:kStoryBoardMain
+                                               andBundle:BUNDLE_IDENTIFIER_FRIENDS_SCREEN_VIEW_CONTROLLER
+                                               withImage:IMAGE_NAME_BAR_FRIENDS
+                                       withImageSelected:IMAGE_NAME_BAR_FRIENDS_ON
+                                                   title:@"Friends"];
+        id youVC = [self viewControllerFromStoryBoard:kStoryBoardMyMoments
+                                            withImage:IMAGE_NAME_BAR_MESSAGES
+                                    withImageSelected:IMAGE_NAME_BAR_MESSAGES_ON
+                                                title:@"Messages"];
         
-        id recentVC = [self viewControllerFromStoryBoard:kStoryBoardRecent withImage:@"btn_bar_me" withImageSelected:@"btn_bar_me_on" title:@"Me"];
-        id friendVC = [self viewControllerFromStoryBoard:kStoryBoardFromFriend withImage:@"btn_bar_friends" withImageSelected:@"btn_bar_friends_on" title:@"Friends"];
-        id youVC = [self viewControllerFromStoryBoard:kStoryBoardMyMoments withImage:@"btn_bar_messages" withImageSelected:@"btn_bar_messages_on" title:@"Messages"];
-        
-        self.viewControllers = [NSArray arrayWithObjects:recentVC,friendVC,mainVC,youVC,trendVC, nil];
-        self.selectedIndex = 2;
+        self.viewControllers = [NSArray arrayWithObjects:meVC,friendVC,mainVC,youVC,trendVC, nil];
+        self.selectedIndex = INDEX_DEFAULT_SELECTED;
     }
     return self;
 }
@@ -62,6 +78,33 @@
         
     }
 //    [viewController.tabBarItem setImageInsets:UIEdgeInsetsMake(7, 0, -7, 0)];
+    return viewController;
+}
+
+- (JTNavigationController *)viewControllerFromStoryBoard :(NSString *)storyBoardName
+                                                andBundle:(NSString *)bundleName
+                                                withImage:(NSString *)nameImage
+                                        withImageSelected:(NSString *)nameImageSelected
+                                                    title:(NSString*)title
+{
+    UIStoryboard* storyboard = [UIStoryboard storyboardWithName:storyBoardName bundle:nil];
+    JTNavigationController *viewController = [storyboard instantiateViewControllerWithIdentifier:bundleName];
+    UIImage *imageNormal = [UIImage imageNamed:nameImage];
+    UIImage *imageSelected = [UIImage imageNamed:nameImageSelected];
+    
+    imageNormal = [imageNormal imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    imageSelected = [imageSelected imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    viewController.tabBarItem = [[UITabBarItem alloc]initWithTitle:title image:imageNormal selectedImage:imageSelected];
+    [viewController.tabBarItem setTitleTextAttributes:@{ NSForegroundColorAttributeName:[UIColor colorWithRed:119.0f/255.0f green:200.0f/255.0f blue:1 alpha:1.0]} forState:UIControlStateSelected];
+    
+    
+    if ([title isEqualToString:@"Code"]) {
+        [viewController.tabBarItem setImageInsets:UIEdgeInsetsMake(-7, 0, 7, 0)];
+        
+        
+    }
+    //    [viewController.tabBarItem setImageInsets:UIEdgeInsetsMake(7, 0, -7, 0)];
     return viewController;
 }
 

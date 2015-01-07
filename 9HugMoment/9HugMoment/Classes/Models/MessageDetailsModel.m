@@ -13,6 +13,7 @@
     self = [super init];
     if (self) {
         _audioCommentObjectArray = [[NSMutableArray alloc] init];
+        _userFacebookIDVoted = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -227,6 +228,52 @@
     }
     result = REMAINDERS_OF_TWO(numberOfCurrentUserVote)?YES:NO;
     return result;
+}
+
+- (NSNumber *)getNumberOfVoteWithMessage:(MessageObject *)messageResponce
+{
+    int numberOfVote = 0;
+    NSMutableDictionary *allUserVoteDict = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *allUserVoteTimeDict = [[NSMutableDictionary alloc] init];
+    if ((messageResponce.votesArray != (id)[NSNull null]) && ([messageResponce.votesArray isKindOfClass:[NSArray class]]))
+    {
+        [_userFacebookIDVoted removeAllObjects];
+        for (NSDictionary *dict in messageResponce.votesArray)
+        {
+            NSString *currentUserID = [dict objectForKey:KEY_FACEBOOK_ID];
+            NSString *currentSendDate = [dict objectForKey:KEY_SENT_DATE_2];
+            // Count number of vote for one user
+            if((currentUserID) && (![currentUserID isEqualToString: @""]))
+            {
+                int totalTimesUserVote = [[allUserVoteDict objectForKey:currentUserID] intValue];
+                totalTimesUserVote++;
+                NSNumber *timesUserVote = [[NSNumber alloc] initWithInt:totalTimesUserVote];
+                [allUserVoteDict setValue:timesUserVote forKey:currentUserID];
+            }
+            // Get newest vote date from one user
+            if ((currentSendDate) && (![currentSendDate isEqualToString:@""])) {
+                NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+                NSNumber *numberVoteTime = [numberFormatter numberFromString:currentSendDate];
+                if (numberVoteTime) {
+                    int previousVoteTime = [[allUserVoteTimeDict objectForKey:currentUserID] intValue];
+                    if (previousVoteTime < [numberVoteTime intValue]) {
+                        [allUserVoteTimeDict setValue:numberVoteTime forKey:currentUserID];
+                    }
+                }
+            }
+        }
+        for (NSString *userIDKey in allUserVoteDict)
+        {
+            NSNumber *timesVoteOfCurrentUser = [allUserVoteDict objectForKey:userIDKey];
+            if ([timesVoteOfCurrentUser intValue] % 2 != 0) {
+                NSDictionary *dict = @{KEY_FACEBOOK_ID:userIDKey,
+                                       KEY_SENT_DATE_2:[allUserVoteTimeDict objectForKey:userIDKey]};
+                [_userFacebookIDVoted addObject:dict];
+            }
+        }
+        numberOfVote = (int)_userFacebookIDVoted.count;
+    }
+    return [NSNumber numberWithInt:numberOfVote];
 }
 
 #pragma mark - Message Management

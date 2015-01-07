@@ -34,6 +34,8 @@ typedef void (^MessageDetailsResponseBlock)(id response, NSError *error);
 @property (nonatomic, strong) MessageObject *message;
 @property (nonatomic, strong) NSMutableArray *audioCommentObjectArray;
 @property (nonatomic, strong) NSMutableArray *pictureCommentObjectArray;
+@property (nonatomic, strong) NSMutableArray *userFacebookIDVoted;
+
 
 - (void)markCornerRadiusView:(UIView *)view withCornerRadii:(CGSize)cornerRadii;
 - (NSString *)getDateTimeByTimeInterval:(double)timeInterval;
@@ -48,6 +50,8 @@ typedef void (^MessageDetailsResponseBlock)(id response, NSError *error);
 + (void)showSingleAlert:(UIAlertView *)alertView;
 + (BOOL)compareArray:(NSArray *)firstArray withArray:(NSArray *)secondArray;
 + (BOOL)isCurrentUserVoted:(MessageObject *)messageResponce;
+- (NSNumber *)getNumberOfVoteWithMessage:(MessageObject *)messageResponce;
+
 - (CGFloat)totalMessageRequest;
 + (void)getUserAvatarWithUserFacebookID:(NSString *)userFacebookID forImageView:(UIImageView *)imageView;
 - (void)getAudioCommentFromArray:(NSArray *)audioArray;

@@ -11,6 +11,7 @@
 @protocol MessagePictureTableViewCellDelegate <NSObject>
 @optional
 - (void)willShowSlideImageView:(SlideImageViewController *)slideImageViewController withCell:(MessagePictureTableViewCell *)messagePictureTableViewCell;
+- (void)didClickAddNewPicture:(MessagePictureTableViewCell *)messagePictureTableViewCell;
 
 @end
 

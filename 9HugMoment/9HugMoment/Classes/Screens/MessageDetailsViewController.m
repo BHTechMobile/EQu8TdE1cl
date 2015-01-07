@@ -21,11 +21,11 @@
     _recordObject.delegate = self;
     _messageDetailsModel.delegate = self;
     _messageDetailsModel.message = _messageObject;
-    _imageCacheObject = [ImageCacheObject shareImageCache];
     [self initProgressHUD];
     [self initImagePicker];
     [self initActionSheet];
     [self updateUpVote];
+    heightMessageUpVoteCell = HEIGHT_UP_VOTE_MESSAGE_DEFAULT_CELL_MESSAGE_DETAILS_VIEW_CONTROLLER;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -156,6 +156,8 @@
         return HEIGHT_USER_INFO_CELL_MESSAGE_DETAILS_VIEW_CONTROLLER;
     }else if (indexPath.row == MessageDetailCellTypeCaption){
         return (HEIGHT_CAPTION_CELL_DEFAULT_MESSAGE_DETAILS_VIEW_CONTROLLER >  heightMessageCaptionCell)?HEIGHT_CAPTION_CELL_DEFAULT_MESSAGE_DETAILS_VIEW_CONTROLLER:heightMessageCaptionCell;
+    }else if (indexPath.row == MessageDetailCellTypeUpVote){
+        return heightMessageUpVoteCell;
     }else if (indexPath.row == MessageDetailCellTypeCommentAudio){
         return HEIGHT_COMMENT_AUDIO_CELL_DEFAULT_MESSAGE_DETAILS_VIEW_CONTROLLER;
     }else if (indexPath.row == MessageDetailCellTypeCommentPicture){
@@ -179,6 +181,8 @@
         cellResult = [self userInfoCellForRowAtTable:tableView];
     }else if(indexPath.row == MessageDetailCellTypeCaption){
         cellResult = [self messageCaptionCellForRowAtTable:tableView withIndexPath:indexPath];
+    }else if(indexPath.row == MessageDetailCellTypeUpVote){
+        cellResult = [self upVoteMessageCellForRowAtTable:tableView withIndexPath:(NSIndexPath *)indexPath];
     }else if(indexPath.row == MessageDetailCellTypeCommentAudio){
         cellResult = [self messageAudioCellForRowAtTable:tableView];
     }else {
@@ -239,6 +243,30 @@
     [self tableView:tableView heightForRowAtIndexPath:indexPath];
     return cell;
 }
+
+- (UpvoteMessageTableViewCell *)upVoteMessageCellForRowAtTable:(UITableView *)tableView withIndexPath:(NSIndexPath *)indexPath
+{
+    UpvoteMessageTableViewCell *cell = (UpvoteMessageTableViewCell *)[tableView dequeueReusableCellWithIdentifier:IDENTIFIER_UP_VOTE_MESSAGE_TABLE_VIEW_CELL];
+    if (!cell) {
+        [tableView registerNib:[UINib nibWithNibName:[[UpvoteMessageTableViewCell class] description] bundle:nil] forCellReuseIdentifier:IDENTIFIER_UP_VOTE_MESSAGE_TABLE_VIEW_CELL];
+        cell = [tableView dequeueReusableCellWithIdentifier:IDENTIFIER_UP_VOTE_MESSAGE_TABLE_VIEW_CELL];
+    }
+    int numberOfVote = [[_messageDetailsModel getNumberOfVoteWithMessage:_messageObject] intValue];
+    cell.voteCountLabel.text = [NSString stringWithFormat:@"%d",numberOfVote];
+    cell.usersFacebookIDArray = _messageDetailsModel.userFacebookIDVoted;
+    [cell showUserPhoto];
+    if (numberOfVote == 0)
+    {
+        heightMessageUpVoteCell = 0;
+    }
+    else
+    {
+        heightMessageUpVoteCell = HEIGHT_UP_VOTE_MESSAGE_DEFAULT_CELL_MESSAGE_DETAILS_VIEW_CONTROLLER;
+    }
+    [self tableView:tableView heightForRowAtIndexPath:indexPath];
+    return cell;
+}
+
 
 - (MessageAudioTableViewCell *)messageAudioCellForRowAtTable:(UITableView *)tableView
 {
@@ -389,6 +417,11 @@
 {
     [self presentViewController:slideImageViewController animated:YES completion:^{
     }];
+}
+
+- (void)didClickAddNewPicture:(MessagePictureTableViewCell *)messagePictureTableViewCell
+{
+    [self addPhotoAction:nil];
 }
 
 #pragma mark - RecordObject delegate

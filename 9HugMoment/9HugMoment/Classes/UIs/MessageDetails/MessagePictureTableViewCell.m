@@ -65,6 +65,13 @@
                 [_delegate willShowSlideImageView:slideVC withCell:self];
             }
     }
+    else
+    {
+        if (_delegate && [_delegate respondsToSelector:@selector(didClickAddNewPicture:)])
+        {
+            [_delegate performSelector:@selector(didClickAddNewPicture:) withObject:self];
+        }
+    }
 }
 
 

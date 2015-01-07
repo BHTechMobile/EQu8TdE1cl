@@ -252,7 +252,7 @@
                                             <constraint firstAttribute="height" constant="37" id="4ep-dk-Mk0"/>
                                             <constraint firstAttribute="width" constant="37" id="8PS-bf-eRR"/>
                                         </constraints>
-                                        <state key="normal" image="camera" backgroundImage="64715C31-E84A-4E84-A536-6B07CB681277">
+                                        <state key="normal" image="camera" backgroundImage="5631F680-2152-47AC-8CC2-0E55D87827F0">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -1133,8 +1133,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="5_floral_on_the_right" width="320" height="320"/>
-        <image name="64715C31-E84A-4E84-A536-6B07CB681277" width="37" height="37">
+        <image name="5631F680-2152-47AC-8CC2-0E55D87827F0" width="37" height="37">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -1276,6 +1275,7 @@ wx7MHt8e4x72HwEfCh8PHxcfGh8fHy4fMh85H0EfTh9TH1UfVx9cH2QfZx9sH3Qfdx+JH4wfkQAAAAAA
 AAIBAAAAAAAAAEIAAAAAAAAAAAAAAAAAAB+TA
 </mutableData>
         </image>
+        <image name="5_floral_on_the_right" width="320" height="320"/>
         <image name="9hug_logo" width="250" height="250"/>
         <image name="btn_add_music" width="27" height="27"/>
         <image name="btn_add_music_hover_bordeaux" width="27" height="27"/>

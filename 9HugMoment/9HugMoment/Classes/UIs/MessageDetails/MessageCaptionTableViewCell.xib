@@ -30,7 +30,7 @@
                     </textView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="XFb-25-291" secondAttribute="bottom" constant="10" id="AU1-G3-ThU"/>
+                    <constraint firstAttribute="bottom" secondItem="XFb-25-291" secondAttribute="bottom" priority="999" constant="10" id="AU1-G3-ThU"/>
                     <constraint firstItem="XFb-25-291" firstAttribute="leading" secondItem="KFp-tL-iTv" secondAttribute="trailing" constant="8" id="CUf-Cg-9Bg"/>
                     <constraint firstItem="KFp-tL-iTv" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="Lj5-yp-XO8"/>
                     <constraint firstAttribute="trailing" secondItem="XFb-25-291" secondAttribute="trailing" constant="26" id="Nhu-D9-E6g"/>

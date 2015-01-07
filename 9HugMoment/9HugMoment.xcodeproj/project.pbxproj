@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		041CBCB91A5BFBBD00522FD7 /* FriendsScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CBCB81A5BFBBD00522FD7 /* FriendsScreenViewController.m */; };
+		041CBCBC1A5BFFAB00522FD7 /* MeScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CBCBB1A5BFFAB00522FD7 /* MeScreenViewController.m */; };
 		04A469221A5B86130091F948 /* MessageDetailsServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A469211A5B86130091F948 /* MessageDetailsServices.m */; };
 		04A469381A5B883D0091F948 /* CommentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A469251A5B883D0091F948 /* CommentObject.m */; };
 		04A469391A5B883D0091F948 /* MessageAudioPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A469271A5B883D0091F948 /* MessageAudioPreviewView.m */; };
@@ -91,12 +93,8 @@
 		CECCB78E1A23470900C1220C /* MomentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CECCB78D1A23470900C1220C /* MomentsViewController.m */; };
 		CECCB7941A23472600C1220C /* MixVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CECCB7931A23472600C1220C /* MixVideoViewController.m */; };
 		CECCB7971A23472E00C1220C /* CaptureVideoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CECCB7961A23472E00C1220C /* CaptureVideoViewController.m */; };
-		CECCB79D1A23476B00C1220C /* RecentMomentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CECCB79C1A23476B00C1220C /* RecentMomentsViewController.m */; };
-		CECCB7A01A23477D00C1220C /* FriendMomentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CECCB79F1A23477D00C1220C /* FriendMomentsViewController.m */; };
 		CECCB7A31A23478C00C1220C /* MyMomentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CECCB7A21A23478C00C1220C /* MyMomentsViewController.m */; };
 		CECCB7A61A2347B200C1220C /* MixAudioViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CECCB7A51A2347B200C1220C /* MixAudioViewController.m */; };
-		CECCB7A91A23481400C1220C /* Recent.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CECCB7A71A23481400C1220C /* Recent.storyboard */; };
-		CECCB7AB1A23481D00C1220C /* FromFriends.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CECCB7AA1A23481D00C1220C /* FromFriends.storyboard */; };
 		CECCB7AD1A23482600C1220C /* MyMoments.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CECCB7AC1A23482600C1220C /* MyMoments.storyboard */; };
 		D23BA4671A357F75000EDE47 /* MessageObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D23BA45F1A357F75000EDE47 /* MessageObject.m */; };
 		D23BA4681A357F75000EDE47 /* MomentsMessageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D23BA4611A357F75000EDE47 /* MomentsMessageTableViewCell.m */; };
@@ -149,6 +147,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		041CBCB71A5BFBBD00522FD7 /* FriendsScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsScreenViewController.h; sourceTree = "<group>"; };
+		041CBCB81A5BFBBD00522FD7 /* FriendsScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsScreenViewController.m; sourceTree = "<group>"; };
+		041CBCBA1A5BFFAB00522FD7 /* MeScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeScreenViewController.h; sourceTree = "<group>"; };
+		041CBCBB1A5BFFAB00522FD7 /* MeScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeScreenViewController.m; sourceTree = "<group>"; };
 		04A469201A5B86130091F948 /* MessageDetailsServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDetailsServices.h; sourceTree = "<group>"; };
 		04A469211A5B86130091F948 /* MessageDetailsServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDetailsServices.m; sourceTree = "<group>"; };
 		04A469241A5B883D0091F948 /* CommentObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentObject.h; sourceTree = "<group>"; };
@@ -291,16 +293,10 @@
 		CECCB7931A23472600C1220C /* MixVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MixVideoViewController.m; sourceTree = "<group>"; };
 		CECCB7951A23472E00C1220C /* CaptureVideoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CaptureVideoViewController.h; sourceTree = "<group>"; };
 		CECCB7961A23472E00C1220C /* CaptureVideoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CaptureVideoViewController.m; sourceTree = "<group>"; };
-		CECCB79B1A23476B00C1220C /* RecentMomentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecentMomentsViewController.h; sourceTree = "<group>"; };
-		CECCB79C1A23476B00C1220C /* RecentMomentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RecentMomentsViewController.m; sourceTree = "<group>"; };
-		CECCB79E1A23477D00C1220C /* FriendMomentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendMomentsViewController.h; sourceTree = "<group>"; };
-		CECCB79F1A23477D00C1220C /* FriendMomentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendMomentsViewController.m; sourceTree = "<group>"; };
 		CECCB7A11A23478C00C1220C /* MyMomentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMomentsViewController.h; sourceTree = "<group>"; };
 		CECCB7A21A23478C00C1220C /* MyMomentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMomentsViewController.m; sourceTree = "<group>"; };
 		CECCB7A41A2347B200C1220C /* MixAudioViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixAudioViewController.h; sourceTree = "<group>"; };
 		CECCB7A51A2347B200C1220C /* MixAudioViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MixAudioViewController.m; sourceTree = "<group>"; };
-		CECCB7A81A23481400C1220C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Recent.storyboard; sourceTree = "<group>"; };
-		CECCB7AA1A23481D00C1220C /* FromFriends.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = FromFriends.storyboard; sourceTree = "<group>"; };
 		CECCB7AC1A23482600C1220C /* MyMoments.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MyMoments.storyboard; sourceTree = "<group>"; };
 		D23BA45E1A357F75000EDE47 /* MessageObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageObject.h; sourceTree = "<group>"; };
 		D23BA45F1A357F75000EDE47 /* MessageObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageObject.m; sourceTree = "<group>"; };
@@ -392,6 +388,9 @@
 				04A4692C1A5B883D0091F948 /* MessageCaptionTableViewCell.h */,
 				04A4692D1A5B883D0091F948 /* MessageCaptionTableViewCell.m */,
 				04A4692E1A5B883D0091F948 /* MessageCaptionTableViewCell.xib */,
+				9FA12BF21A35D66300CE737C /* UpvoteMessageTableViewCell.h */,
+				9FA12BF31A35D66300CE737C /* UpvoteMessageTableViewCell.m */,
+				9FA12BF41A35D66300CE737C /* UpvoteMessageTableViewCell.xib */,
 				04A469321A5B883D0091F948 /* MessagePictureTableViewCell.h */,
 				04A469331A5B883D0091F948 /* MessagePictureTableViewCell.m */,
 				04A469341A5B883D0091F948 /* MessagePictureTableViewCell.xib */,
@@ -652,8 +651,6 @@
 				CE3E23451A233CDF00008D27 /* AppDelegate.m */,
 				CE3E234D1A233CDF00008D27 /* Main.storyboard */,
 				CECCB7861A2344FC00C1220C /* Trending.storyboard */,
-				CECCB7A71A23481400C1220C /* Recent.storyboard */,
-				CECCB7AA1A23481D00C1220C /* FromFriends.storyboard */,
 				CECCB7AC1A23482600C1220C /* MyMoments.storyboard */,
 				CE3E23501A233CE000008D27 /* Images.xcassets */,
 				CE3E23521A233CE000008D27 /* LaunchScreen.xib */,
@@ -744,14 +741,14 @@
 				CECCB7A51A2347B200C1220C /* MixAudioViewController.m */,
 				CECCB7951A23472E00C1220C /* CaptureVideoViewController.h */,
 				CECCB7961A23472E00C1220C /* CaptureVideoViewController.m */,
-				CECCB79B1A23476B00C1220C /* RecentMomentsViewController.h */,
-				CECCB79C1A23476B00C1220C /* RecentMomentsViewController.m */,
-				CECCB79E1A23477D00C1220C /* FriendMomentsViewController.h */,
-				CECCB79F1A23477D00C1220C /* FriendMomentsViewController.m */,
 				CECCB7A11A23478C00C1220C /* MyMomentsViewController.h */,
 				CECCB7A21A23478C00C1220C /* MyMomentsViewController.m */,
 				DDB4313E1A52574B005E7DA2 /* CodeViewController.h */,
 				DDB4313F1A52574B005E7DA2 /* CodeViewController.m */,
+				041CBCB71A5BFBBD00522FD7 /* FriendsScreenViewController.h */,
+				041CBCB81A5BFBBD00522FD7 /* FriendsScreenViewController.m */,
+				041CBCBA1A5BFFAB00522FD7 /* MeScreenViewController.h */,
+				041CBCBB1A5BFFAB00522FD7 /* MeScreenViewController.m */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -790,9 +787,6 @@
 				9FA12BEB1A35D66300CE737C /* CommentMessageTableViewCell.h */,
 				9FA12BEC1A35D66300CE737C /* CommentMessageTableViewCell.m */,
 				9FA12BED1A35D66300CE737C /* CommentMessageTableViewCell.xib */,
-				9FA12BF21A35D66300CE737C /* UpvoteMessageTableViewCell.h */,
-				9FA12BF31A35D66300CE737C /* UpvoteMessageTableViewCell.m */,
-				9FA12BF41A35D66300CE737C /* UpvoteMessageTableViewCell.xib */,
 				D25383571A3991D900C3AFF4 /* UserDetailsObject.h */,
 				D25383581A3991D900C3AFF4 /* UserDetailsObject.m */,
 			);
@@ -986,9 +980,7 @@
 				DDB431341A5253A6005E7DA2 /* share-button@2x.png in Resources */,
 				CE3E23511A233CE000008D27 /* Images.xcassets in Resources */,
 				DDB431361A5253A6005E7DA2 /* transparentBar@2x.png in Resources */,
-				CECCB7AB1A23481D00C1220C /* FromFriends.storyboard in Resources */,
 				9FA12BF81A35D66300CE737C /* CommentMessageTableViewCell.xib in Resources */,
-				CECCB7A91A23481400C1220C /* Recent.storyboard in Resources */,
 				DDB4312C1A5253A6005E7DA2 /* fullscreen-button@2x.png in Resources */,
 				DDB4313C1A5253A6005E7DA2 /* LICENSE in Resources */,
 				9FA218B41A320C4000C3891B /* GPUImageColorDodgeBlendFilter8.mp4 in Resources */,
@@ -1053,7 +1045,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CECCB7A01A23477D00C1220C /* FriendMomentsViewController.m in Sources */,
 				9FFFDDC21A2CD10E0081ADC9 /* FacebookManager.m in Sources */,
 				9F8D55F11A36952D00735634 /* UserInfoTableViewCell.m in Sources */,
 				9F9F98431A286D640089018B /* PlayerView.m in Sources */,
@@ -1079,8 +1070,8 @@
 				04A469391A5B883D0091F948 /* MessageAudioPreviewView.m in Sources */,
 				04BC5EB31A5B7C970053B5F0 /* SlideImageViewController.m in Sources */,
 				D23BA4671A357F75000EDE47 /* MessageObject.m in Sources */,
+				041CBCB91A5BFBBD00522FD7 /* FriendsScreenViewController.m in Sources */,
 				CE3E23461A233CDF00008D27 /* AppDelegate.m in Sources */,
-				CECCB79D1A23476B00C1220C /* RecentMomentsViewController.m in Sources */,
 				04A4693F1A5B883D0091F948 /* MessagePicturePreviewView.m in Sources */,
 				04BC5EB11A5B7C970053B5F0 /* NSString+MD5.m in Sources */,
 				9F0671E61A2716AA0077F66B /* Utilities.m in Sources */,
@@ -1107,6 +1098,7 @@
 				04A469471A5B92860091F948 /* RecordObject.m in Sources */,
 				9FA12BF71A35D66300CE737C /* CommentMessageTableViewCell.m in Sources */,
 				DDB4313D1A5253A6005E7DA2 /* README.md in Sources */,
+				041CBCBC1A5BFFAB00522FD7 /* MeScreenViewController.m in Sources */,
 				CECCB7941A23472600C1220C /* MixVideoViewController.m in Sources */,
 				D23BA4761A357FA0000EDE47 /* NSUserDefaults+Helpers.m in Sources */,
 				04A469221A5B86130091F948 /* MessageDetailsServices.m in Sources */,
@@ -1170,14 +1162,6 @@
 				CECCB7871A2344FC00C1220C /* Base */,
 			);
 			name = Trending.storyboard;
-			sourceTree = "<group>";
-		};
-		CECCB7A71A23481400C1220C /* Recent.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				CECCB7A81A23481400C1220C /* Base */,
-			);
-			name = Recent.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
