@@ -9,6 +9,14 @@
 #import "MessageDetailsModel.h"
 #import "MessageDetailsModel.h"
 
+@class MessageAudioTableViewCell;
+@protocol MessageAudioTableViewCellDelegate <NSObject>
+@optional
+- (void)didStopAudio:(MessageAudioTableViewCell *)messageAudioTableViewCell;
+- (void)didPlayAudio:(MessageAudioTableViewCell *)messageAudioTableViewCell;
+
+@end
+
 @interface MessageAudioTableViewCell : UITableViewCell<MessageAudioPreviewViewDelegate, AVAudioPlayerDelegate>
 {
     NSTimer *playTimer;
@@ -32,6 +40,7 @@
 @property (strong, nonatomic) NSMutableArray *audioDownloadedArray;
 @property (strong, nonatomic) NSMutableArray *messageAudioPreviewViewArray;
 @property (strong, nonatomic) AVAudioPlayer *audioPlayer;
+@property (weak, nonatomic) id<MessageAudioTableViewCellDelegate> delegate;
 
 - (IBAction)playAudioAction:(id)sender;
 - (void)showUsersAudio;

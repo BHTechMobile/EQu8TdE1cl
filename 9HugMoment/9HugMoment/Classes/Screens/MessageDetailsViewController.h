@@ -17,7 +17,7 @@
 #import "RecordObject.h"
 #import "UpvoteMessageTableViewCell.h"
 
-@interface MessageDetailsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MessageDetailsModelDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, CameraDelegate, MessagePictureTableViewCellDelegate, RecordObjectDelegate>
+@interface MessageDetailsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, MessageDetailsModelDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIActionSheetDelegate, CameraDelegate, MessagePictureTableViewCellDelegate, RecordObjectDelegate, MessageAudioTableViewCellDelegate>
 {
     CGFloat heightMessageCaptionCell;
     CGFloat heightMessageUpVoteCell;
@@ -43,7 +43,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *currentTimeRecordLabel;
 
 @property (nonatomic, strong) MessageObject *messageObject;
-@property (nonatomic, strong) AVAudioRecorder *audioRecorder;
 
 - (IBAction)cancelRecordAction:(id)sender;
 - (IBAction)sendPhotoAction:(id)sender;

@@ -4,6 +4,7 @@
 //
 
 #import "RecordObject.h"
+#import <AudioToolbox/AudioServices.h>
 
 @implementation RecordObject
 
@@ -75,7 +76,8 @@
     
     // Setup audio session
     AVAudioSession *session = [AVAudioSession sharedInstance];
-    [session setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
+    NSError *setCategoryError = nil;
+    [session setCategory:AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionDefaultToSpeaker error:&setCategoryError];
     
     // Define the recorder setting
     NSMutableDictionary *recordSetting = [[NSMutableDictionary alloc] init];

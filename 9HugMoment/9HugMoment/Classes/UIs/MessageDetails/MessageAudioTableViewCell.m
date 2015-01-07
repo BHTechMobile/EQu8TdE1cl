@@ -28,7 +28,8 @@
 
 #pragma mark - Actions
 
-- (IBAction)playAudioAction:(id)sender {
+- (IBAction)playAudioAction:(id)sender
+{
     isPlayAll = NO;
     [self startPlayAudio];
 }
@@ -48,10 +49,19 @@
         if (_audioPlayer) {
             if ([_audioPlayer isPlaying]) {
                 [_audioPlayer pause];
-                //                [self handleStatusPlayAllButtonOff];
+                [_playAudioSelectButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_MIX_PAUSE] forState:UIControlStateNormal];
+                if (_delegate && [_delegate respondsToSelector:@selector(didStopAudio:)]) {
+                    [_delegate performSelector:@selector(didStopAudio:) withObject:self];
+                }
             }
             else{
                 [self playCurrentAudio];
+                [_playAudioSelectButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_MIX_PLAY] forState:UIControlStateNormal];
+                if (isPlayAll) {
+                    if (_delegate && [_delegate respondsToSelector:@selector(didPlayAudio:)]) {
+                        [_delegate performSelector:@selector(didPlayAudio:) withObject:self];
+                    }
+                }
             }
         }
     }
@@ -93,8 +103,10 @@
         _currentAudioUploadTimeLabel.text = [MessageDetailsModel getCurrentDateAudioWithTimeInterval:[_currentCommentObject.sentDate doubleValue]];
         
         [self setUpUrlAudio];
-        for (MessageAudioPreviewView *messageAudioPreviewView in _messageAudioPreviewViewArray) {
-            if ([messageAudioPreviewView.commentObject.commentID isEqualToString:_currentCommentObject.commentID]) {
+        for (MessageAudioPreviewView *messageAudioPreviewView in _messageAudioPreviewViewArray)
+        {
+            if ([messageAudioPreviewView.commentObject.commentID isEqualToString:_currentCommentObject.commentID])
+            {
                 messageAudioPreviewView.currentAudioSelectView.hidden = NO;
                 currentIndexAudioPlay = [messageAudioPreviewView.audioIndex intValue];
                 [_audioScrollView scrollRectToVisible:messageAudioPreviewView.frame animated:YES];

@@ -278,6 +278,7 @@
     [_messageDetailsModel getAudioCommentFromArray:_messageObject.voicesArray];
     _messageAudioTableViewCell.audioCommentObjectArray = (NSMutableArray *)[[_messageDetailsModel.audioCommentObjectArray reverseObjectEnumerator] allObjects];
     [_messageAudioTableViewCell showUsersAudio];
+    _messageAudioTableViewCell.delegate = self;
     return _messageAudioTableViewCell;
 }
 
@@ -429,6 +430,18 @@
 - (void)updateCurrentTimeRecord:(NSString *)timeRecord withRecorObject:(RecordObject *)recordObject
 {
     _currentTimeRecordLabel.text = timeRecord;
+}
+
+#pragma mark - MessageAudioTableViewCell delegate
+
+- (void)didStopAudio:(MessageAudioTableViewCell *)messageAudioTableViewCell
+{
+    [_playAudioButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_PLAY_GRAY] forState:UIControlStateNormal];
+}
+
+- (void)didPlayAudio:(MessageAudioTableViewCell *)messageAudioTableViewCell
+{
+    [_playAudioButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_PLAY_BLUE] forState:UIControlStateNormal];
 }
 
 @end

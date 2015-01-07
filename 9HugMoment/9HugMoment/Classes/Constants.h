@@ -122,6 +122,10 @@ typedef NS_ENUM(NSInteger, MessageDetailCellType)
 #define IMAGE_NAME_BAR_MESSAGES @"btn_bar_messages"
 #define IMAGE_NAME_BAR_MESSAGES_ON @"btn_bar_messages_on"
 #define IMAGE_NAME_BACKGROUND_BOTTOM_BAR_WHITE @"bgr_bottom_bar_white"
+#define IMAGE_NAME_ICON_MIX_PLAY @"icon_mix_play"
+#define IMAGE_NAME_ICON_MIX_PAUSE @"icon_mix_pause"
+#define IMAGE_NAME_ICON_PLAY_BLUE @"icon_play_blue"
+#define IMAGE_NAME_ICON_PLAY_GRAY @"icon_play_gray"
 
 #pragma mark - KEYS
 // KEYS
