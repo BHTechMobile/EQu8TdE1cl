@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="MessagePictureTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Pictures" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MpS-XN-m7M">
+                        <rect key="frame" x="15" y="0.0" width="290" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="1ga-ou-UPE"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dLx-eF-8qq" userLabel="Separator View">
+                        <rect key="frame" x="15" y="23" width="290" height="2"/>
+                        <color key="backgroundColor" red="0.73333333333333328" green="0.73333333333333328" blue="0.73333333333333328" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="2" id="6WQ-nV-WQw"/>
+                        </constraints>
+                    </view>
+                    <scrollView autoresizesSubviews="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hyq-YV-ids">
+                        <rect key="frame" x="15" y="29" width="290" height="70"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="70" id="Dqs-OM-kHQ"/>
+                        </constraints>
+                    </scrollView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="hyq-YV-ids" secondAttribute="trailing" constant="15" id="DSV-LF-Dsq"/>
+                    <constraint firstAttribute="trailing" secondItem="dLx-eF-8qq" secondAttribute="trailing" constant="15" id="PwU-tF-lm9"/>
+                    <constraint firstItem="MpS-XN-m7M" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Vw0-NJ-4fA"/>
+                    <constraint firstItem="MpS-XN-m7M" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="owi-jU-kIT"/>
+                    <constraint firstAttribute="trailing" secondItem="MpS-XN-m7M" secondAttribute="trailing" constant="15" id="p8r-ft-nur"/>
+                    <constraint firstItem="dLx-eF-8qq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="uIJ-Zd-icQ"/>
+                    <constraint firstItem="dLx-eF-8qq" firstAttribute="top" secondItem="MpS-XN-m7M" secondAttribute="bottom" constant="2" id="vn0-hl-WYZ"/>
+                    <constraint firstItem="hyq-YV-ids" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="xgC-Wa-YfD"/>
+                    <constraint firstItem="hyq-YV-ids" firstAttribute="top" secondItem="dLx-eF-8qq" secondAttribute="bottom" constant="4" id="zXu-Rf-xUe"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="picturesScrollView" destination="hyq-YV-ids" id="d0O-50-eHT"/>
+                <outlet property="titleLabel" destination="MpS-XN-m7M" id="xV6-JL-ODm"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+</document>

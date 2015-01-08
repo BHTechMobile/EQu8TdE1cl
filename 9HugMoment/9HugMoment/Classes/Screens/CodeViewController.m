@@ -7,7 +7,6 @@
 #import "CaptureVideoViewController.h"
 #import "AppDelegate.h"
 #import "UIImageView+WebCache.h"
-#import "MomentDetailViewController.h"
 #import <ZXingObjC/ZXingObjC.h>
 #import "MessageObject.h"
 #import "QuartzCore/CALayer.h"
@@ -247,12 +246,12 @@
             [_downloadView downloadVideoByMessage:_message];
         }else {
             //TODO: Go to detail message
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil];
-            MomentDetailViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:MOMENTS_DETAILS_TRENDING_INDENTIFIER];
-            lvc.capturePath = [NSURL fileURLWithPath:_message.localVideoPath];
-            lvc.messageObject = _message;
-            lvc.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:lvc animated:YES];
+//            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil];
+//            MomentDetailViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:MOMENTS_DETAILS_TRENDING_INDENTIFIER];
+//            lvc.capturePath = [NSURL fileURLWithPath:_message.localVideoPath];
+//            lvc.messageObject = _message;
+//            lvc.hidesBottomBarWhenPushed = YES;
+//            [self.navigationController pushViewController:lvc animated:YES];
         }
         
     } failure:^(NSString *bodyString, NSError *error) {
@@ -282,12 +281,12 @@
 
 - (void)downloadVideoSuccess:(MessageObject*)message  {
     [_downloadView hideWithAnimation];
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil];
-    MomentDetailViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:MOMENTS_DETAILS_TRENDING_INDENTIFIER];
-    lvc.capturePath = [NSURL fileURLWithPath:_message.localVideoPath];
-    lvc.messageObject = _message;
-    lvc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:lvc animated:YES];
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil];
+//    MomentDetailViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:MOMENTS_DETAILS_TRENDING_INDENTIFIER];
+//    lvc.capturePath = [NSURL fileURLWithPath:_message.localVideoPath];
+//    lvc.messageObject = _message;
+//    lvc.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:lvc animated:YES];
 
 }
 
