@@ -9,7 +9,7 @@
 #import "FiltersModel.h"
 #import "Filter.h"
 
-#define FILTER_URL @""
+#define FILTER_URL @"https://www.dropbox.com/s/51b4i42zqdbq24k/Filters.json?dl=1"
 
 @implementation FiltersModel
 + (FiltersModel *)sharedFilters
