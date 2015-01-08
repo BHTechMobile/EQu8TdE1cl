@@ -140,7 +140,6 @@
 		DDD04ED11A5A6E1B00AE0CE8 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD04ED01A5A6E1B00AE0CE8 /* Filter.m */; };
 		DDD04ED41A5A6E2E00AE0CE8 /* FiltersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD04ED31A5A6E2E00AE0CE8 /* FiltersModel.m */; };
 		DDD04ED81A5A71F900AE0CE8 /* FrameModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD04ED71A5A71F900AE0CE8 /* FrameModelTest.m */; };
-		DDF12E411A4EB64200B5195A /* Filters.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDF12E401A4EB64200B5195A /* Filters.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -335,6 +334,7 @@
 		D25383581A3991D900C3AFF4 /* UserDetailsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDetailsObject.m; sourceTree = "<group>"; };
 		D253AB911A36FEDC008ABE10 /* ODRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ODRefreshControl.h; sourceTree = "<group>"; };
 		D253AB921A36FEDC008ABE10 /* ODRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ODRefreshControl.m; sourceTree = "<group>"; };
+		DD540F6E1A5E623600FC0BC2 /* Filters.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Filters.json; path = 9HugMoment/Classes/Models/Filters.json; sourceTree = "<group>"; };
 		DDB4310D1A5253A6005E7DA2 /* airplay-display.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "airplay-display.png"; sourceTree = "<group>"; };
 		DDB4310E1A5253A6005E7DA2 /* airplay-display@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "airplay-display@2x.png"; sourceTree = "<group>"; };
 		DDB4310F1A5253A6005E7DA2 /* fullscreen-button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fullscreen-button.png"; sourceTree = "<group>"; };
@@ -374,7 +374,6 @@
 		DDD04ED21A5A6E2E00AE0CE8 /* FiltersModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FiltersModel.h; sourceTree = "<group>"; };
 		DDD04ED31A5A6E2E00AE0CE8 /* FiltersModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FiltersModel.m; sourceTree = "<group>"; };
 		DDD04ED71A5A71F900AE0CE8 /* FrameModelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameModelTest.m; sourceTree = "<group>"; };
-		DDF12E401A4EB64200B5195A /* Filters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Filters.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -650,7 +649,7 @@
 			isa = PBXGroup;
 			children = (
 				DDD04EC81A5A400F00AE0CE8 /* Frames.json */,
-				DDF12E401A4EB64200B5195A /* Filters.plist */,
+				DD540F6E1A5E623600FC0BC2 /* Filters.json */,
 				CE3E233F1A233CDF00008D27 /* 9HugMoment */,
 				CE3E235C1A233CE000008D27 /* 9HugMomentTests */,
 				CE3E233E1A233CDF00008D27 /* Products */,
@@ -978,7 +977,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDF12E411A4EB64200B5195A /* Filters.plist in Resources */,
 				9FA218AD1A320C4000C3891B /* GPUImageColorDodgeBlendFilter1.mp4 in Resources */,
 				DDB4312E1A5253A6005E7DA2 /* minimize-button@2x.png in Resources */,
 				DDB431291A5253A6005E7DA2 /* airplay-display.png in Resources */,

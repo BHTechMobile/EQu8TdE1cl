@@ -1,0 +1,12 @@
+[
+{
+ "classname": "GPUImageClass",
+ "properties": {
+     "key": "value",
+ },
+ "thumbnail": "http://",
+ "videourl": "",
+ "type": "dynamic",
+ "name": "name"
+}
+]
