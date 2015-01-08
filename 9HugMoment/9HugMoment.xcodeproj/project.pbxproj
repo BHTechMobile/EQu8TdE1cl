@@ -114,7 +114,11 @@
 		DDB4313C1A5253A6005E7DA2 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = DDB431271A5253A6005E7DA2 /* LICENSE */; };
 		DDB4313D1A5253A6005E7DA2 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = DDB431281A5253A6005E7DA2 /* README.md */; };
 		DDB431401A52574B005E7DA2 /* CodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB4313F1A52574B005E7DA2 /* CodeViewController.m */; };
-		DDF12E3F1A4EB63700B5195A /* Frames.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDF12E3E1A4EB63700B5195A /* Frames.plist */; };
+		DDD04ECB1A5A42A600AE0CE8 /* Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD04ECA1A5A42A600AE0CE8 /* Frame.m */; };
+		DDD04ECE1A5A48EC00AE0CE8 /* FramesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD04ECD1A5A48EC00AE0CE8 /* FramesModel.m */; };
+		DDD04ED11A5A6E1B00AE0CE8 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD04ED01A5A6E1B00AE0CE8 /* Filter.m */; };
+		DDD04ED41A5A6E2E00AE0CE8 /* FiltersModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD04ED31A5A6E2E00AE0CE8 /* FiltersModel.m */; };
+		DDD04ED81A5A71F900AE0CE8 /* FrameModelTest.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD04ED71A5A71F900AE0CE8 /* FrameModelTest.m */; };
 		DDF12E411A4EB64200B5195A /* Filters.plist in Resources */ = {isa = PBXBuildFile; fileRef = DDF12E401A4EB64200B5195A /* Filters.plist */; };
 /* End PBXBuildFile section */
 
@@ -302,7 +306,16 @@
 		DDB431281A5253A6005E7DA2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DDB4313E1A52574B005E7DA2 /* CodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodeViewController.h; sourceTree = "<group>"; };
 		DDB4313F1A52574B005E7DA2 /* CodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CodeViewController.m; sourceTree = "<group>"; };
-		DDF12E3E1A4EB63700B5195A /* Frames.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Frames.plist; sourceTree = "<group>"; };
+		DDD04EC81A5A400F00AE0CE8 /* Frames.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = Frames.json; path = 9HugMoment/Classes/Models/Frames.json; sourceTree = "<group>"; };
+		DDD04EC91A5A42A600AE0CE8 /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
+		DDD04ECA1A5A42A600AE0CE8 /* Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Frame.m; sourceTree = "<group>"; };
+		DDD04ECC1A5A48EC00AE0CE8 /* FramesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FramesModel.h; sourceTree = "<group>"; };
+		DDD04ECD1A5A48EC00AE0CE8 /* FramesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FramesModel.m; sourceTree = "<group>"; };
+		DDD04ECF1A5A6E1B00AE0CE8 /* Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filter.h; sourceTree = "<group>"; };
+		DDD04ED01A5A6E1B00AE0CE8 /* Filter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Filter.m; sourceTree = "<group>"; };
+		DDD04ED21A5A6E2E00AE0CE8 /* FiltersModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FiltersModel.h; sourceTree = "<group>"; };
+		DDD04ED31A5A6E2E00AE0CE8 /* FiltersModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FiltersModel.m; sourceTree = "<group>"; };
+		DDD04ED71A5A71F900AE0CE8 /* FrameModelTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrameModelTest.m; sourceTree = "<group>"; };
 		DDF12E401A4EB64200B5195A /* Filters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Filters.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -500,7 +513,7 @@
 		CE3E23341A233CDF00008D27 = {
 			isa = PBXGroup;
 			children = (
-				DDF12E3E1A4EB63700B5195A /* Frames.plist */,
+				DDD04EC81A5A400F00AE0CE8 /* Frames.json */,
 				DDF12E401A4EB64200B5195A /* Filters.plist */,
 				CE3E233F1A233CDF00008D27 /* 9HugMoment */,
 				CE3E235C1A233CE000008D27 /* 9HugMomentTests */,
@@ -552,6 +565,7 @@
 			isa = PBXGroup;
 			children = (
 				CE3E235F1A233CE000008D27 /* _HugMomentTests.m */,
+				DDD04ED71A5A71F900AE0CE8 /* FrameModelTest.m */,
 				CE3E235D1A233CE000008D27 /* Supporting Files */,
 			);
 			path = 9HugMomentTests;
@@ -599,6 +613,14 @@
 				D23BA4791A357FFB000EDE47 /* MomentsModel.m */,
 				9FA12BFD1A35D87600CE737C /* MomentsDetailsModel.h */,
 				9FA12BFE1A35D87600CE737C /* MomentsDetailsModel.m */,
+				DDD04EC91A5A42A600AE0CE8 /* Frame.h */,
+				DDD04ECA1A5A42A600AE0CE8 /* Frame.m */,
+				DDD04ECC1A5A48EC00AE0CE8 /* FramesModel.h */,
+				DDD04ECD1A5A48EC00AE0CE8 /* FramesModel.m */,
+				DDD04ECF1A5A6E1B00AE0CE8 /* Filter.h */,
+				DDD04ED01A5A6E1B00AE0CE8 /* Filter.m */,
+				DDD04ED21A5A6E2E00AE0CE8 /* FiltersModel.h */,
+				DDD04ED31A5A6E2E00AE0CE8 /* FiltersModel.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -798,7 +820,6 @@
 				TargetAttributes = {
 					CE3E233C1A233CDF00008D27 = {
 						CreatedOnToolsVersion = 6.1;
-						DevelopmentTeam = N2AZ5MXD3Y;
 					};
 					CE3E23581A233CE000008D27 = {
 						CreatedOnToolsVersion = 6.1;
@@ -872,7 +893,6 @@
 				9FA12BFA1A35D66300CE737C /* EnterMessageView.xib in Resources */,
 				9FB03B2B1A27909400370885 /* NavigationView.xib in Resources */,
 				9F9F98441A286D640089018B /* PlayerView.xib in Resources */,
-				DDF12E3F1A4EB63700B5195A /* Frames.plist in Resources */,
 				9FA218B01A320C4000C3891B /* GPUImageColorDodgeBlendFilter4.mp4 in Resources */,
 				D23BA4691A357F75000EDE47 /* MomentsMessageTableViewCell.xib in Resources */,
 				9FA218B21A320C4000C3891B /* GPUImageColorDodgeBlendFilter6.mov in Resources */,
@@ -927,6 +947,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDD04ECE1A5A48EC00AE0CE8 /* FramesModel.m in Sources */,
+				DDD04ED41A5A6E2E00AE0CE8 /* FiltersModel.m in Sources */,
 				CECCB7A01A23477D00C1220C /* FriendMomentsViewController.m in Sources */,
 				9FFFDDC21A2CD10E0081ADC9 /* FacebookManager.m in Sources */,
 				9F8D55F11A36952D00735634 /* UserInfoTableViewCell.m in Sources */,
@@ -960,6 +982,7 @@
 				9F9F98211A2820200089018B /* VideoFilterActionView.m in Sources */,
 				9F9F98491A286E180089018B /* UIView+AutoLayout.m in Sources */,
 				9F9F63CF1A42CDC3006D7113 /* FriendMomentsModel.m in Sources */,
+				DDD04ECB1A5A42A600AE0CE8 /* Frame.m in Sources */,
 				9FA12BF51A35D66300CE737C /* CommentHeaderTableViewCell.m in Sources */,
 				CE3E23431A233CDF00008D27 /* main.m in Sources */,
 				9FB03B291A27905C00370885 /* NavigationView.m in Sources */,
@@ -972,6 +995,7 @@
 				9FA12BF71A35D66300CE737C /* CommentMessageTableViewCell.m in Sources */,
 				DDB4313D1A5253A6005E7DA2 /* README.md in Sources */,
 				CECCB7941A23472600C1220C /* MixVideoViewController.m in Sources */,
+				DDD04ED11A5A6E1B00AE0CE8 /* Filter.m in Sources */,
 				D23BA4761A357FA0000EDE47 /* NSUserDefaults+Helpers.m in Sources */,
 				DDB431381A5253A6005E7DA2 /* FullScreenView.m in Sources */,
 				CECCB78B1A23460800C1220C /* FBConnectViewController.m in Sources */,
@@ -994,6 +1018,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE3E23601A233CE000008D27 /* _HugMomentTests.m in Sources */,
+				DDD04ED81A5A71F900AE0CE8 /* FrameModelTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1127,8 +1152,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Tran Vu Viet Anh (BU79S2D2W2)";
 				GCC_PREFIX_HEADER = "9HugMoment/9HugMoment-Prefix.pch";
 				INFOPLIST_FILE = 9HugMoment/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
@@ -1145,8 +1170,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Tran Vu Viet Anh (BU79S2D2W2)";
 				GCC_PREFIX_HEADER = "9HugMoment/9HugMoment-Prefix.pch";
 				INFOPLIST_FILE = 9HugMoment/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
