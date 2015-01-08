@@ -19,8 +19,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    UIImage* tabBarBackground = [UIImage imageNamed:@"bgr_bottom_bar_white"];
-    [[UITabBar appearance] setBackgroundImage:[Utilities imageWithImage:tabBarBackground scaledToRatio:[[UIScreen mainScreen] scale]==3?1.3:1]];
+    CGFloat width = [[UIScreen mainScreen] bounds].size.width;
+    
+    UIImage* tabBarBackground = [UIImage imageNamed:IMAGE_NAME_BACKGROUND_BOTTOM_BAR_WHITE];
+    [[UITabBar appearance] setBackgroundImage:[Utilities imageWithImage:tabBarBackground scaledToRatio:width/320.0f]];
     [[UITabBar appearance] setBarStyle:UIBarStyleBlack];
     
     JTTabBarController *tabBarController = [[JTTabBarController alloc] init];

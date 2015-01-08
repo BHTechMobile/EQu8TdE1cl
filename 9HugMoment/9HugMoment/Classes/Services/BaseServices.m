@@ -392,6 +392,88 @@
     op.outputStream = [NSOutputStream outputStreamToFileAtPath:outputPath append:YES];
 }
 
++(void)uploadAudioWithToken:(NSDictionary *)param path:(NSURL*)audioPath sussess:(SuccessBlock)success failure:(MessageBlock)failure
+{
+    [[BaseServices sharedManager].requestSerializer setTimeoutInterval:300];
+    
+    AFHTTPRequestOperation* operator = [[BaseServices sharedManager] POST:@"message/response" parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData)
+                                        {
+                                            NSData *audioData = [NSData dataWithContentsOfURL:audioPath];
+                                            if (audioData == nil) {
+                                                NSError* error = [NSError errorWithDomain:@"DataIsEmpty" code:404 userInfo:nil];
+                                                failure(nil,error);
+                                                return;
+                                            }
+                                            NSString *nameAudio = [NSString stringWithFormat:@"%@.aac",[NSString generateRandomString:8]];
+                                            [formData appendPartWithFileData:audioData name:@"media_link" fileName:nameAudio mimeType:@"audio/x-hx-aac-adts"];
+                                            
+                                        } success:^(AFHTTPRequestOperation *operation, id responseObject)
+                                        {
+                                            if (success) {
+                                                success(operation,responseObject);
+                                            }
+                                            
+                                        } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+                                        {
+                                            if (failure) {
+                                                failure([operation responseString],error);
+                                            }
+                                            
+                                        }];
+    
+    [operator setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+        NSLog(@"%lu /%lld",(unsigned long)totalBytesWritten,totalBytesWritten);
+    }];
+}
+
+#pragma mark - UploadImage
+
++(void)uploadImage:(NSDictionary *)param path:(NSURL*)imagePath sussess:(SuccessBlock)success failure:(MessageBlock)failure
+{
+    
+    dispatch_queue_t backgroundQueue = dispatch_queue_create("com.mycompany.myqueue", 0);
+    
+    dispatch_async(backgroundQueue, ^{
+        UIImage *fetchImage = [Utilities setThumbnail:[UIImage imageWithContentsOfFile:URL_ATTACH_IMAGE] withSize:CGSizeMake(720, 720)];
+        
+        [[BaseServices sharedManager].requestSerializer setTimeoutInterval:300];
+        
+        AFHTTPRequestOperation* operator = [[BaseServices sharedManager] POST:@"message/response" parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData)
+                                            {
+                                                
+                                                
+                                                NSData *imageData = UIImagePNGRepresentation(fetchImage);
+                                                if (imageData == nil) {
+                                                    NSError* error = [NSError errorWithDomain:@"DataIsEmpty" code:404 userInfo:nil];
+                                                    failure(nil,error);
+                                                    return;
+                                                }
+                                                NSString *nameAudio = [NSString stringWithFormat:@"%@.jpg",[NSString generateRandomString:8]];
+                                                [formData appendPartWithFileData:imageData name:@"media_link" fileName:nameAudio mimeType:@"jpeg/jpg"];
+                                                
+                                            } success:^(AFHTTPRequestOperation *operation, id responseObject)
+                                            {
+                                                if (success) {
+                                                    success(operation,responseObject);
+                                                }
+                                                
+                                            } failure:^(AFHTTPRequestOperation *operation, NSError *error)
+                                            {
+                                                if (failure) {
+                                                    failure([operation responseString],error);
+                                                }
+                                                
+                                            }];
+        
+        [operator setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+            NSLog(@"%lu /%lld",(unsigned long)totalBytesWritten,totalBytesExpectedToWrite);
+        }];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
+    });
+}
+
 + (void)responseMessage:(NSDictionary *)dicParam success:(SuccessBlock)success failure:(FailureBlock)failure{
     [[BaseServices sharedManager].requestSerializer setTimeoutInterval:30];
     [[BaseServices sharedManager] POST:@"message/response" parameters:dicParam
@@ -405,6 +487,35 @@
                      failure(nil,error);
                  }
              }];
+}
+
++ (void)downloadAudio:(NSString *)baseUrl  sussess:(SuccessBlock)success failure:(FailureBlock)failure progress:(DownloadResponseBlock)progress{
+    NSString* fileName = [NSString stringWithFormat:@"Documents/%@",[[baseUrl pathComponents] lastObject]];
+    NSString *urlOutPut2 = [NSHomeDirectory() stringByAppendingPathComponent:fileName];
+    
+    AFHTTPRequestOperationManager* manager = [BaseServices sharedManager];
+    [manager.requestSerializer setTimeoutInterval:300];
+    
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+    AFHTTPRequestOperation *operation = [manager GET:baseUrl
+                                          parameters:nil
+                                             success:^(AFHTTPRequestOperation *operation, NSData *responseData)
+                                         {
+                                             if (success) {
+                                                 success(operation,responseData);
+                                             }
+                                         }
+                                             failure:^(AFHTTPRequestOperation *operation, NSError *error)
+                                         {
+                                             NSLog(@"Downloading error: %@", error);
+                                         }];
+    
+    [operation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead)
+     {
+         //         [someProgressView setProgress:downloadPercentage animated:YES];
+     }];
+    operation.outputStream = [NSOutputStream outputStreamToFileAtPath:urlOutPut2 append:YES];
 }
 
 #pragma mark - Utilities
