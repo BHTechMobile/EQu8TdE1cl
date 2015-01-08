@@ -49,14 +49,14 @@
         if (_audioPlayer) {
             if ([_audioPlayer isPlaying]) {
                 [_audioPlayer pause];
-                [_playAudioSelectButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_MIX_PAUSE] forState:UIControlStateNormal];
+                [_playAudioSelectButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_MIX_PLAY] forState:UIControlStateNormal];
                 if (_delegate && [_delegate respondsToSelector:@selector(didStopAudio:)]) {
                     [_delegate performSelector:@selector(didStopAudio:) withObject:self];
                 }
             }
             else{
                 [self playCurrentAudio];
-                [_playAudioSelectButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_MIX_PLAY] forState:UIControlStateNormal];
+                [_playAudioSelectButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_MIX_PAUSE] forState:UIControlStateNormal];
                 if (isPlayAll) {
                     if (_delegate && [_delegate respondsToSelector:@selector(didPlayAudio:)]) {
                         [_delegate performSelector:@selector(didPlayAudio:) withObject:self];

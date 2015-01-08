@@ -137,7 +137,7 @@
                                     <constraint firstAttribute="width" constant="26" id="dgw-UX-51o"/>
                                     <constraint firstAttribute="height" constant="26" id="fzD-Wv-1Mq"/>
                                 </constraints>
-                                <state key="normal" backgroundImage="icon_mix_pause">
+                                <state key="normal" backgroundImage="icon_mix_play">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -233,6 +233,6 @@
     </objects>
     <resources>
         <image name="icon_circle_gray" width="90" height="90"/>
-        <image name="icon_mix_pause" width="23" height="23"/>
+        <image name="icon_mix_play" width="23" height="23"/>
     </resources>
 </document>
