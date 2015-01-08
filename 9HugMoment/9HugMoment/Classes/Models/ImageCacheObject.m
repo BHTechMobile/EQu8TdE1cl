@@ -22,8 +22,8 @@
 
 - (UIImage *)getImageFromCacheWithKey:(NSString *)imageKey
 {
-    UIImage *userAvatar = [_imageCache objectForKey:imageKey];
-    return userAvatar;
+    UIImage *image = [_imageCache objectForKey:imageKey];
+    return image;
 }
 
 - (void)setImageToCacheWithImage:(UIImage *)image andKey:(NSString *)imageKey
