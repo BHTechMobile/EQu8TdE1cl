@@ -25,6 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _changeFrameButtons = [[NSMutableArray alloc] init];
     [self initNavigationView];
     [self.navigationCustomView addSubview:_navigationView];
     [self playVideoWithFilter:@"GPUImageFilter"];
@@ -262,33 +263,40 @@
     [buttonBack setImage:[UIImage imageNamed:@"btn_back_cyan@2x.png"] forState:UIControlStateNormal];
     UIBarButtonItem *btnback = [[UIBarButtonItem alloc]initWithCustomView:buttonBack];
     self.navigationItem.leftBarButtonItem = btnback;
-    
-    const NSArray* frameNames =@[@"bgr_frame_select_no_frame",
-                                 @"1_pink_heart_thumb",
-                                 @"2_blue amazing curve_thumb",
-                                 @"4_halloween_thumb",
-                                 @"3_butter_fly_thumb",
-                                 @"5_floral_on_the_right_thumb",
-                                 @"6_golden_flora_thumb",
-                                 @"7_daisies_yellow_thumb"];
-    
-    changeFrameButtons = @[
-                           [Utilities squareButtonWithSize:60 background:[UIImage imageNamed:[frameNames objectAtIndex:0]] text:nil target:self selector:@selector(changeFrame:) tag:0 isTypeFrame:YES],
-                           [Utilities squareButtonWithSize:58 background:[UIImage imageNamed:[frameNames objectAtIndex:1]] text:nil target:self selector:@selector(changeFrame:) tag:1 isTypeFrame:YES],
-                           [Utilities squareButtonWithSize:58 background:[UIImage imageNamed:[frameNames objectAtIndex:2]] text:nil target:self selector:@selector(changeFrame:) tag:2 isTypeFrame:YES],
-                           [Utilities squareButtonWithSize:58 background:[UIImage imageNamed:[frameNames objectAtIndex:3]] text:nil target:self selector:@selector(changeFrame:) tag:3 isTypeFrame:YES],
-                           [Utilities squareButtonWithSize:58 background:[UIImage imageNamed:[frameNames objectAtIndex:4]] text:nil target:self selector:@selector(changeFrame:) tag:4 isTypeFrame:YES],
-                           [Utilities squareButtonWithSize:58 background:[UIImage imageNamed:[frameNames objectAtIndex:5]] text:nil target:self selector:@selector(changeFrame:) tag:5 isTypeFrame:YES],
-                           [Utilities squareButtonWithSize:58 background:[UIImage imageNamed:[frameNames objectAtIndex:6]] text:nil target:self selector:@selector(changeFrame:) tag:6 isTypeFrame:YES],
-                           [Utilities squareButtonWithSize:58 background:[UIImage imageNamed:[frameNames objectAtIndex:7]] text:nil target:self selector:@selector(changeFrame:) tag:7 isTypeFrame:YES]
-                           ];
-    
-    _selectFrameScrollView.contentSize = CGSizeMake(changeFrameButtons.count*66, _selectFrameScrollView.frame.size.height);
+
+    // Get
+    if(([FramesModel sharedFrames].frames) &&
+       ([[FramesModel sharedFrames].frames isKindOfClass:[NSArray class]]))
+    {
+        for (int i = 0; i < [FramesModel sharedFrames].frames.count; i++)
+        {
+            UIImage *currentThumbnail = nil;
+            Frame *currentFrame = [[FramesModel sharedFrames].frames objectAtIndex:i];
+            currentThumbnail = currentFrame.thumbnailImage;
+            
+            UIButton *currentButton = [Utilities squareButtonWithSize:SIZE_SQUARE_BUTTON_FRAME_MIX_VIDEO_VIEW_CONTROLLER
+                                                           background:currentThumbnail
+                                                                 text:nil
+                                                               target:self
+                                                             selector:@selector(changeFrame:) tag:i
+                                                          isTypeFrame:YES];
+            if(!currentThumbnail)
+            {
+                [currentFrame downloadThumbnailSuccess:^{
+                    [currentButton setImage:currentThumbnail forState:UIControlStateNormal];
+                } failure:^(NSError *error) {
+                    NSLog(@"Download Frame failed:%@",error.localizedDescription);
+                }];
+            }
+            [_changeFrameButtons addObject:currentButton];
+        }
+    }
+    _selectFrameScrollView.contentSize = CGSizeMake(_changeFrameButtons.count*66, _selectFrameScrollView.frame.size.height);
     _selectFrameScrollView.scrollEnabled = YES;
     
-    for (int i = 0;i<changeFrameButtons.count;i++) {
+    for (int i = 0;i<_changeFrameButtons.count;i++) {
         
-        UIButton * button = changeFrameButtons[i];
+        UIButton * button = _changeFrameButtons[i];
         if (i ==0) {
             button.layer.borderWidth = 3;
             button.layer.borderColor = [UIColor colorWithRed:69/255.0 green:187/255.0 blue:255/255.0 alpha:1.0].CGColor;
@@ -358,26 +366,28 @@
     
 }
 
--(IBAction)changeFrame:(id)sender{
+- (void)changeFrame:(id)sender{
     for (UIView * view in _selectFrameScrollView.subviews) {
         if ([view isKindOfClass:[UIButton class]]) {
             ((UIButton*)view).layer.borderWidth = 0;
         }
     }
+
+    Frame *currentFrame = [[FramesModel sharedFrames].frames objectAtIndex:[sender tag]];
+    _imvFrame.image = currentFrame.detailImage;
+    if(!currentFrame.detailImage)
+    {
+        [currentFrame downloadThumbnailSuccess:^{
+            _imvFrame.image = currentFrame.detailImage;
+        } failure:^(NSError *error) {
+            NSLog(@"Download Frame failed:%@",error.localizedDescription);
+        }];
+    }
     
-    const NSArray* frameNames =@[@"",@"1_pink_heart",
-                                 @"2_blue amazing curve",
-                                 @"4_halloween",
-                                 @"3_butter_fly",
-                                 @"5_floral_on_the_right",
-                                 @"6_golden_flora",
-                                 @"7_daisies_yellow"];
-    
-    _imvFrame.image = [UIImage imageNamed:[frameNames objectAtIndex:[sender tag]]];
-    UIButton * button = sender;
+    UIButton *currentSelectButton = sender;
     _imgFrame = _imvFrame.image;
-    button.layer.borderWidth = 3;
-    button.layer.borderColor = [UIColor colorWithRed:69/255.0 green:187/255.0 blue:255/255.0 alpha:1.0].CGColor;
+    currentSelectButton.layer.borderWidth = 3;
+    currentSelectButton.layer.borderColor = [UIColor colorWithRed:69/255.0 green:187/255.0 blue:255/255.0 alpha:1.0].CGColor;
     NSLog(@"%s",__PRETTY_FUNCTION__);
 }
 

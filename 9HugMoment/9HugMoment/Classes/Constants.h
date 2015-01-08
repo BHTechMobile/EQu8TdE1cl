@@ -239,6 +239,7 @@ typedef NS_ENUM(NSInteger, MessageDetailCellType)
 #pragma mark - MixVideoViewController
 /*MixVideoViewController*/
 #define BG_COLOR_PROCESS_MIX_VIDEO [UIColor colorWithRed:224.0/255.0 green:100.0/255.0 blue:176.0/255.0 alpha:1.0]
+#define SIZE_SQUARE_BUTTON_FRAME_MIX_VIDEO_VIEW_CONTROLLER 58
 
 #pragma mark - CaptureVideoViewController
 /*CaptureVideoViewController*/

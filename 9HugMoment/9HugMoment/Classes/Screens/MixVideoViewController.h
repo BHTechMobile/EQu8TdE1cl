@@ -12,9 +12,11 @@
 #import "ScheduleView.h"
 #import "MixVideoServices.h"
 #import "EnterMessageView.h"
+#import "Frame.h"
+#import "FramesModel.h"
 
 @interface MixVideoViewController : UIViewController<MPMediaPickerControllerDelegate,UIAlertViewDelegate,AVAudioPlayerDelegate,GPUImageMovieDelegate,NavigationCustomViewDelegate,MixAudioViewControllerDelegate,CLLocationManagerDelegate, EnterMessageDelegate>{
-    NSArray * changeFrameButtons;
+    NSMutableArray *_changeFrameButtons;
     NSArray *qrCode;
     GPUImageMovie *movieFile;
     GPUImageMovie *filterMovie;
