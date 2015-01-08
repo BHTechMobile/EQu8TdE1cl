@@ -11,7 +11,7 @@
 #import "MessageObject.h"
 #import "DownloadVideoView.h"
 
-@interface MyMomentsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate,DownloadVideoDelegate>
+@interface MyMomentsViewController : UIViewController<UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *myMessagesTableView;
 @property (weak, nonatomic) IBOutlet UIView *contentView;

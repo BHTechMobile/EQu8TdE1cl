@@ -12,30 +12,6 @@
 
 @interface MixVideoViewController ()
 
-@property (nonatomic, strong) NSString *tokenAuto;
-@property (nonatomic, strong) MPMediaItem* audioItem;
-@property (nonatomic, strong) NSURL* exportUrl;
-@property (nonatomic, assign) BOOL mixed;
-@property (nonatomic, strong) NSString* message;
-@property (nonatomic, weak) NSLayoutConstraint *topPosition;
-@property (nonatomic, strong) NSDictionary *postParams;
-
-@property (weak, nonatomic) IBOutlet UIButton *touchPublicVideoButton;
-@property (weak, nonatomic) IBOutlet UIView *navigationCustomView;
-@property (strong, nonatomic) IBOutlet GPUImageView *playerView;
-@property (weak, nonatomic) IBOutlet UIImageView *imvFrame;
-@property (weak, nonatomic) IBOutlet UIButton *messageButton;
-@property (weak, nonatomic) IBOutlet UIScrollView *selectFrameScrollView;
-@property (weak, nonatomic) IBOutlet UIScrollView *videoFilterScrollView;
-@property (weak, nonatomic) IBOutlet UIButton *notificationButton;
-@property (weak, nonatomic) IBOutlet UIButton *btnPlay;
-@property (weak, nonatomic) IBOutlet UIImageView *imvPlay;
-@property (weak, nonatomic) IBOutlet UIButton *btnFrames;
-@property (weak, nonatomic) IBOutlet UIButton *btnVideoFilters;
-@property (retain, nonatomic) IBOutlet NSLayoutConstraint *hightImageViewOffsetConstraint;
-
-- (IBAction)publicVideoButtonAction:(id)sender;
-
 @end
 
 @implementation MixVideoViewController{
@@ -56,6 +32,7 @@
     imageChoose = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 60, 60)];
     imageChoose.image = [UIImage imageNamed:@"play-icon"];
     [self hightConstraint];
+    needShowEnterMessageView = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -89,7 +66,7 @@
     // Notification when application close or reopen.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidBecomeActiveNotification:) name:UIApplicationDidBecomeActiveNotification object:[UIApplication sharedApplication]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidFinishLaunchingNotification:) name:UIApplicationDidFinishLaunchingNotification object:[UIApplication sharedApplication]];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     _locationManagement = [LocationManagement shareLocation];
     _locationManagement.locationManager.delegate = self;
     [_locationManagement requestTurnOnLocationServices];
@@ -101,7 +78,7 @@
     // Remove Notification.
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidBecomeActiveNotification object:[UIApplication sharedApplication]];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidFinishLaunchingNotification object:[UIApplication sharedApplication]];
-    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_locationManagement.locationManager stopUpdatingLocation];
 }
 
@@ -266,6 +243,11 @@
 
 -(void)createUI{
     _imvFrame.image = _imgFrame;
+    
+    //Schedule
+    [self initScheduleView];
+    // Enter Message
+    [self initInputMessageView];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button addTarget:self action:@selector(sendButtonTapped:) forControlEvents:UIControlEventTouchUpInside]; //adding action
@@ -603,7 +585,6 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-
 #pragma mark - buttons clicked
 
 - (IBAction)sendButtonTapped:(UIButton *)sender {
@@ -635,6 +616,8 @@
             [self upload];
             break;
         }
+        default:
+            break;
     }
 }
 - (IBAction)clickedPlayButton:(id)sender {
@@ -815,11 +798,6 @@
     return roundedImage;
 }
 
-- (IBAction)publicVideoButtonAction:(id)sender {
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"songsongsong" object:nil];
-    [self mixVideo];
-}
-
 #pragma mark - Share video to Facebook
 
 - (void)makeRequestToShareLink:(NSString*)link {
@@ -856,31 +834,180 @@
     NSString *longitudeLocal = [NSString stringWithFormat:@"%f", currentLocation.coordinate.longitude];
     NSLog(@"latitudeLocal %f ",currentLocation.coordinate.latitude);
     NSLog(@"longitudeLocal %f ",currentLocation.coordinate.longitude);
-    [BaseServices updateMessage:_message?_message:@""
-                            key:_mKey
-                          frame:@"1"
-                           path:_exportUrl
-                       latitude:latitudeLocal
-                      longitude:longitudeLocal
-                   notification:_notificationButton.selected
-                      thumbnail:image
-                        sussess:^(AFHTTPRequestOperation *operation, id responseObject) {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                [[NSNotificationCenter defaultCenter] postNotificationName:CALL_PUSH_NOTIFICATIONS object:nil];
-                                [self.navigationController popToRootViewControllerAnimated:YES];
-                            });
-                        } failure:^(NSString *bodyString, NSError *error) {
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                            });
+    [MixVideoServices updateMessage:_message?_message:@""
+                                key:_mKey
+                              frame:@"1"
+                               path:_exportUrl
+                           latitude:latitudeLocal
+                          longitude:longitudeLocal
+                       notification:_notificationButton.selected
+                          scheduled:[NSString stringWithFormat:@"%f",[[_scheduleView getSelectedDate] timeIntervalSince1970]]
+                          thumbnail:image
+                            sussess:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                    [[NSNotificationCenter defaultCenter] postNotificationName:CALL_PUSH_NOTIFICATIONS object:nil];
+                                    [self.navigationController popToRootViewControllerAnimated:YES];
+                                });
+                            }
+                            failure:^(NSString *bodyString, NSError *error) {
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                });
                             _mixed = NO;
                         }];
-    
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
+
+#pragma mark - Actions
+
+- (IBAction)calendarAction:(id)sender {
+    [_calendatButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_CALENDAR_ON] forState:UIControlStateNormal];
+    _scheduleView.hidden = NO;
+    [_scheduleView showWithAnimation];
+    
+}
+
+- (IBAction)messageAction:(id)sender {
+    needShowEnterMessageView = YES;
+    [_messageButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_TEXT_MESSAGE_ON] forState:UIControlStateNormal];
+    _enterMessageView.hidden = NO;
+    [_enterMessageView.textView setText:@""];
+    [_enterMessageView.textView becomeFirstResponder];
+}
+
+- (IBAction)frameInputAction:(id)sender {
+    //TODO File Action
+}
+
+- (IBAction)notificationAction:(id)sender {
+    _notificationButton.selected = !_notificationButton.selected;
+    if (_notificationButton.selected)
+    {
+        [_notificationButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_NOTIFICATION_ON] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [_notificationButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_NOTIFICATION] forState:UIControlStateNormal];
+    }
+}
+
+- (IBAction)tagAction:(id)sender {
+    _tagButton.selected = !_tagButton.selected;
+    if (_tagButton.selected)
+    {
+        [_tagButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_TAG_ON] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [_tagButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_TAG] forState:UIControlStateNormal];
+    }
+}
+
+- (IBAction)publicVideoButtonAction:(id)sender {
+    //    [[NSNotificationCenter defaultCenter] postNotificationName:@"songsongsong" object:nil];
+    [self mixVideo];
+}
+
+#pragma mark - GPUImageMovie delegate
+
+- (void)didCompletePlayingMovie
+{
+    //TODO: Completed play movie
+}
+
+#pragma mark - Custom Methods
+
+- (void)keyboardWillShow:(NSNotification*)aNotification
+{
+    NSDictionary *keyboardInfo = [aNotification userInfo];
+    NSValue *keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
+    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
+    if (needShowEnterMessageView) {
+        [self showEnterMessageViewWithKeyboardFrame:keyboardFrameBeginRect];
+    }
+}
+
+#pragma mark - ScheduleView management
+
+- (void)initScheduleView
+{
+    _scheduleView = [ScheduleView fromNib];
+    _scheduleView.frame = CGRectMake(0, self.view.size.height-_scheduleView.frame.size.height, self.view.frame.size.width, _scheduleView.frame.size.height);
+    _scheduleView.alpha = 0.0;
+    [self.view addSubview:_scheduleView];
+    _scheduleView.hidden = YES;
+}
+
+
+#pragma mark - EnterMessage management & delegate
+
+- (void)initInputMessageView
+{
+    _enterMessageView = [EnterMessageView fromNib];
+    _enterMessageView.delegate = self;
+    [self setDefaultFrameInputMessageView];
+    [self.view addSubview:_enterMessageView];
+    _enterMessageView.hidden = YES;
+}
+
+- (void)setDefaultFrameInputMessageView
+{
+    CGPoint enterMessagePoint = CGPointMake(HALF_OF(_contentMixView.frame.size.width) - HALF_OF(SIZE_ENTER_MESSAGE_MOMENT_DETAIL_VIEW_CONTROLLER.width), HALF_OF(_contentMixView.frame.size.height) - HALF_OF(SIZE_ENTER_MESSAGE_MOMENT_DETAIL_VIEW_CONTROLLER.height));
+    CGRect enterMessageFrame = CGRectMake(enterMessagePoint.x, enterMessagePoint.y, SIZE_ENTER_MESSAGE_MOMENT_DETAIL_VIEW_CONTROLLER.width, SIZE_ENTER_MESSAGE_MOMENT_DETAIL_VIEW_CONTROLLER.height);
+    _enterMessageView.frame = enterMessageFrame;
+}
+
+- (void)setFrameInputMessageViewHide
+{
+    CGRect enterMessageFarmeTemp = _enterMessageView.frame;
+    enterMessageFarmeTemp.origin.x = HALF_OF(enterMessageFarmeTemp.size.width);
+    enterMessageFarmeTemp.origin.y = enterMessageFarmeTemp.origin.y + HALF_OF(enterMessageFarmeTemp.size.height);
+    enterMessageFarmeTemp.size.width = 0;
+    enterMessageFarmeTemp.size.height = 0;
+    _enterMessageView.frame = enterMessageFarmeTemp;
+}
+
+- (void)showEnterMessageViewWithKeyboardFrame:(CGRect)keyboardFrameBeginRect
+{
+    CGFloat yPointEnterMessageShow = HALF_OF(_contentMixView.frame.size.height) - HALF_OF(SIZE_ENTER_MESSAGE_MOMENT_DETAIL_VIEW_CONTROLLER.height);
+    CGFloat yPointKeyboardAfterShow = keyboardFrameBeginRect.origin.y - keyboardFrameBeginRect.size.height;
+    if (yPointKeyboardAfterShow < (yPointEnterMessageShow + SIZE_ENTER_MESSAGE_MOMENT_DETAIL_VIEW_CONTROLLER.height)) {
+        
+        [UIView animateWithDuration:TIME_TO_SHOW_ENTER_MESSAGE_VIEW animations:^{
+            CGPoint enterMessagePoint = CGPointMake(HALF_OF(_contentMixView.frame.size.width) - HALF_OF(SIZE_ENTER_MESSAGE_MOMENT_DETAIL_VIEW_CONTROLLER.width), yPointKeyboardAfterShow - SIZE_ENTER_MESSAGE_MOMENT_DETAIL_VIEW_CONTROLLER.height);
+            CGRect enterMessageFrame = CGRectMake(enterMessagePoint.x, enterMessagePoint.y, SIZE_ENTER_MESSAGE_MOMENT_DETAIL_VIEW_CONTROLLER.width, SIZE_ENTER_MESSAGE_MOMENT_DETAIL_VIEW_CONTROLLER.height);
+            _enterMessageView.frame = enterMessageFrame;
+        }];
+        
+    }else {
+        [UIView animateWithDuration:TIME_TO_SHOW_ENTER_MESSAGE_VIEW animations:^{
+            [self setDefaultFrameInputMessageView];
+        }];
+    }
+}
+
+- (void)didCancelInputMessage
+{
+    needShowEnterMessageView = NO;
+    if ((![_message isEqualToString:@""]) && (_message != nil)) {
+        [_messageButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_TEXT_MESSAGE_ON] forState:UIControlStateNormal];
+    }
+    else{
+        [_messageButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_TEXT_MESSAGE] forState:UIControlStateNormal];
+    }
+    [self setFrameInputMessageViewHide];
+    _enterMessageView.hidden = YES;
+}
+
+- (void)didEnterMessage:(EnterMessageView *)enterMessageController andMessage:(NSString *)message
+{
+    _message = message;
+    [self didCancelInputMessage];
+}
+
 
 @end

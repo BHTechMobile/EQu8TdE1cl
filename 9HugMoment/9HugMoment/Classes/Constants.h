@@ -77,6 +77,7 @@
 #define PUSH_FRIENDS_SCREEN_VIEW_CONTROLLER @"pushFriendsScreenViewController"
 #define BUNDLE_IDENTIFIER_FRIENDS_SCREEN_VIEW_CONTROLLER @"identifierFriendsScreenViewController"
 #define BUNDLE_IDENTIFIER_ME_SCREEN_VIEW_CONTROLLER @"identifierMeScreenViewController"
+#define BUNDLE_IDENTIFIER_MESSAGE_DETAILS_VIEW_CONTTROLLER_TRENDING @"identifierMessageDetailsViewControllerTrending"
 
 #pragma mark - Enums
 //Enum
@@ -126,6 +127,14 @@ typedef NS_ENUM(NSInteger, MessageDetailCellType)
 #define IMAGE_NAME_ICON_MIX_PAUSE @"icon_mix_pause"
 #define IMAGE_NAME_ICON_PLAY_BLUE @"icon_play_blue"
 #define IMAGE_NAME_ICON_PLAY_GRAY @"icon_play_gray"
+#define IMAGE_NAME_ICON_TEXT_MESSAGE @"icon_text_message"
+#define IMAGE_NAME_ICON_TEXT_MESSAGE_ON @"icon_text_message_on"
+#define IMAGE_NAME_ICON_CALENDAR @"icon_calendar"
+#define IMAGE_NAME_ICON_CALENDAR_ON @"icon_calendar_on"
+#define IMAGE_NAME_ICON_NOTIFICATION @"icon_notification"
+#define IMAGE_NAME_ICON_NOTIFICATION_ON @"icon_notification_on"
+#define IMAGE_NAME_ICON_TAG @"icon_tag"
+#define IMAGE_NAME_ICON_TAG_ON @"icon_tag_on"
 
 #pragma mark - KEYS
 // KEYS
