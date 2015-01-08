@@ -8,6 +8,8 @@
 
 #import "CaptureVideoViewController.h"
 #import "MixVideoViewController.h"
+#import "FramesModel.h"
+#import "Frame.h"
 
 @interface CaptureVideoViewController ()
 
@@ -19,7 +21,7 @@
 
 @property (weak, nonatomic) IBOutlet UIView *navigationCustomView;
 @property (weak, nonatomic) IBOutlet UIButton *touchMixVideoButton;
-@property (weak, nonatomic) IBOutlet UIScrollView *selectFrameScrollView;
+
 @property (weak, nonatomic) IBOutlet UIView *previewView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
@@ -149,35 +151,47 @@
 #pragma mark - Control
 
 -(void)changeCurrentFrameToLeft:(BOOL)yesOrNo{
-    const NSArray* frameNames =@[@"",
-                                 @"1_pink_heart",
-                                 @"2_blue amazing curve",
-                                 @"4_halloween",
-                                 @"3_butter_fly",
-                                 @"5_floral_on_the_right",
-                                 @"6_golden_flora",
-                                 @"7_daisies_yellow"];
-    NSLog(@"%s,%d,%@",__PRETTY_FUNCTION__,_imgIndex,[frameNames objectAtIndex:_imgIndex]);
+    NSLog(@"%s,%d",__PRETTY_FUNCTION__,_imgIndex);
+    
+    UIImage * image = nil;
+    Frame * frame = [FramesModel sharedFrames].frames[_imgIndex];
+    image = frame.detailImage;
+    if (!image) {
+        [frame downloadDetailSuccess:^{
+            [self showAnimationWithImage:frame.detailImage toLeft:yesOrNo];
+        } failure:^(NSError *error) {
+            NSLog(@"Download Frame failed:%@",error.localizedDescription);
+        }];
+    }
+    else{
+        [self showAnimationWithImage:image toLeft:yesOrNo];
+    }
+}
+
+-(void)showAnimationWithImage:(UIImage*)image toLeft:(BOOL)yesOrNo{
     int direction = (yesOrNo)?1.0:-1.0;
     _imvAnimationFrame.hidden = NO;
-    [_imvAnimationFrame setFrame:CGRectMake(direction*CGRectGetWidth(self.view.frame), 44, CGRectGetWidth(self.view.frame), CGRectGetWidth(self.view.frame))];
-    _imvAnimationFrame.image = [UIImage imageNamed:[frameNames objectAtIndex:_imgIndex]];
+    
+    NSLog(@"%s ViewWidth:%f",__PRETTY_FUNCTION__,CGRectGetWidth(self.view.frame));
+    
+    CGFloat width = CGRectGetWidth(self.view.frame);
+    
+    [_imvAnimationFrame setFrame:CGRectMake(direction*width, 44, width, width)];
+    _imvAnimationFrame.image = image;
     [UIView animateWithDuration:0.33f
                           delay:0.0f
                         options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
                      animations:^{
-                         [_imvFrame setFrame:CGRectMake(direction*-CGRectGetWidth(self.view.frame), 44, CGRectGetWidth(self.view.frame), CGRectGetWidth(self.view.frame))];
-                         [_imvAnimationFrame setFrame:CGRectMake(0.0, 44, CGRectGetWidth(self.view.frame), CGRectGetWidth(self.view.frame))];
-                         
+                         [_imvFrame setFrame:CGRectMake(direction*(-width), 44, width, width)];
+                         [_imvAnimationFrame setFrame:CGRectMake(0.0, 44, width, width)];
                      }
                      completion:^(BOOL finished){
                          dispatch_async(dispatch_get_main_queue(), ^{
                              _imvFrame.image = _imvAnimationFrame.image;
-                             [_imvFrame setFrame:CGRectMake(0, 44, CGRectGetWidth(self.view.frame), CGRectGetWidth(self.view.frame))];
+                             [_imvFrame setFrame:CGRectMake(0, 44, width, width)];
                              _imvAnimationFrame.hidden = YES;
                          });
                      }];
-    
 }
 
 -(void)createUI
@@ -185,40 +199,6 @@
     self.view.multipleTouchEnabled = NO;
     _capturePath = [NSTemporaryDirectory() stringByAppendingPathComponent:@"capture.mp4"];
     [self.view bringSubviewToFront:_timeLabel];
-    //bgr_frame_select_no_frame
-    const NSArray* frameNames =@[@"bgr_frame_select_no_frame",
-                                 @"1_pink_heart_thumb",
-                                 @"2_blue amazing curve_thumb",
-                                 @"4_halloween_thumb",
-                                 @"3_butter_fly_thumb",
-                                 @"5_floral_on_the_right_thumb",
-                                 @"6_golden_flora_thumb",
-                                 @"7_daisies_yellow_thumb"];
-    
-    changeFrameButtons = @[
-                           [Utilities squareButtonWithSize:50 background:[UIImage imageNamed:[frameNames objectAtIndex:0]] text:nil target:self selector:@selector(changeFrame:) tag:0 isTypeFrame:YES],
-                           [Utilities squareButtonWithSize:48 background:[UIImage imageNamed:[frameNames objectAtIndex:1]] text:nil target:self selector:@selector(changeFrame:) tag:1 isTypeFrame:YES],
-                           [Utilities squareButtonWithSize:48 background:[UIImage imageNamed:[frameNames objectAtIndex:2]] text:nil target:self selector:@selector(changeFrame:) tag:2 isTypeFrame:YES],
-                           [Utilities squareButtonWithSize:48 background:[UIImage imageNamed:[frameNames objectAtIndex:3]] text:nil target:self selector:@selector(changeFrame:) tag:3 isTypeFrame:YES],
-                           [Utilities squareButtonWithSize:48 background:[UIImage imageNamed:[frameNames objectAtIndex:4]] text:nil target:self selector:@selector(changeFrame:) tag:4 isTypeFrame:YES],
-                           [Utilities squareButtonWithSize:48 background:[UIImage imageNamed:[frameNames objectAtIndex:5]] text:nil target:self selector:@selector(changeFrame:) tag:5 isTypeFrame:YES],
-                           [Utilities squareButtonWithSize:48 background:[UIImage imageNamed:[frameNames objectAtIndex:6]] text:nil target:self selector:@selector(changeFrame:) tag:6 isTypeFrame:YES],
-                           [Utilities squareButtonWithSize:48 background:[UIImage imageNamed:[frameNames objectAtIndex:7]] text:nil target:self selector:@selector(changeFrame:) tag:7 isTypeFrame:YES]
-                           ];
-    
-    _selectFrameScrollView.contentSize = CGSizeMake(changeFrameButtons.count*66, _selectFrameScrollView.size.height);
-    _selectFrameScrollView.scrollEnabled = YES;
-    for (int i = 0;i<changeFrameButtons.count;i++) {
-        
-        UIButton * button = changeFrameButtons[i];
-        if (i ==0) {
-            button.layer.borderWidth = 3;
-            button.layer.borderColor = [UIColor colorWithRed:69/255.0 green:187/255.0 blue:255/255.0 alpha:1.0].CGColor;
-            
-        }
-        button.center = CGPointMake(4+button.size.width/2 + i*(button.size.width+8), _selectFrameScrollView.size.height/2);
-        [_selectFrameScrollView addSubview:button];
-    }
 }
 
 - (void)createProcessView{
@@ -241,28 +221,6 @@
     _arrayViewSpeacators = [NSMutableArray new];
 }
 
--(IBAction)changeFrame:(id)sender{
-    for (UIView * view in _selectFrameScrollView.subviews) {
-        if ([view isKindOfClass:[UIButton class]]) {
-            ((UIButton*)view).layer.borderWidth = 0;
-        }
-    }
-    const NSArray* frameNames =@[@"",
-                                 @"1_pink_heart",
-                                 @"2_blue amazing curve",
-                                 @"4_halloween",
-                                 @"3_butter_fly",
-                                 @"5_floral_on_the_right",
-                                 @"6_golden_flora",
-                                 @"7_daisies_yellow"];
-    
-    _imvFrame.image = [UIImage imageNamed:[frameNames objectAtIndex:[sender tag]]];
-    UIButton * button = sender;
-    button.layer.borderWidth = 3;
-    button.layer.borderColor = [UIColor colorWithRed:69/255.0 green:187/255.0 blue:255/255.0 alpha:1.0].CGColor;
-    NSLog(@"%s",__PRETTY_FUNCTION__);
-}
-
 -(void)startOrPauseOrResumeVideoCapture:(BOOL)yesOrNo
 {
     
@@ -271,7 +229,6 @@
         [self startCursor];
         [self addSpeacetors];
         [self startTimer];
-        
     }
     if (yesOrNo && [PBJVision sharedInstance].isPaused){
         [[PBJVision sharedInstance] resumeVideoCapture];
@@ -465,11 +422,11 @@
     UISwipeGestureRecognizer * swipeGest = sender;
     switch (swipeGest.direction) {
         case UISwipeGestureRecognizerDirectionLeft:
-            _imgIndex = (_imgIndex+7)%8;
+            _imgIndex = (_imgIndex+(int)[FramesModel sharedFrames].frames.count-1)%([FramesModel sharedFrames].frames.count);
             [self changeCurrentFrameToLeft:YES];
             break;
         case UISwipeGestureRecognizerDirectionRight:
-            _imgIndex = (_imgIndex+1)%8;
+            _imgIndex = (_imgIndex+1)%([FramesModel sharedFrames].frames.count);
             [self changeCurrentFrameToLeft:NO];
         default:
             break;
