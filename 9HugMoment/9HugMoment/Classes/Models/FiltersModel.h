@@ -10,4 +10,8 @@
 
 @interface FiltersModel : NSObject
 
+@property (nonatomic,readonly) NSArray* filters;
+
++ (FiltersModel *)sharedFilters;
+
 @end
