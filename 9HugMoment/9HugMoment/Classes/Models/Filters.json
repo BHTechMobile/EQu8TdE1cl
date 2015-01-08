@@ -1,12 +1,208 @@
 [
 {
- "classname": "GPUImageClass",
+ "classname": "GPUImageFilter",
  "properties": {
-     "key": "value",
  },
- "thumbnail": "http://",
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
  "videourl": "",
+ "type": "static",
+ "name": "No Filter"
+},
+ {
+ "classname": "GPUImageBilateralFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "",
+ "type": "static",
+ "name": "Bilateral"
+ },
+ {
+ "classname": "GPUImageBoxBlurFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "",
+ "type": "static",
+ "name": "Box Blur"
+ },
+ {
+ "classname": "GPUImageBulgeDistortionFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "",
+ "type": "static",
+ "name": "Bulge Distortion"
+ },
+ {
+ "classname": "GPUImageColorInvertFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "",
+ "type": "static",
+ "name": "Color Invert"
+ },
+ {
+ "classname": "GPUImageGaussianBlurPositionFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "",
+ "type": "static",
+ "name": "Blur Position"
+ },
+ {
+ "classname": "GPUImageGaussianSelectiveBlurFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "",
+ "type": "static",
+ "name": "Selective Blur"
+ }
+ ,
+ {
+ "classname": "GPUImageGrayscaleFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "",
+ "type": "static",
+ "name": "Grayscale"
+ }
+ ,
+ {
+ "classname": "GPUImageMissEtikateFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "",
+ "type": "static",
+ "name": "Miss Etikate"
+ }
+ ,
+ {
+ "classname": "GPUImageMonochromeFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "",
+ "type": "static",
+ "name": "Monochrome"
+ }
+ ,
+ {
+ "classname": "GPUImagePinchDistortionFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "",
+ "type": "static",
+ "name": "Pinch Distortion"
+ }
+ ,
+ {
+ "classname": "GPUImageSepiaFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "",
+ "type": "static",
+ "name": "Sepia"
+ }
+ ,
+ {
+ "classname": "GPUImageZoomBlurFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "",
+ "type": "static",
+ "name": "Zoom Blur"
+ }
+ ,
+ {
+ "classname": "GPUImageColorDodgeBlendFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "https://www.dropbox.com/s/jbhpt58thmqghqo/GPUImageColorDodgeBlendFilter0.mp4?dl=1",
  "type": "dynamic",
- "name": "name"
-}
+ "name": "Video Filter"
+ }
+ ,
+ {
+ "classname": "GPUImageColorDodgeBlendFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "https://www.dropbox.com/s/bpfp89hio12ra2w/GPUImageColorDodgeBlendFilter1.mp4?dl=1",
+ "type": "dynamic",
+ "name": "Video Filter"
+ } ,
+ {
+ "classname": "GPUImageColorDodgeBlendFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "https://www.dropbox.com/s/xnpgs34g92lxtz0/GPUImageColorDodgeBlendFilter2.mp4?dl=1",
+ "type": "dynamic",
+ "name": "Video Filter"
+ } ,
+ {
+ "classname": "GPUImageColorDodgeBlendFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "https://www.dropbox.com/s/0uuuj5yw42ft0z3/GPUImageColorDodgeBlendFilter3.mov?dl=1",
+ "type": "dynamic",
+ "name": "Video Filter"
+ } ,
+ {
+ "classname": "GPUImageColorDodgeBlendFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "https://www.dropbox.com/s/m0bjziv8cjbm9l9/GPUImageColorDodgeBlendFilter4.mp4?dl=1",
+ "type": "dynamic",
+ "name": "Video Filter"
+ } ,
+ {
+ "classname": "GPUImageColorDodgeBlendFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "https://www.dropbox.com/s/14np93v6c53gzbm/GPUImageColorDodgeBlendFilter5.mp4?dl=1",
+ "type": "dynamic",
+ "name": "Video Filter"
+ } ,
+ {
+ "classname": "GPUImageColorDodgeBlendFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "https://www.dropbox.com/s/2v1n34cm3e5j0ys/GPUImageColorDodgeBlendFilter6.mov?dl=1",
+ "type": "dynamic",
+ "name": "Video Filter"
+ } ,
+ {
+ "classname": "GPUImageColorDodgeBlendFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "https://www.dropbox.com/s/00fu4fyh9gi3kzw/GPUImageColorDodgeBlendFilter7.mp4?dl=1",
+ "type": "dynamic",
+ "name": "Video Filter"
+ } ,
+ {
+ "classname": "GPUImageColorDodgeBlendFilter",
+ "properties": {
+ },
+ "thumbnail": "https://www.dropbox.com/s/ryex54zv9sk5sw7/1_pink_heart_thumb%402x.png?dl=1",
+ "videourl": "https://www.dropbox.com/s/ncxj5j2ryz7m1tq/GPUImageColorDodgeBlendFilter8.mp4?dl=1",
+ "type": "dynamic",
+ "name": "Video Filter"
+ }
 ]

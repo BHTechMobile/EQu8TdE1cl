@@ -131,4 +131,8 @@
     }
 }
 
+-(NSString*)description{
+    return [NSString stringWithFormat:@"thumbnail:%@ is downloaded:%@ class:%@ name:%@ type:%@ videourl:%@",_thumbnail,(_thumbnailImage?@"YES":@"NO"),_className,_name,_type,_videourl];
+}
+
 @end
