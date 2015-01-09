@@ -11,6 +11,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "JTTabBarController.h"
 #import "FramesModel.h"
+#import "FiltersModel.h"
 
 @interface AppDelegate ()
 
@@ -20,6 +21,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    [FiltersModel sharedFilters];
     [FramesModel sharedFrames];
     
     CGFloat width = [[UIScreen mainScreen] bounds].size.width;
