@@ -347,4 +347,7 @@ typedef NS_ENUM(NSInteger, FilterType)
 #define FILTER_TYPE_NAME_STATIC @"static"
 #define FILTER_TYPE_NAME_DYNAMIC @"dynamic"
 
+#define FILTER_CLASS_NAME_NO_FRAME @"GPUImageFilter"
+#define FILTER_CLASS_NAME_DYNAMIC_FRAME @"GPUImageColorDodgeBlendFilter"
+
 #endif

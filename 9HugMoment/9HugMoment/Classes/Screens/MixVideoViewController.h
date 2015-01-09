@@ -27,7 +27,6 @@
     AVAudioPlayer * _audioPlayer;
     BOOL _isPlaying;
     NSString *_currentFilterClassString;
-    Filter *_currentFilter;
     NavigationView *_navigationView;
     
     CLLocation *currentLocation;

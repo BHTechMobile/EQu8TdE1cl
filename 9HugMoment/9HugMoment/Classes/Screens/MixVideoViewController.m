@@ -12,6 +12,8 @@
 
 @interface MixVideoViewController ()
 
+@property (strong, nonatomic) Filter *selectedFilter;
+
 @end
 
 @implementation MixVideoViewController{
@@ -21,6 +23,7 @@
     NSString *linkVideoFromServer;
 }
 
+
 #pragma mark - Header Control
 
 - (void)viewDidLoad {
@@ -28,7 +31,7 @@
     _changeFrameButtons = [[NSMutableArray alloc] init];
     [self initNavigationView];
     [self.navigationCustomView addSubview:_navigationView];
-    [self playVideoWithFilter:@"GPUImageFilter"];
+    [self playVideoWithFilter:_selectedFilter];
     [self createUI];
     imageChoose = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 60, 60)];
     imageChoose.image = [UIImage imageNamed:@"play-icon"];
@@ -388,7 +391,6 @@
 
 - (void)playVideoWithFilter:(Filter *)filterVideo
 {
-
     _imvPlay.hidden = YES;
     _isPlaying = YES;
     if (movieFile) {
@@ -422,9 +424,9 @@
         filter = nil;
     }
     
-    if ([filterVideo.type isEqualToString:FILTER_TYPE_NAME_STATIC])
+    if (!filterVideo)
     {
-        filter = [[NSClassFromString(filterVideo.className) alloc] init];
+        filter = [[NSClassFromString(FILTER_CLASS_NAME_NO_FRAME) alloc] init];
         if (filter == nil) {
             return;
         }
@@ -433,139 +435,124 @@
         [filter addTarget:filterView];
         [movieFile startProcessing];
     }
-    else if ([filterVideo.type isEqualToString:FILTER_TYPE_NAME_DYNAMIC])
+    else
     {
-//        filter = [[NSClassFromString(subFilterClassString) alloc] init];
-//        if (filter == nil) {
-//            return;
-//        }
-//        NSString * videoIndex = [filterVideo substringFromIndex:filterVideo.length -1];
-//        
-//        NSURL *filterURL = [[NSBundle mainBundle] URLForResource:pathFilter withExtension:(videoIndex.integerValue == 3 || videoIndex.integerValue == 6)?@"mov":@"mp4"];
-//        
-//        filterMovie = [[GPUImageMovie alloc] initWithURL:filterURL];
-//        
-//        filterMovie.playAtActualSpeed = YES;
-//        
-//        [movieFile addTarget:filter];
-//        [filterMovie addTarget:filter];
-//        
-//        [filter addTarget:_playerView];
-//        
-//        [movieFile startProcessing];
-//        [filterMovie startProcessing];
+        if ([filterVideo.type isEqualToString:FILTER_TYPE_NAME_STATIC])
+        {
+            filter = [[NSClassFromString(filterVideo.className) alloc] init];
+            if (filter == nil) {
+                return;
+            }
+            for (NSString * key in [filterVideo.properties allKeys]) {
+                [filter setValue:[filterVideo.properties valueForKey:key] forKey:key];
+            }
+            [movieFile addTarget:filter];
+            GPUImageView *filterView = (GPUImageView *)self.playerView;
+            [filter addTarget:filterView];
+            [movieFile startProcessing];
+        }
+        else if ([filterVideo.type isEqualToString:FILTER_TYPE_NAME_DYNAMIC])
+        {
+            filter = [[NSClassFromString(filterVideo.className) alloc] init];
+            if (filter == nil) {
+                return;
+            }
+            
+            //TODO: Filter URL;
+            
+            NSURL *filterURL = nil;
+            
+            filterMovie = [[GPUImageMovie alloc] initWithURL:filterURL];
+            
+            filterMovie.playAtActualSpeed = YES;
+            
+            [movieFile addTarget:filter];
+            [filterMovie addTarget:filter];
+            
+            [filter addTarget:_playerView];
+            
+            [movieFile startProcessing];
+            [filterMovie startProcessing];
+        }
+    }
+    
+    
+    [_audioPlayer performSelector:@selector(play) withObject:nil afterDelay:0.1];
+}
+
+-(void)playVideoWithFilterOLD:(NSString*)filterClassString{
+    
+    _currentFilterClassString = filterClassString;
+    
+    _imvPlay.hidden = YES;
+    _isPlaying = YES;
+    if (movieFile) {
+        [movieFile cancelProcessing];
+        [movieFile endProcessing];
+        movieFile = nil;
+    }
+    
+    if (filterMovie){
+        [filterMovie cancelProcessing];
+        [filterMovie endProcessing];
+        filterMovie = nil;
+        
+    }
+    
+    [_audioPlayer stop];
+    NSError * audioError = nil;
+    
+    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:(_exportUrl)?_exportUrl:_capturePath error:&audioError];
+    _audioPlayer.delegate = self;
+    if (!audioError) {
+        [_audioPlayer prepareToPlay];
+    }
+    
+    movieFile = [[GPUImageMovie alloc] initWithURL:(_exportUrl)?_exportUrl:_capturePath];
+    movieFile.playAtActualSpeed = YES;
+    movieFile.shouldRepeat = NO;
+    
+    if (filter) {
+        [filter removeAllTargets];
+        filter = nil;
+    }
+    
+    
+    NSString * subFilterClassString = [filterClassString substringToIndex:filterClassString.length -1];
+    if ([subFilterClassString isEqualToString:@"GPUImageColorDodgeBlendFilter"]) {
+        filter = [[NSClassFromString(subFilterClassString) alloc] init];
+        if (filter == nil) {
+            return;
+        }
+        NSString * videoIndex = [filterClassString substringFromIndex:filterClassString.length -1];
+        
+        NSURL *filterURL = [[NSBundle mainBundle] URLForResource:filterClassString withExtension:(videoIndex.integerValue == 3 || videoIndex.integerValue == 6)?@"mov":@"mp4"];
+        
+        filterMovie = [[GPUImageMovie alloc] initWithURL:filterURL];
+        
+        filterMovie.playAtActualSpeed = YES;
+        
+        [movieFile addTarget:filter];
+        [filterMovie addTarget:filter];
+        
+        [filter addTarget:_playerView];
+        
+        [movieFile startProcessing];
+        [filterMovie startProcessing];
+    }
+    else{
+        filter = [[NSClassFromString(_currentFilterClassString) alloc] init];
+        if (filter == nil) {
+            return;
+        }
+        [movieFile addTarget:filter];
+        GPUImageView *filterView = (GPUImageView *)self.playerView;
+        [filter addTarget:filterView];
+        [movieFile startProcessing];
     }
     [_audioPlayer performSelector:@selector(play) withObject:nil afterDelay:0.1];
     
-    
-//    NSString * subFilterClassString = [filterVideo substringToIndex:filterVideo.length -1];
-//    if ([subFilterClassString isEqualToString:@"GPUImageColorDodgeBlendFilter"]) {
-//        filter = [[NSClassFromString(subFilterClassString) alloc] init];
-//        if (filter == nil) {
-//            return;
-//        }
-//        NSString * videoIndex = [filterVideo substringFromIndex:filterVideo.length -1];
-//        
-//        NSURL *filterURL = [[NSBundle mainBundle] URLForResource:pathFilter withExtension:(videoIndex.integerValue == 3 || videoIndex.integerValue == 6)?@"mov":@"mp4"];
-//        
-//        filterMovie = [[GPUImageMovie alloc] initWithURL:filterURL];
-//        
-//        filterMovie.playAtActualSpeed = YES;
-//        
-//        [movieFile addTarget:filter];
-//        [filterMovie addTarget:filter];
-//        
-//        [filter addTarget:_playerView];
-//        
-//        [movieFile startProcessing];
-//        [filterMovie startProcessing];
-//    }
-//    else{
-//        filter = [[NSClassFromString(_currentFilterClassString) alloc] init];
-//        if (filter == nil) {
-//            return;
-//        }
-//        [movieFile addTarget:filter];
-//        GPUImageView *filterView = (GPUImageView *)self.playerView;
-//        [filter addTarget:filterView];
-//        [movieFile startProcessing];
-//    }
-    
 }
-
-//-(void)playVideoWithFilter:(NSString*)filterClassString{
-//    
-//    _currentFilterClassString = filterClassString;
-//    
-//    _imvPlay.hidden = YES;
-//    _isPlaying = YES;
-//    if (movieFile) {
-//        [movieFile cancelProcessing];
-//        [movieFile endProcessing];
-//        movieFile = nil;
-//    }
-//    
-//    if (filterMovie){
-//        [filterMovie cancelProcessing];
-//        [filterMovie endProcessing];
-//        filterMovie = nil;
-//        
-//    }
-//    
-//    [_audioPlayer stop];
-//    NSError * audioError = nil;
-//    
-//    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:(_exportUrl)?_exportUrl:_capturePath error:&audioError];
-//    _audioPlayer.delegate = self;
-//    if (!audioError) {
-//        [_audioPlayer prepareToPlay];
-//    }
-//    
-//    movieFile = [[GPUImageMovie alloc] initWithURL:(_exportUrl)?_exportUrl:_capturePath];
-//    movieFile.playAtActualSpeed = YES;
-//    movieFile.shouldRepeat = NO;
-//    
-//    if (filter) {
-//        [filter removeAllTargets];
-//        filter = nil;
-//    }
-//    
-//    
-//    NSString * subFilterClassString = [filterClassString substringToIndex:filterClassString.length -1];
-//    if ([subFilterClassString isEqualToString:@"GPUImageColorDodgeBlendFilter"]) {
-//        filter = [[NSClassFromString(subFilterClassString) alloc] init];
-//        if (filter == nil) {
-//            return;
-//        }
-//        NSString * videoIndex = [filterClassString substringFromIndex:filterClassString.length -1];
-//        
-//        NSURL *filterURL = [[NSBundle mainBundle] URLForResource:filterClassString withExtension:(videoIndex.integerValue == 3 || videoIndex.integerValue == 6)?@"mov":@"mp4"];
-//        
-//        filterMovie = [[GPUImageMovie alloc] initWithURL:filterURL];
-//        
-//        filterMovie.playAtActualSpeed = YES;
-//        
-//        [movieFile addTarget:filter];
-//        [filterMovie addTarget:filter];
-//        
-//        [filter addTarget:_playerView];
-//        
-//        [movieFile startProcessing];
-//        [filterMovie startProcessing];
-//    }
-//    else{
-//        filter = [[NSClassFromString(_currentFilterClassString) alloc] init];
-//        if (filter == nil) {
-//            return;
-//        }
-//        [movieFile addTarget:filter];
-//        GPUImageView *filterView = (GPUImageView *)self.playerView;
-//        [filter addTarget:filterView];
-//        [movieFile startProcessing];
-//    }
-//    [_audioPlayer performSelector:@selector(play) withObject:nil afterDelay:0.1];
-//    
-//}
 
 #pragma mark - Actions
 
@@ -599,8 +586,18 @@
     
     //TODO: Filter Play
 //    Filter *currentFilter = [[FiltersModel sharedFilters].filters objectAtIndex:[sender tag]];
-    [self playVideoWithFilter:[[FiltersModel sharedFilters].filters objectAtIndex:[sender tag]]];
-    
+    Filter *currentFilter = [[FiltersModel sharedFilters].filters objectAtIndex:[sender tag]];
+    _selectedFilter = currentFilter;
+    if (currentFilter) {
+        if ([currentFilter.type isEqualToString:FILTER_TYPE_NAME_STATIC])
+        {
+            [self playVideoWithFilter:currentFilter];
+        }
+        else if ([currentFilter.type isEqualToString:FILTER_TYPE_NAME_DYNAMIC])
+        {
+            
+        }
+    }
 }
 
 - (void)changeFrame:(id)sender{
@@ -628,11 +625,11 @@
     NSLog(@"%s",__PRETTY_FUNCTION__);
 }
 
-- (IBAction)sendButtonTapped:(UIButton *)sender {
+- (void)sendButtonTapped:(UIButton *)sender {
     [self mixVideo];
 }
 
-- (IBAction)backButtonTapped:(id)sender {
+- (void)backButtonTapped:(id)sender {
     [movieFile cancelProcessing];
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -645,37 +642,37 @@
         _imvPlay.hidden = _isPlaying;
     }
     else{
-        [self playVideoWithFilter:_currentFilter];
+        [self playVideoWithFilter:_selectedFilter];
     }
     
 }
 
-#pragma mark - ...
-
-- (void)setupRemotePlayerByUrl:(NSURL*)url{
-    
-    NSError * audioError = nil;
-    if (_audioPlayer) {
-        [_audioPlayer stop];
-    }
-    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:_capturePath error:&audioError];
-    _audioPlayer.delegate = self;
-    if (!audioError) {
-        [_audioPlayer prepareToPlay];
-    }
-    movieFile = [[GPUImageMovie alloc] initWithURL:url];
-    movieFile.playAtActualSpeed = YES;
-    movieFile.shouldRepeat = NO;
-    
-    filter = [[GPUImageFilter alloc] init];
-    [movieFile addTarget:filter];
-    GPUImageView *filterView = (GPUImageView *)self.playerView;
-    [filter addTarget:filterView];
-    [movieFile startProcessing];
-    [_audioPlayer performSelector:@selector(play) withObject:nil afterDelay:0.2];
-    _currentFilterClassString = @"GPUImageFilter";
-    
-}
+//#pragma mark - ...
+//
+//- (void)setupRemotePlayerByUrl:(NSURL*)url{
+//    
+//    NSError * audioError = nil;
+//    if (_audioPlayer) {
+//        [_audioPlayer stop];
+//    }
+//    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:_capturePath error:&audioError];
+//    _audioPlayer.delegate = self;
+//    if (!audioError) {
+//        [_audioPlayer prepareToPlay];
+//    }
+//    movieFile = [[GPUImageMovie alloc] initWithURL:url];
+//    movieFile.playAtActualSpeed = YES;
+//    movieFile.shouldRepeat = NO;
+//    
+//    filter = [[GPUImageFilter alloc] init];
+//    [movieFile addTarget:filter];
+//    GPUImageView *filterView = (GPUImageView *)self.playerView;
+//    [filter addTarget:filterView];
+//    [movieFile startProcessing];
+//    [_audioPlayer performSelector:@selector(play) withObject:nil afterDelay:0.2];
+//    _currentFilterClassString = @"GPUImageFilter";
+//    
+//}
 
 
 #pragma mark - Navigation
@@ -782,9 +779,7 @@
 
 #pragma mark - buttons clicked
 
-
-
--(void)mixVideo{
+- (void)mixVideo{
     if (_audioPlayer) {
         [_audioPlayer stop];
     }
@@ -793,12 +788,14 @@
         _imvPlay.hidden = YES;
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     });
-    if ([[[filter class] description] isEqualToString:@"GPUImageFilter"]) {
+    if ([_selectedFilter.className isEqualToString:FILTER_CLASS_NAME_NO_FRAME]) {
+        // No Frame
         [MixEngine mixImage:_imgFrame videoUrl:_exportUrl?_exportUrl:_capturePath completionHandler:^(NSString *output, AVAssetExportSessionStatus status) {
             [self processMixingWithStatus:status outputURLString:output];
         }];
     }
-    else if ([[_currentFilterClassString substringToIndex:_currentFilterClassString.length -1] isEqualToString:@"GPUImageColorDodgeBlendFilter"]){
+    else if ([_selectedFilter.className isEqualToString:FILTER_CLASS_NAME_DYNAMIC_FRAME]){
+        // Dynamic
         if (movieFile) {
             [movieFile cancelProcessing];
             [movieFile endProcessing];
@@ -819,6 +816,7 @@
             [filter removeAllTargets];
             filter = nil;
         }
+        //TODO: Change Current Filter
         filter = [[NSClassFromString([_currentFilterClassString substringToIndex:_currentFilterClassString.length -1]) alloc] init];
         if (filter == nil) {
             return;
@@ -861,7 +859,8 @@
             }];
         });
     }
-    else{
+    else {
+        // Static
         _videoFilterScrollView.userInteractionEnabled = NO;
         if (movieFile) {
             [movieFile endProcessing];
@@ -874,7 +873,7 @@
             [filter removeAllTargets];
             filter = nil;
         }
-        filter = [[NSClassFromString(_currentFilterClassString) alloc] init];
+        filter = [[NSClassFromString(_selectedFilter.className) alloc] init];
         
         [movieFile addTarget:filter];
         
