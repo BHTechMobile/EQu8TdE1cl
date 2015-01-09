@@ -72,6 +72,8 @@
 	CGFloat effectiveScale;
     IBOutlet UIToolbar *theToolBar;
 }
+@property (retain, nonatomic) IBOutlet NSLayoutConstraint *imageHeightContraint;
+@property (retain, nonatomic) IBOutlet NSLayoutConstraint *imageWidthContraint;
 @property (assign, nonatomic) id<CameraDelegate> delegate;
 - (IBAction)takePicture:(id)sender;
 - (IBAction)handlePinchGesture:(UIGestureRecognizer *)sender;

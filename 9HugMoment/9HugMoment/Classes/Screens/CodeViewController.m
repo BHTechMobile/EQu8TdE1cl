@@ -61,21 +61,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (!APP_DELEGATE.session.isOpen) {
-        APP_DELEGATE.session = [[FBSession alloc] initWithPermissions:@[@"publish_actions",@"public_profile", @"user_friends",@"read_friendlists"]];
-        if (APP_DELEGATE.session.state == FBSessionStateCreatedTokenLoaded) {
-            [APP_DELEGATE.session openWithCompletionHandler:^(FBSession *session,
-                                                              FBSessionState status,
-                                                              NSError *error) {
-                [FBSession setActiveSession:session];
-                APP_DELEGATE.session = session;
-            }];
-        }else{
-            [self showLoginFB];
-        }
-    }
-    
-    
     _bottomHeightConstraint.constant = _topHeightConstraint.constant = (self.view.bounds.size.height - self.view.bounds.size.width)/2 - 40;
     _scaned = NO;
     [self createCapture];
@@ -125,6 +110,22 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    if (!APP_DELEGATE.session.isOpen) {
+        APP_DELEGATE.session = [[FBSession alloc] initWithPermissions:@[@"publish_actions",@"public_profile", @"user_friends",@"read_friendlists"]];
+        if (APP_DELEGATE.session.state == FBSessionStateCreatedTokenLoaded) {
+            [APP_DELEGATE.session openWithCompletionHandler:^(FBSession *session,
+                                                              FBSessionState status,
+                                                              NSError *error) {
+                [FBSession setActiveSession:session];
+                APP_DELEGATE.session = session;
+            }];
+        }else{
+            [self showLoginFB];
+        }
+    }
+    
+    
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     _scaned = NO;
     [self createCapture];

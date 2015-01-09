@@ -347,11 +347,26 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uEI-Q8-eBt">
+                                        <rect key="frame" x="8" y="9" width="28" height="28"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="28" id="Lxf-aI-x05"/>
+                                            <constraint firstAttribute="height" constant="28" id="WYI-4F-fWC"/>
+                                        </constraints>
+                                        <state key="normal" image="icon_refresh">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="logout:" destination="yxI-cH-mMe" eventType="touchUpInside" id="vXj-Ng-VUO"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="v6f-K0-u3y" secondAttribute="bottom" constant="12" id="1Ps-wh-7hI"/>
                                     <constraint firstAttribute="height" constant="45" id="2XP-fJ-3FW"/>
+                                    <constraint firstItem="uEI-Q8-eBt" firstAttribute="leading" secondItem="XpD-RU-qgX" secondAttribute="leading" constant="8" id="L7K-UV-W6N"/>
+                                    <constraint firstAttribute="centerY" secondItem="uEI-Q8-eBt" secondAttribute="centerY" constant="-0.5" id="Vpy-sG-9yY"/>
                                     <constraint firstAttribute="centerX" secondItem="v6f-K0-u3y" secondAttribute="centerX" id="Yzk-qH-gzG"/>
                                     <constraint firstItem="v6f-K0-u3y" firstAttribute="top" secondItem="XpD-RU-qgX" secondAttribute="top" constant="12" id="cDK-Je-rFg"/>
                                 </constraints>
@@ -380,6 +395,7 @@
         <image name="btn_close" width="26" height="26"/>
         <image name="btn_nex_cyan" width="14" height="22"/>
         <image name="btn_ok_big_manual_code" width="47" height="46"/>
+        <image name="icon_refresh" width="28" height="28"/>
         <image name="img_camera_target" width="199" height="199"/>
         <image name="nav_bg" width="320" height="44"/>
     </resources>

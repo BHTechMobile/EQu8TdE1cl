@@ -12,25 +12,31 @@
 #import "ODRefreshControl.h"
 #import "ArrayDataSource.h"
 #import "MessageDetailsViewController.h"
+#import "MomentsMessageTableViewCell.h"
+#import "MessageObject.h"
+#import "DownloadVideoView.h"
+#import "FBConnectViewController.h"
 
 static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 
-@interface MomentsViewController ()
-@property (nonatomic, strong) FacebookManager *_facebookManager;
-@property (nonatomic, strong) ArrayDataSource *arrayDataSource;
-@end
-
-@implementation MomentsViewController{
+@interface MomentsViewController (){
     CaptureVideoViewController *captureVideoViewController;
     MomentsModel *_momentModel;
-    DownloadVideoView *_downloadVideoView;
     MessageObject *message;
     ODRefreshControl *_refreshControl;
     MBProgressHUD *_hud;
     NSCache *_avatarCache;
     MessageDetailsViewController *_messageDetailsViewController;
 }
-@synthesize _facebookManager;
+
+@property (nonatomic, strong) ArrayDataSource *arrayDataSource;
+@property (weak, nonatomic) IBOutlet UITableView *messagesTableView;
+@property (strong, nonatomic) UIButton *newsMomentButton;
+@property (weak, nonatomic) IBOutlet UIView *contentView;
+
+@end
+
+@implementation MomentsViewController
 
 #pragma mark - MomentsViewController management
 
@@ -38,9 +44,6 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
     [super viewDidLoad];
     _momentModel = [[MomentsModel alloc] init];
     _avatarCache = [[NSCache alloc] init];
-    
-    _downloadVideoView = [DownloadVideoView downloadVideoViewWithDelegate:self];
-    [self.view addSubview:_downloadVideoView];
     
     _hud = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:_hud];
@@ -56,6 +59,7 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
     frameExtend2.size.height = HIGHT_BUTTON_NEW_MOMENTS;
     
     _newsMomentButton = [[UIButton alloc] initWithFrame:frameExtend2];
+    
     [_newsMomentButton setBackgroundColor:[UIColor lightGrayColor]];
     _newsMomentButton.layer.cornerRadius = CORNER_RADIUS;
     
@@ -107,9 +111,6 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 #pragma mark - Segue
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:PUSH_CAPTURE_VIDEOVIEWCONTROLLER]) {
-        captureVideoViewController = [segue destinationViewController];
-    }
     if ([[segue identifier] isEqualToString:PUSH_MESSAGE_DETAILS_VIEW_CONTROLLER])
     {
         _messageDetailsViewController = [segue destinationViewController];
@@ -143,18 +144,6 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
     [self getAllMessage];
 }
 
-#pragma mark - DownloadVideo delegate
-- (void)downloadVideoSuccess:(MessageObject *)messageObject {
-    messageObject.downloaded = YES;
-    [_downloadVideoView hideWithAnimation];
-    //TODO: Go to detail message
-    [self performSegueWithIdentifier:PUSH_MESSAGE_DETAILS_VIEW_CONTROLLER sender:nil];
-}
-
-- (void)downloadVideoFailure:(MessageObject *)messageObject  {
-    [_downloadVideoView hideWithAnimation];
-    [UIAlertView showTitle:@"Error" message:@"Cann't download this video"];
-}
 
 #pragma mark - Refresh control management
 
