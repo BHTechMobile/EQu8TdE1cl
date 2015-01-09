@@ -726,7 +726,9 @@ bail:
 //    [button setBackgroundImage:[UIImage imageNamed:@"btn_flash"] forState:UIControlStateNormal];
 //    button.frame = CGRectMake(2 ,2,20,28);
 //    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:button];
-    
+    _imageHeightContraint.constant = _imageWidthContraint.constant = [UIScreen mainScreen].bounds.size.width;
+
+    [self.view layoutIfNeeded];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setFrame:CGRectMake(2 ,2,30,28)];
     [button addTarget:self action:@selector(changeCamera:) forControlEvents: UIControlEventTouchUpInside];
