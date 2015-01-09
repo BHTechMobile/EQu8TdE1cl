@@ -135,6 +135,8 @@
 		DDB4313C1A5253A6005E7DA2 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = DDB431271A5253A6005E7DA2 /* LICENSE */; };
 		DDB4313D1A5253A6005E7DA2 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = DDB431281A5253A6005E7DA2 /* README.md */; };
 		DDB431401A52574B005E7DA2 /* CodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DDB4313F1A52574B005E7DA2 /* CodeViewController.m */; };
+		DDC9F7A31A5F8D46002117D7 /* Frames.json in Resources */ = {isa = PBXBuildFile; fileRef = DDD04EC81A5A400F00AE0CE8 /* Frames.json */; };
+		DDC9F7A41A5F8D46002117D7 /* Filters.json in Resources */ = {isa = PBXBuildFile; fileRef = DD540F6E1A5E623600FC0BC2 /* Filters.json */; };
 		DDD04ECB1A5A42A600AE0CE8 /* Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD04ECA1A5A42A600AE0CE8 /* Frame.m */; };
 		DDD04ECE1A5A48EC00AE0CE8 /* FramesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD04ECD1A5A48EC00AE0CE8 /* FramesModel.m */; };
 		DDD04ED11A5A6E1B00AE0CE8 /* Filter.m in Sources */ = {isa = PBXBuildFile; fileRef = DDD04ED01A5A6E1B00AE0CE8 /* Filter.m */; };
@@ -977,6 +979,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDC9F7A31A5F8D46002117D7 /* Frames.json in Resources */,
+				DDC9F7A41A5F8D46002117D7 /* Filters.json in Resources */,
 				9FA218AD1A320C4000C3891B /* GPUImageColorDodgeBlendFilter1.mp4 in Resources */,
 				DDB4312E1A5253A6005E7DA2 /* minimize-button@2x.png in Resources */,
 				DDB431291A5253A6005E7DA2 /* airplay-display.png in Resources */,
