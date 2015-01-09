@@ -171,78 +171,76 @@
     
 }
 
-#pragma mark - Fillter
+#pragma mark - Custom Methods
 
-+ (NSArray *)filters
-{
-    static NSArray *names;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        names = @[
-                  @"GPUImageFilter",
-                  @"GPUImageBilateralFilter",
-                  @"GPUImageBoxBlurFilter",
-                  @"GPUImageBulgeDistortionFilter",
-                  @"GPUImageColorInvertFilter",
-                  @"GPUImageGaussianBlurPositionFilter",
-                  @"GPUImageGaussianSelectiveBlurFilter",
-                  @"GPUImageGrayscaleFilter",
-                  @"GPUImageMissEtikateFilter",
-                  @"GPUImageMonochromeFilter",
-                  @"GPUImagePinchDistortionFilter",
-                  @"GPUImageSepiaFilter",
-                  @"GPUImageZoomBlurFilter",
-                  @"GPUImageColorDodgeBlendFilter0",
-                  @"GPUImageColorDodgeBlendFilter1",
-                  @"GPUImageColorDodgeBlendFilter2",
-                  @"GPUImageColorDodgeBlendFilter3",
-                  @"GPUImageColorDodgeBlendFilter4",
-                  @"GPUImageColorDodgeBlendFilter5",
-                  @"GPUImageColorDodgeBlendFilter6",
-                  @"GPUImageColorDodgeBlendFilter7",
-                  @"GPUImageColorDodgeBlendFilter8"
-                  ];
-    });
-    
-    return names;
-}
+//+ (NSArray *)filters
+//{
+//    static NSArray *names;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        names = @[
+//                  @"GPUImageFilter",
+//                  @"GPUImageBilateralFilter",
+//                  @"GPUImageBoxBlurFilter",
+//                  @"GPUImageBulgeDistortionFilter",
+//                  @"GPUImageColorInvertFilter",
+//                  @"GPUImageGaussianBlurPositionFilter",
+//                  @"GPUImageGaussianSelectiveBlurFilter",
+//                  @"GPUImageGrayscaleFilter",
+//                  @"GPUImageMissEtikateFilter",
+//                  @"GPUImageMonochromeFilter",
+//                  @"GPUImagePinchDistortionFilter",
+//                  @"GPUImageSepiaFilter",
+//                  @"GPUImageZoomBlurFilter",
+//                  @"GPUImageColorDodgeBlendFilter0",
+//                  @"GPUImageColorDodgeBlendFilter1",
+//                  @"GPUImageColorDodgeBlendFilter2",
+//                  @"GPUImageColorDodgeBlendFilter3",
+//                  @"GPUImageColorDodgeBlendFilter4",
+//                  @"GPUImageColorDodgeBlendFilter5",
+//                  @"GPUImageColorDodgeBlendFilter6",
+//                  @"GPUImageColorDodgeBlendFilter7",
+//                  @"GPUImageColorDodgeBlendFilter8"
+//                  ];
+//    });
+//    
+//    return names;
+//}
+//
+//+ (NSArray *)titleFilter{
+//    static NSArray *titles;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        titles = @[
+//                   @"None",
+//                   @"Bilateral",
+//                   @"Box Blur",
+//                   @"Bulge",
+//                   @"Invert",
+//                   @"Blur",
+//                   @"Selective",
+//                   @"Grayscale",
+//                   @"Etikate",
+//                   @"Monochrome",
+//                   @"Distortion",
+//                   @"Sepia",
+//                   @"Zoom Blur",
+//                   @"Blue Yellow",
+//                   @"Binary",
+//                   @"Moving Cloud",
+//                   @"Footage Crate",
+//                   @"Colorful Rays",
+//                   @"Rainning",
+//                   @"Sky",
+//                   @"Shooting Stars",
+//                   @"Swrirling Colored"
+//                   ];
+//    });
+//    
+//    return titles;
+//}
 
-+ (NSArray *)titleFilter{
-    static NSArray *titles;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        titles = @[
-                   @"None",
-                   @"Bilateral",
-                   @"Box Blur",
-                   @"Bulge",
-                   @"Invert",
-                   @"Blur",
-                   @"Selective",
-                   @"Grayscale",
-                   @"Etikate",
-                   @"Monochrome",
-                   @"Distortion",
-                   @"Sepia",
-                   @"Zoom Blur",
-                   @"Blue Yellow",
-                   @"Binary",
-                   @"Moving Cloud",
-                   @"Footage Crate",
-                   @"Colorful Rays",
-                   @"Rainning",
-                   @"Sky",
-                   @"Shooting Stars",
-                   @"Swrirling Colored"
-                   ];
-    });
-    
-    return titles;
-}
-
-#pragma mark - Create UI
-
--(void)createUI{
+- (void)createUI{
     _imvFrame.image = _imgFrame;
     
     //Schedule
@@ -264,7 +262,13 @@
     UIBarButtonItem *btnback = [[UIBarButtonItem alloc]initWithCustomView:buttonBack];
     self.navigationItem.leftBarButtonItem = btnback;
 
-    // Get
+    [self createFramesVideo];
+    [self createFiltersVideo];
+    
+}
+
+- (void)createFramesVideo
+{
     if(([FramesModel sharedFrames].frames) &&
        ([[FramesModel sharedFrames].frames isKindOfClass:[NSArray class]]))
     {
@@ -282,8 +286,13 @@
                                                           isTypeFrame:YES];
             if(!currentThumbnail)
             {
+                [currentButton setImage:[UIImage imageNamed:IMAGE_NAME_ICON_DEFAULT_NO_IMAGE] forState:UIControlStateNormal];
                 [currentFrame downloadThumbnailSuccess:^{
-                    [currentButton setImage:currentThumbnail forState:UIControlStateNormal];
+                    
+                    [currentButton setImage:currentFrame.thumbnailImage forState:UIControlStateNormal];
+                    UIView *parentButton = currentButton.superview;
+                    [currentButton removeFromSuperview];
+                    [parentButton addSubview:currentButton];
                 } failure:^(NSError *error) {
                     NSLog(@"Download Frame failed:%@",error.localizedDescription);
                 }];
@@ -309,20 +318,38 @@
             [self changeFrame:button];
         }
     }
-    
-    _videoFilterScrollView.contentSize = CGSizeMake([MixVideoViewController filters].count*60 + ([MixVideoViewController filters].count -1) *10, _videoFilterScrollView.frame.size.height);
-//    _videoFilterScrollView.contentSize = CGSizeMake(_videoFilterScrollView.frame.size.width, _videoFilterScrollView.frame.size.height);
+}
+
+- (void)createFiltersVideo
+{
+    _videoFilterScrollView.contentSize = CGSizeMake([FiltersModel sharedFilters].filters.count*60 + ([FiltersModel sharedFilters].filters.count -1) *10, _videoFilterScrollView.frame.size.height);
     _videoFilterScrollView.scrollEnabled = YES;
     
-    for (int i = 0;i<[MixVideoViewController filters].count;i++) {
+    for (int i = 0; i < [FiltersModel sharedFilters].filters.count; i++) {
         VideoFilterActionView * actionView = [VideoFilterActionView fromNib];
-        actionView.imageView.image = [[self class] makeRoundedImage:[UIImage imageNamed:(i<22)?[MixVideoViewController filters][i]:@"GPUImageFilter"] radius:30];
+        Filter *currentFilter = [[FiltersModel sharedFilters].filters objectAtIndex:i];
+        if (!currentFilter.thumbnailImage) {
+            actionView.imageView.image = [UIImage imageNamed:IMAGE_NAME_ICON_DEFAULT_NO_IMAGE];
+            [currentFilter downloadThumbnailSuccess:^{
+                actionView.imageView.image = [[self class] makeRoundedImage:currentFilter.thumbnailImage radius:30];
+                UIView *parent = actionView.superview;
+                [actionView removeFromSuperview];
+                [parent addSubview:actionView];
+            } failure:^(NSError *error) {
+                NSLog(@"Download Filter failed:%@",error.localizedDescription);
+            }];
+        }
+        else
+        {
+            actionView.imageView.image = [[self class] makeRoundedImage:currentFilter.thumbnailImage radius:30];
+        }
+        
         actionView.layer.masksToBounds = YES;
         //        actionView.imageView.layer.cornerRadius = actionView.imageView.image.size.width/2;
-        actionView.label.text = [MixVideoViewController titleFilter][i];
+        actionView.label.text = currentFilter.name;
         actionView.button.tag = i;
         [actionView.button addTarget:self action:@selector(changeFilter:) forControlEvents:UIControlEventTouchUpInside];
-//        actionView.frame = CGRectMake(i * 70, 0, actionView.frame.size.width, actionView.frame.size.height);
+        //        actionView.frame = CGRectMake(i * 70, 0, actionView.frame.size.width, actionView.frame.size.height);
         actionView.frame = CGRectMake(i * 70, 0, 60, 80);
         [_videoFilterScrollView addSubview:actionView];
     }
@@ -330,98 +357,38 @@
     _videoFilterScrollView.backgroundColor = [UIColor colorWithRed:43.0/255.0f green:41.0/255.0f blue:50.0/255.0f alpha:1];
     _selectFrameScrollView.backgroundColor = [UIColor colorWithRed:43.0/255.0f green:41.0/255.0f blue:50.0/255.0f alpha:1];
     [self clickedVideoFilterButton:nil];
+}
+
+
+
+-(void)processMixingWithStatus:(AVAssetExportSessionStatus)status outputURLString:(NSString*)output{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:NO];
+        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    });
     
-}
-
-#pragma mark - Button controll
-
-- (IBAction)clickedFramesButtons:(id)sender {
-    _videoFilterScrollView.hidden = YES;
-    _selectFrameScrollView.hidden = NO;
-    _btnFrames.selected = YES;
-    _btnVideoFilters.selected = NO;
-}
-
-- (IBAction)clickedVideoFilterButton:(id)sender {
-    _videoFilterScrollView.hidden = NO;
-    _selectFrameScrollView.hidden = YES;
-    _btnFrames.selected = NO;
-    _btnVideoFilters.selected = YES;
-}
-
--(IBAction)changeFilter:(id)sender{
-    NSLog(@"%s",__PRETTY_FUNCTION__);
-    for (int i = 0;i<_videoFilterScrollView.subviews.count;i++) {
-        if (i==[sender tag]) {
-            UIView *view = (VideoFilterActionView*)_videoFilterScrollView.subviews[i];
-            [view addSubview:imageChoose];
-            //            ((VideoFilterActionView*)_videoFilterScrollView.subviews[i]).imageView.layer.borderWidth = 3;
-            //            ((VideoFilterActionView*)_videoFilterScrollView.subviews[i]).imageView.layer.borderColor = [UIColor colorWithRed:69/255.0 green:187/255.0 blue:255/255.0 alpha:1.0].CGColor;
+    switch (status){
+        case AVAssetExportSessionStatusFailed:
+        {
+            _mixed = NO;
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+            break;
         }
-        //        else{
-        //            ((VideoFilterActionView*)_videoFilterScrollView.subviews[i]).imageView.layer.borderWidth = 0;
-        //        }
-    }
-    [self playVideoWithFilter:[[MixVideoViewController filters] objectAtIndex:[sender tag]]];
-    
-}
-
-- (void)changeFrame:(id)sender{
-    for (UIView * view in _selectFrameScrollView.subviews) {
-        if ([view isKindOfClass:[UIButton class]]) {
-            ((UIButton*)view).layer.borderWidth = 0;
+        case AVAssetExportSessionStatusCompleted:
+        {
+            _exportUrl = [NSURL fileURLWithPath:output];
+            _mixed = YES;
+            [self upload];
+            break;
         }
+        default:
+            break;
     }
-
-    Frame *currentFrame = [[FramesModel sharedFrames].frames objectAtIndex:[sender tag]];
-    _imvFrame.image = currentFrame.detailImage;
-    if(!currentFrame.detailImage)
-    {
-        [currentFrame downloadThumbnailSuccess:^{
-            _imvFrame.image = currentFrame.detailImage;
-        } failure:^(NSError *error) {
-            NSLog(@"Download Frame failed:%@",error.localizedDescription);
-        }];
-    }
-    
-    UIButton *currentSelectButton = sender;
-    _imgFrame = _imvFrame.image;
-    currentSelectButton.layer.borderWidth = 3;
-    currentSelectButton.layer.borderColor = [UIColor colorWithRed:69/255.0 green:187/255.0 blue:255/255.0 alpha:1.0].CGColor;
-    NSLog(@"%s",__PRETTY_FUNCTION__);
 }
 
-#pragma mark - ...
+- (void)playVideoWithFilter:(Filter *)filterVideo
+{
 
--(void)setupRemotePlayerByUrl:(NSURL*)url{
-    
-    NSError * audioError = nil;
-    if (_audioPlayer) {
-        [_audioPlayer stop];
-    }
-    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:_capturePath error:&audioError];
-    _audioPlayer.delegate = self;
-    if (!audioError) {
-        [_audioPlayer prepareToPlay];
-    }
-    movieFile = [[GPUImageMovie alloc] initWithURL:url];
-    movieFile.playAtActualSpeed = YES;
-    movieFile.shouldRepeat = NO;
-    
-    filter = [[GPUImageFilter alloc] init];
-    [movieFile addTarget:filter];
-    GPUImageView *filterView = (GPUImageView *)self.playerView;
-    [filter addTarget:filterView];
-    [movieFile startProcessing];
-    [_audioPlayer performSelector:@selector(play) withObject:nil afterDelay:0.2];
-    _currentFilterClassString = @"GPUImageFilter";
-    
-}
-
--(void)playVideoWithFilter:(NSString*)filterClassString{
-    
-    _currentFilterClassString = filterClassString;
-    
     _imvPlay.hidden = YES;
     _isPlaying = YES;
     if (movieFile) {
@@ -455,31 +422,9 @@
         filter = nil;
     }
     
-    
-    NSString * subFilterClassString = [filterClassString substringToIndex:filterClassString.length -1];
-    if ([subFilterClassString isEqualToString:@"GPUImageColorDodgeBlendFilter"]) {
-        filter = [[NSClassFromString(subFilterClassString) alloc] init];
-        if (filter == nil) {
-            return;
-        }
-        NSString * videoIndex = [filterClassString substringFromIndex:filterClassString.length -1];
-        
-        NSURL *filterURL = [[NSBundle mainBundle] URLForResource:filterClassString withExtension:(videoIndex.integerValue == 3 || videoIndex.integerValue == 6)?@"mov":@"mp4"];
-        
-        filterMovie = [[GPUImageMovie alloc] initWithURL:filterURL];
-        
-        filterMovie.playAtActualSpeed = YES;
-        
-        [movieFile addTarget:filter];
-        [filterMovie addTarget:filter];
-        
-        [filter addTarget:_playerView];
-        
-        [movieFile startProcessing];
-        [filterMovie startProcessing];
-    }
-    else{
-        filter = [[NSClassFromString(_currentFilterClassString) alloc] init];
+    if ([filterVideo.type isEqualToString:FILTER_TYPE_NAME_STATIC])
+    {
+        filter = [[NSClassFromString(filterVideo.className) alloc] init];
         if (filter == nil) {
             return;
         }
@@ -488,7 +433,247 @@
         [filter addTarget:filterView];
         [movieFile startProcessing];
     }
+    else if ([filterVideo.type isEqualToString:FILTER_TYPE_NAME_DYNAMIC])
+    {
+//        filter = [[NSClassFromString(subFilterClassString) alloc] init];
+//        if (filter == nil) {
+//            return;
+//        }
+//        NSString * videoIndex = [filterVideo substringFromIndex:filterVideo.length -1];
+//        
+//        NSURL *filterURL = [[NSBundle mainBundle] URLForResource:pathFilter withExtension:(videoIndex.integerValue == 3 || videoIndex.integerValue == 6)?@"mov":@"mp4"];
+//        
+//        filterMovie = [[GPUImageMovie alloc] initWithURL:filterURL];
+//        
+//        filterMovie.playAtActualSpeed = YES;
+//        
+//        [movieFile addTarget:filter];
+//        [filterMovie addTarget:filter];
+//        
+//        [filter addTarget:_playerView];
+//        
+//        [movieFile startProcessing];
+//        [filterMovie startProcessing];
+    }
     [_audioPlayer performSelector:@selector(play) withObject:nil afterDelay:0.1];
+    
+    
+//    NSString * subFilterClassString = [filterVideo substringToIndex:filterVideo.length -1];
+//    if ([subFilterClassString isEqualToString:@"GPUImageColorDodgeBlendFilter"]) {
+//        filter = [[NSClassFromString(subFilterClassString) alloc] init];
+//        if (filter == nil) {
+//            return;
+//        }
+//        NSString * videoIndex = [filterVideo substringFromIndex:filterVideo.length -1];
+//        
+//        NSURL *filterURL = [[NSBundle mainBundle] URLForResource:pathFilter withExtension:(videoIndex.integerValue == 3 || videoIndex.integerValue == 6)?@"mov":@"mp4"];
+//        
+//        filterMovie = [[GPUImageMovie alloc] initWithURL:filterURL];
+//        
+//        filterMovie.playAtActualSpeed = YES;
+//        
+//        [movieFile addTarget:filter];
+//        [filterMovie addTarget:filter];
+//        
+//        [filter addTarget:_playerView];
+//        
+//        [movieFile startProcessing];
+//        [filterMovie startProcessing];
+//    }
+//    else{
+//        filter = [[NSClassFromString(_currentFilterClassString) alloc] init];
+//        if (filter == nil) {
+//            return;
+//        }
+//        [movieFile addTarget:filter];
+//        GPUImageView *filterView = (GPUImageView *)self.playerView;
+//        [filter addTarget:filterView];
+//        [movieFile startProcessing];
+//    }
+    
+}
+
+//-(void)playVideoWithFilter:(NSString*)filterClassString{
+//    
+//    _currentFilterClassString = filterClassString;
+//    
+//    _imvPlay.hidden = YES;
+//    _isPlaying = YES;
+//    if (movieFile) {
+//        [movieFile cancelProcessing];
+//        [movieFile endProcessing];
+//        movieFile = nil;
+//    }
+//    
+//    if (filterMovie){
+//        [filterMovie cancelProcessing];
+//        [filterMovie endProcessing];
+//        filterMovie = nil;
+//        
+//    }
+//    
+//    [_audioPlayer stop];
+//    NSError * audioError = nil;
+//    
+//    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:(_exportUrl)?_exportUrl:_capturePath error:&audioError];
+//    _audioPlayer.delegate = self;
+//    if (!audioError) {
+//        [_audioPlayer prepareToPlay];
+//    }
+//    
+//    movieFile = [[GPUImageMovie alloc] initWithURL:(_exportUrl)?_exportUrl:_capturePath];
+//    movieFile.playAtActualSpeed = YES;
+//    movieFile.shouldRepeat = NO;
+//    
+//    if (filter) {
+//        [filter removeAllTargets];
+//        filter = nil;
+//    }
+//    
+//    
+//    NSString * subFilterClassString = [filterClassString substringToIndex:filterClassString.length -1];
+//    if ([subFilterClassString isEqualToString:@"GPUImageColorDodgeBlendFilter"]) {
+//        filter = [[NSClassFromString(subFilterClassString) alloc] init];
+//        if (filter == nil) {
+//            return;
+//        }
+//        NSString * videoIndex = [filterClassString substringFromIndex:filterClassString.length -1];
+//        
+//        NSURL *filterURL = [[NSBundle mainBundle] URLForResource:filterClassString withExtension:(videoIndex.integerValue == 3 || videoIndex.integerValue == 6)?@"mov":@"mp4"];
+//        
+//        filterMovie = [[GPUImageMovie alloc] initWithURL:filterURL];
+//        
+//        filterMovie.playAtActualSpeed = YES;
+//        
+//        [movieFile addTarget:filter];
+//        [filterMovie addTarget:filter];
+//        
+//        [filter addTarget:_playerView];
+//        
+//        [movieFile startProcessing];
+//        [filterMovie startProcessing];
+//    }
+//    else{
+//        filter = [[NSClassFromString(_currentFilterClassString) alloc] init];
+//        if (filter == nil) {
+//            return;
+//        }
+//        [movieFile addTarget:filter];
+//        GPUImageView *filterView = (GPUImageView *)self.playerView;
+//        [filter addTarget:filterView];
+//        [movieFile startProcessing];
+//    }
+//    [_audioPlayer performSelector:@selector(play) withObject:nil afterDelay:0.1];
+//    
+//}
+
+#pragma mark - Actions
+
+- (IBAction)clickedFramesButtons:(id)sender {
+    _videoFilterScrollView.hidden = YES;
+    _selectFrameScrollView.hidden = NO;
+    _btnFrames.selected = YES;
+    _btnVideoFilters.selected = NO;
+}
+
+- (IBAction)clickedVideoFilterButton:(id)sender {
+    _videoFilterScrollView.hidden = NO;
+    _selectFrameScrollView.hidden = YES;
+    _btnFrames.selected = NO;
+    _btnVideoFilters.selected = YES;
+}
+
+- (void)changeFilter:(id)sender{
+    NSLog(@"%s",__PRETTY_FUNCTION__);
+    for (int i = 0;i<_videoFilterScrollView.subviews.count;i++) {
+        if (i==[sender tag]) {
+            UIView *view = (VideoFilterActionView*)_videoFilterScrollView.subviews[i];
+            [view addSubview:imageChoose];
+            //            ((VideoFilterActionView*)_videoFilterScrollView.subviews[i]).imageView.layer.borderWidth = 3;
+            //            ((VideoFilterActionView*)_videoFilterScrollView.subviews[i]).imageView.layer.borderColor = [UIColor colorWithRed:69/255.0 green:187/255.0 blue:255/255.0 alpha:1.0].CGColor;
+        }
+        //        else{
+        //            ((VideoFilterActionView*)_videoFilterScrollView.subviews[i]).imageView.layer.borderWidth = 0;
+        //        }
+    }
+    
+    //TODO: Filter Play
+//    Filter *currentFilter = [[FiltersModel sharedFilters].filters objectAtIndex:[sender tag]];
+    [self playVideoWithFilter:[[FiltersModel sharedFilters].filters objectAtIndex:[sender tag]]];
+    
+}
+
+- (void)changeFrame:(id)sender{
+    for (UIView * view in _selectFrameScrollView.subviews) {
+        if ([view isKindOfClass:[UIButton class]]) {
+            ((UIButton*)view).layer.borderWidth = 0;
+        }
+    }
+
+    Frame *currentFrame = [[FramesModel sharedFrames].frames objectAtIndex:[sender tag]];
+    _imvFrame.image = currentFrame.detailImage;
+    if(!currentFrame.detailImage)
+    {
+        [currentFrame downloadThumbnailSuccess:^{
+            _imvFrame.image = currentFrame.detailImage;
+        } failure:^(NSError *error) {
+            NSLog(@"Download Frame failed:%@",error.localizedDescription);
+        }];
+    }
+    
+    UIButton *currentSelectButton = sender;
+    _imgFrame = _imvFrame.image;
+    currentSelectButton.layer.borderWidth = 3;
+    currentSelectButton.layer.borderColor = [UIColor colorWithRed:69/255.0 green:187/255.0 blue:255/255.0 alpha:1.0].CGColor;
+    NSLog(@"%s",__PRETTY_FUNCTION__);
+}
+
+- (IBAction)sendButtonTapped:(UIButton *)sender {
+    [self mixVideo];
+}
+
+- (IBAction)backButtonTapped:(id)sender {
+    [movieFile cancelProcessing];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (IBAction)clickedPlayButton:(id)sender {
+    if (_isPlaying) {
+        [movieFile cancelProcessing];
+        [_audioPlayer stop];
+        _isPlaying = !_isPlaying;
+        _imvPlay.hidden = _isPlaying;
+    }
+    else{
+        [self playVideoWithFilter:_currentFilter];
+    }
+    
+}
+
+#pragma mark - ...
+
+- (void)setupRemotePlayerByUrl:(NSURL*)url{
+    
+    NSError * audioError = nil;
+    if (_audioPlayer) {
+        [_audioPlayer stop];
+    }
+    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:_capturePath error:&audioError];
+    _audioPlayer.delegate = self;
+    if (!audioError) {
+        [_audioPlayer prepareToPlay];
+    }
+    movieFile = [[GPUImageMovie alloc] initWithURL:url];
+    movieFile.playAtActualSpeed = YES;
+    movieFile.shouldRepeat = NO;
+    
+    filter = [[GPUImageFilter alloc] init];
+    [movieFile addTarget:filter];
+    GPUImageView *filterView = (GPUImageView *)self.playerView;
+    [filter addTarget:filterView];
+    [movieFile startProcessing];
+    [_audioPlayer performSelector:@selector(play) withObject:nil afterDelay:0.2];
+    _currentFilterClassString = @"GPUImageFilter";
     
 }
 
@@ -597,51 +782,7 @@
 
 #pragma mark - buttons clicked
 
-- (IBAction)sendButtonTapped:(UIButton *)sender {
-    [self mixVideo];
-}
 
-- (IBAction)backButtonTapped:(id)sender {
-    [movieFile cancelProcessing];
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
--(void)processMixingWithStatus:(AVAssetExportSessionStatus)status outputURLString:(NSString*)output{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideHUDForView:self.view animated:NO];
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    });
-    
-    switch (status){
-        case AVAssetExportSessionStatusFailed:
-        {
-            _mixed = NO;
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-            break;
-        }
-        case AVAssetExportSessionStatusCompleted:
-        {
-            _exportUrl = [NSURL fileURLWithPath:output];
-            _mixed = YES;
-            [self upload];
-            break;
-        }
-        default:
-            break;
-    }
-}
-- (IBAction)clickedPlayButton:(id)sender {
-    if (_isPlaying) {
-        [movieFile cancelProcessing];
-        [_audioPlayer stop];
-        _isPlaying = !_isPlaying;
-        _imvPlay.hidden = _isPlaying;
-    }
-    else{
-        [self playVideoWithFilter:_currentFilterClassString];
-    }
-    
-}
 
 -(void)mixVideo{
     if (_audioPlayer) {

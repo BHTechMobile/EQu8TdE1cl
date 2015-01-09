@@ -108,6 +108,12 @@ typedef NS_ENUM(NSInteger, MessageDetailCellType)
     MessageDetailCellTypeMax
 };
 
+typedef NS_ENUM(NSInteger, FilterType)
+{
+    FilterTypeStatic,
+    FilterTypeDynamic
+};
+
 #pragma mark - Images Name
 // Images Name
 #define IMAGE_NAME_ICON_LIKE_BLUE @"icon_like_blue"
@@ -135,6 +141,8 @@ typedef NS_ENUM(NSInteger, MessageDetailCellType)
 #define IMAGE_NAME_ICON_NOTIFICATION_ON @"icon_notification_on"
 #define IMAGE_NAME_ICON_TAG @"icon_tag"
 #define IMAGE_NAME_ICON_TAG_ON @"icon_tag_on"
+#define IMAGE_NAME_BTN_BACK_CYAN @"btn_back_cyan"
+#define IMAGE_NAME_ICON_DEFAULT_NO_IMAGE @"icon_default_no_image"
 
 #pragma mark - KEYS
 // KEYS
@@ -333,5 +341,10 @@ typedef NS_ENUM(NSInteger, MessageDetailCellType)
 
 #pragma mark - TAB BAR
 #define INDEX_DEFAULT_SELECTED 2
+
+#pragma mark - Filters
+// Filters
+#define FILTER_TYPE_NAME_STATIC @"static"
+#define FILTER_TYPE_NAME_DYNAMIC @"dynamic"
 
 #endif

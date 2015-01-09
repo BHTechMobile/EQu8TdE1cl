@@ -36,7 +36,6 @@
 @property (strong, nonatomic) IBOutlet UIImageView *imvAvatar;
 @property (strong, nonatomic) IBOutlet UILabel *lblName;
 @property (strong, nonatomic) IBOutlet UIImageView *scannerSquareImv;
-@property (nonatomic, strong) DownloadVideoView *downloadView;
 
 @property (nonatomic, strong) ZXCapture *capture;
 @property (nonatomic, strong) MessageObject *message;
@@ -149,10 +148,6 @@
 
 - (void)createUI {
     _enterCodeView.layer.cornerRadius = 6.0f;
-    _downloadView = [DownloadVideoView fromNib];
-    _downloadView.alpha = 0.0;
-    _downloadView.delegate = self;
-    [self.view addSubview:_downloadView];
     if (IS_IPHONE_4) {
         _topView.frame = CGRectMake(0, 44, 320, 44);
         _bottomView.frame =
@@ -209,9 +204,6 @@
     NSLog(@"%s %@",__PRETTY_FUNCTION__,result);
     if (!result)
         return;
-    if (_downloadView.alpha == 1.0) {
-        return;
-    }
     
     if ([self validateQRCode:result.text] && !_scaned) {
         _scaned = YES;
