@@ -30,6 +30,9 @@
 		04BC5EB51A5B7C970053B5F0 /* SquareCamViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04BC5EAF1A5B7C970053B5F0 /* SquareCamViewController.xib */; };
 		04BC5EB81A5B820B0053B5F0 /* MessageDetailsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC5EB71A5B820B0053B5F0 /* MessageDetailsModel.m */; };
 		04BC5EBB1A5B822E0053B5F0 /* MessageDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC5EBA1A5B822E0053B5F0 /* MessageDetailsViewController.m */; };
+		04EA40AA1A5E387300290CB7 /* ScheduleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EA40A81A5E387300290CB7 /* ScheduleView.m */; };
+		04EA40AB1A5E387300290CB7 /* ScheduleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04EA40A91A5E387300290CB7 /* ScheduleView.xib */; };
+		04EA40AE1A5E3B1900290CB7 /* MixVideoServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EA40AD1A5E3B1900290CB7 /* MixVideoServices.m */; };
 		50122DC05EA6BE8B2C84D3E2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C244774540907ADC2E89DBF /* libPods.a */; };
 		51A6E3061A31BC3C00BE3039 /* JTNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A6E3011A31BC3C00BE3039 /* JTNavigationController.m */; };
 		51A6E3071A31BC3C00BE3039 /* JTTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A6E3031A31BC3C00BE3039 /* JTTabBarController.m */; };
@@ -192,6 +195,11 @@
 		04BC5EB71A5B820B0053B5F0 /* MessageDetailsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDetailsModel.m; sourceTree = "<group>"; };
 		04BC5EB91A5B822E0053B5F0 /* MessageDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDetailsViewController.h; sourceTree = "<group>"; };
 		04BC5EBA1A5B822E0053B5F0 /* MessageDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDetailsViewController.m; sourceTree = "<group>"; };
+		04EA40A71A5E387300290CB7 /* ScheduleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduleView.h; sourceTree = "<group>"; };
+		04EA40A81A5E387300290CB7 /* ScheduleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduleView.m; sourceTree = "<group>"; };
+		04EA40A91A5E387300290CB7 /* ScheduleView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ScheduleView.xib; sourceTree = "<group>"; };
+		04EA40AC1A5E3B1900290CB7 /* MixVideoServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixVideoServices.h; sourceTree = "<group>"; };
+		04EA40AD1A5E3B1900290CB7 /* MixVideoServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MixVideoServices.m; sourceTree = "<group>"; };
 		09E7E7659CA4BCEEA9396327 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		51A6E3001A31BC3C00BE3039 /* JTNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTNavigationController.h; sourceTree = "<group>"; };
 		51A6E3011A31BC3C00BE3039 /* JTNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTNavigationController.m; sourceTree = "<group>"; };
@@ -541,6 +549,9 @@
 		9F9F98371A286D640089018B /* Custom View */ = {
 			isa = PBXGroup;
 			children = (
+				04EA40A71A5E387300290CB7 /* ScheduleView.h */,
+				04EA40A81A5E387300290CB7 /* ScheduleView.m */,
+				04EA40A91A5E387300290CB7 /* ScheduleView.xib */,
 				9F9F98381A286D640089018B /* AudioRangerSelectorView.h */,
 				9F9F98391A286D640089018B /* AudioRangerSelectorView.m */,
 				9F9F983A1A286D640089018B /* AudioRangerSelectorView.xib */,
@@ -595,6 +606,8 @@
 				04A469211A5B86130091F948 /* MessageDetailsServices.m */,
 				9FADF12D1A2C5226007FFCFF /* BaseServices.h */,
 				9FADF12E1A2C5226007FFCFF /* BaseServices.m */,
+				04EA40AC1A5E3B1900290CB7 /* MixVideoServices.h */,
+				04EA40AD1A5E3B1900290CB7 /* MixVideoServices.m */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -997,6 +1010,7 @@
 				9F9F98461A286D640089018B /* VolumeView.xib in Resources */,
 				CE3E23541A233CE000008D27 /* LaunchScreen.xib in Resources */,
 				9FA218AF1A320C4000C3891B /* GPUImageColorDodgeBlendFilter3.mov in Resources */,
+				04EA40AB1A5E387300290CB7 /* ScheduleView.xib in Resources */,
 				CECCB7AD1A23482600C1220C /* MyMoments.storyboard in Resources */,
 				9F9F98221A2820200089018B /* VideoFilterActionView.xib in Resources */,
 				9FA218AC1A320C4000C3891B /* GPUImageColorDodgeBlendFilter0.mp4 in Resources */,
@@ -1081,6 +1095,7 @@
 				04A4693B1A5B883D0091F948 /* MessageAudioTableViewCell.m in Sources */,
 				CECCB78E1A23470900C1220C /* MomentsViewController.m in Sources */,
 				D253AB931A36FEDC008ABE10 /* ODRefreshControl.m in Sources */,
+				04EA40AE1A5E3B1900290CB7 /* MixVideoServices.m in Sources */,
 				CECCB7A61A2347B200C1220C /* MixAudioViewController.m in Sources */,
 				51A6E3081A31BC3C00BE3039 /* JTViewController.m in Sources */,
 				D23BA4681A357F75000EDE47 /* MomentsMessageTableViewCell.m in Sources */,
@@ -1108,6 +1123,7 @@
 				9F9F98211A2820200089018B /* VideoFilterActionView.m in Sources */,
 				9F9F98491A286E180089018B /* UIView+AutoLayout.m in Sources */,
 				9F9F63CF1A42CDC3006D7113 /* FriendMomentsModel.m in Sources */,
+				04EA40AA1A5E387300290CB7 /* ScheduleView.m in Sources */,
 				DDD04ECB1A5A42A600AE0CE8 /* Frame.m in Sources */,
 				9FA12BF51A35D66300CE737C /* CommentHeaderTableViewCell.m in Sources */,
 				CE3E23431A233CDF00008D27 /* main.m in Sources */,

@@ -11,6 +11,7 @@
 #import "MyMomentsModel.h"
 #import "ArrayDataSource.h"
 #import "ImageCacheObject.h"
+#import "MessageDetailsViewController.h"
 
 static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 
@@ -117,43 +118,17 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     message = [_myMomentModel.messages objectAtIndex:indexPath.row];
-    if (!message.downloaded && message.localVideoPath) {
-        _downloadVideoView.alpha = 1;
-        [_downloadVideoView showWithAnimation];
-        [_downloadVideoView downloadVideoByMessage:message];
-    }else {
-        //TODO: Go to detail message
-//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil];
-//        MomentDetailViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:MOMENTS_DETAILS_TRENDING_INDENTIFIER];
-//        lvc.capturePath = [NSURL fileURLWithPath:message.localVideoPath];
-//        lvc.messageObject = message;
-//        lvc.hidesBottomBarWhenPushed = YES;
-//        [self.navigationController pushViewController:lvc animated:YES];
-    }
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil];
+    MessageDetailsViewController *messageDetailsViewController = [storyboard instantiateViewControllerWithIdentifier:BUNDLE_IDENTIFIER_MESSAGE_DETAILS_VIEW_CONTTROLLER_TRENDING];
+    messageDetailsViewController.messageObject = message;
+    messageDetailsViewController.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:messageDetailsViewController animated:YES];
 }
 
 #pragma mark - Button New moment
 
 -(void)callPullDownRequest:(UIButton *)btn{
     [self refreshTableView];
-}
-
-#pragma mark - DownloadVideo delegate
-- (void)downloadVideoSuccess:(MessageObject *)messageObject {
-    messageObject.downloaded = YES;
-    [_downloadVideoView hideWithAnimation];
-    //TODO: Go to detail message
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil];
-//    MomentDetailViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:MOMENTS_DETAILS_TRENDING_INDENTIFIER];
-//    lvc.capturePath = [NSURL fileURLWithPath:message.localVideoPath];
-//    lvc.messageObject = message;
-//    lvc.hidesBottomBarWhenPushed = YES;
-//    [self.navigationController pushViewController:lvc animated:YES];
-}
-
-- (void)downloadVideoFailure:(MessageObject *)messageObject  {
-    [_downloadVideoView hideWithAnimation];
-    [UIAlertView showTitle:@"Error" message:@"Cann't download this video"];
 }
 
 #pragma mark - Refresh control management

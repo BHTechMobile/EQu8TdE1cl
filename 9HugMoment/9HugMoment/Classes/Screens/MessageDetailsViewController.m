@@ -234,7 +234,7 @@
         cell.captionTextView.textContainer.lineBreakMode = NSLineBreakByTruncatingTail;
         cell.captionTextView.text = _messageObject.text;
         CGSize sizeCaptionTextView = [cell.captionTextView sizeThatFits:CGSizeMake(cell.captionTextView.width, FLT_MAX)];
-        heightMessageCaptionCell = sizeCaptionTextView.height - PADDING_TOP_CAPTION_TEXT_VIEW_MESSAGE_DETAILS_VIEW_CONTROLLER - PADDING_BOTTOM_CAPTION_TEXT_VIEW_MESSAGE_DETAILS_VIEW_CONTROLLER;
+        heightMessageCaptionCell = sizeCaptionTextView.height + PADDING_TOP_CAPTION_TEXT_VIEW_MESSAGE_DETAILS_VIEW_CONTROLLER + PADDING_BOTTOM_CAPTION_TEXT_VIEW_MESSAGE_DETAILS_VIEW_CONTROLLER;
     }
     else
     {

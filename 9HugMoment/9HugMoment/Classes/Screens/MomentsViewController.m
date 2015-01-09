@@ -82,22 +82,7 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
     [super didReceiveMemoryWarning];
 }
 
-#pragma mark - Actions
-
-- (IBAction)addCaptureVideoButtonAction:(id)sender {
-    [self performSegueWithIdentifier:PUSH_CAPTURE_VIDEOVIEWCONTROLLER sender:nil];
-}
-
-- (IBAction)refreshButtonAction:(id)sender {
-    [[FBSession activeSession] closeAndClearTokenInformation];
-    [APP_DELEGATE.session closeAndClearTokenInformation];
-    [[UserData currentAccount] clearCached];
-    [self showLoginFB];
-}
-
 #pragma mark - Custom Methods
-
-
 
 - (void)setupTable{
     for (int i=0; i<_momentModel.messages.count; i++) {

@@ -65,7 +65,7 @@
 }
 
 -(void)downloadDetailSuccess:(GetFrameSuccessBlock)success failure:(GetFrameFailureBlock)failure{
-    _thumbnailImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:_detailURLString];
+    _detailImage = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:_detailURLString];
     if (_detailImage) {
         if (success) {
             success();

@@ -77,6 +77,7 @@
 #define PUSH_FRIENDS_SCREEN_VIEW_CONTROLLER @"pushFriendsScreenViewController"
 #define BUNDLE_IDENTIFIER_FRIENDS_SCREEN_VIEW_CONTROLLER @"identifierFriendsScreenViewController"
 #define BUNDLE_IDENTIFIER_ME_SCREEN_VIEW_CONTROLLER @"identifierMeScreenViewController"
+#define BUNDLE_IDENTIFIER_MESSAGE_DETAILS_VIEW_CONTTROLLER_TRENDING @"identifierMessageDetailsViewControllerTrending"
 
 #pragma mark - Enums
 //Enum
@@ -107,6 +108,12 @@ typedef NS_ENUM(NSInteger, MessageDetailCellType)
     MessageDetailCellTypeMax
 };
 
+typedef NS_ENUM(NSInteger, FilterType)
+{
+    FilterTypeStatic,
+    FilterTypeDynamic
+};
+
 #pragma mark - Images Name
 // Images Name
 #define IMAGE_NAME_ICON_LIKE_BLUE @"icon_like_blue"
@@ -126,6 +133,16 @@ typedef NS_ENUM(NSInteger, MessageDetailCellType)
 #define IMAGE_NAME_ICON_MIX_PAUSE @"icon_mix_pause"
 #define IMAGE_NAME_ICON_PLAY_BLUE @"icon_play_blue"
 #define IMAGE_NAME_ICON_PLAY_GRAY @"icon_play_gray"
+#define IMAGE_NAME_ICON_TEXT_MESSAGE @"icon_text_message"
+#define IMAGE_NAME_ICON_TEXT_MESSAGE_ON @"icon_text_message_on"
+#define IMAGE_NAME_ICON_CALENDAR @"icon_calendar"
+#define IMAGE_NAME_ICON_CALENDAR_ON @"icon_calendar_on"
+#define IMAGE_NAME_ICON_NOTIFICATION @"icon_notification"
+#define IMAGE_NAME_ICON_NOTIFICATION_ON @"icon_notification_on"
+#define IMAGE_NAME_ICON_TAG @"icon_tag"
+#define IMAGE_NAME_ICON_TAG_ON @"icon_tag_on"
+#define IMAGE_NAME_BTN_BACK_CYAN @"btn_back_cyan"
+#define IMAGE_NAME_ICON_DEFAULT_NO_IMAGE @"icon_default_no_image"
 
 #pragma mark - KEYS
 // KEYS
@@ -230,6 +247,7 @@ typedef NS_ENUM(NSInteger, MessageDetailCellType)
 #pragma mark - MixVideoViewController
 /*MixVideoViewController*/
 #define BG_COLOR_PROCESS_MIX_VIDEO [UIColor colorWithRed:224.0/255.0 green:100.0/255.0 blue:176.0/255.0 alpha:1.0]
+#define SIZE_SQUARE_BUTTON_FRAME_MIX_VIDEO_VIEW_CONTROLLER 58
 
 #pragma mark - CaptureVideoViewController
 /*CaptureVideoViewController*/
@@ -323,5 +341,10 @@ typedef NS_ENUM(NSInteger, MessageDetailCellType)
 
 #pragma mark - TAB BAR
 #define INDEX_DEFAULT_SELECTED 2
+
+#pragma mark - Filters
+// Filters
+#define FILTER_TYPE_NAME_STATIC @"static"
+#define FILTER_TYPE_NAME_DYNAMIC @"dynamic"
 
 #endif

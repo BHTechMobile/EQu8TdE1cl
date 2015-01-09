@@ -15,8 +15,9 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <QuartzCore/QuartzCore.h>
 #import "FBConnectViewController.h"
+#import "MessageDetailsViewController.h"
 
-@interface CodeViewController ()<ZXCaptureDelegate,DownloadVideoDelegate,UITextFieldDelegate,AVCaptureMetadataOutputObjectsDelegate,UIAlertViewDelegate,FBConnectViewControllerDelegate>{
+@interface CodeViewController ()<ZXCaptureDelegate,UITextFieldDelegate,AVCaptureMetadataOutputObjectsDelegate,UIAlertViewDelegate,FBConnectViewControllerDelegate>{
     int _yesSwipe;
 }
 
@@ -35,7 +36,6 @@
 @property (strong, nonatomic) IBOutlet UIImageView *imvAvatar;
 @property (strong, nonatomic) IBOutlet UILabel *lblName;
 @property (strong, nonatomic) IBOutlet UIImageView *scannerSquareImv;
-@property (nonatomic, strong) DownloadVideoView *downloadView;
 
 @property (nonatomic, strong) ZXCapture *capture;
 @property (nonatomic, strong) MessageObject *message;
@@ -148,10 +148,6 @@
 
 - (void)createUI {
     _enterCodeView.layer.cornerRadius = 6.0f;
-    _downloadView = [DownloadVideoView fromNib];
-    _downloadView.alpha = 0.0;
-    _downloadView.delegate = self;
-    [self.view addSubview:_downloadView];
     if (IS_IPHONE_4) {
         _topView.frame = CGRectMake(0, 44, 320, 44);
         _bottomView.frame =
@@ -208,9 +204,6 @@
     NSLog(@"%s %@",__PRETTY_FUNCTION__,result);
     if (!result)
         return;
-    if (_downloadView.alpha == 1.0) {
-        return;
-    }
     
     if ([self validateQRCode:result.text] && !_scaned) {
         _scaned = YES;
@@ -235,27 +228,15 @@
         _message = [MessageObject createMessageByDictionnary:dict];
         
         if (!_message) {
-            [_downloadView showWithAnimation];
-            [_downloadView downloadVideoByMessage:_message];
             return;
         }
-        
-        if (!_message.downloaded && _message.localVideoPath) {
-            _downloadView.alpha = 1;
-            [_downloadView showWithAnimation];
-            [_downloadView downloadVideoByMessage:_message];
-        }else {
-            //TODO: Go to detail message
-//            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil];
-//            MomentDetailViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:MOMENTS_DETAILS_TRENDING_INDENTIFIER];
-//            lvc.capturePath = [NSURL fileURLWithPath:_message.localVideoPath];
-//            lvc.messageObject = _message;
-//            lvc.hidesBottomBarWhenPushed = YES;
-//            [self.navigationController pushViewController:lvc animated:YES];
-        }
-        
+        //TODO: Go to detail message
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil];
+        MessageDetailsViewController *messageDetailsViewController = [storyboard instantiateViewControllerWithIdentifier:BUNDLE_IDENTIFIER_MESSAGE_DETAILS_VIEW_CONTTROLLER_TRENDING];
+        messageDetailsViewController.messageObject = _message;
+        messageDetailsViewController.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:messageDetailsViewController animated:YES];
     } failure:^(NSString *bodyString, NSError *error) {
-        
         if ([bodyString isEqualToString:@"\"message has not been sent\""]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 _mKey = key;
@@ -277,22 +258,6 @@
         
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
-}
-
-- (void)downloadVideoSuccess:(MessageObject*)message  {
-    [_downloadView hideWithAnimation];
-//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:TRENDING_STORY_BOARD bundle: nil];
-//    MomentDetailViewController *lvc = [storyboard instantiateViewControllerWithIdentifier:MOMENTS_DETAILS_TRENDING_INDENTIFIER];
-//    lvc.capturePath = [NSURL fileURLWithPath:_message.localVideoPath];
-//    lvc.messageObject = _message;
-//    lvc.hidesBottomBarWhenPushed = YES;
-//    [self.navigationController pushViewController:lvc animated:YES];
-
-}
-
-- (void)downloadVideoFailure:(MessageObject*)message  {
-    [_downloadView hideWithAnimation];
-    [UIAlertView showTitle:@"Error" message:@"Cann't download this video"];
 }
 
 - (BOOL)validateQRCode:(NSString *)code {
