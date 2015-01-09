@@ -1,8 +1,5 @@
 //
 //  FiltersModel.m
-//  9HugMoment
-//
-//  Created by Nong Trung Nghia on 1/5/15.
 //  Copyright (c) 2015 BHTech Mobile. All rights reserved.
 //
 
@@ -29,15 +26,18 @@
         NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:FILTER_URL]];
         if (!data) {
             NSLog(@"Download Filters failed");
-            if ([[NSUserDefaults standardUserDefaults] valueForKey:FILTER_URL]) {
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:FILTER_URL]) {
                 NSLog(@"Get Filters from cache");
-                data = [[[NSUserDefaults standardUserDefaults] stringForKey:FILTER_URL] dataUsingEncoding:NSUTF8StringEncoding];
+                data = [[[NSUserDefaults standardUserDefaults] objectForKey:FILTER_URL] dataUsingEncoding:NSUTF8StringEncoding];
             }
             else{
-                NSLog(@"Get Filters from cache");
+                NSLog(@"Get Filters from Bundle");
                 data = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"Filters" withExtension:@"json"]];
             }
         }
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] forKey:FILTER_URL];
+        
         NSArray * array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
         NSMutableArray * mutableFrames = [NSMutableArray new];
         for (NSDictionary *dict in array) {
@@ -45,7 +45,7 @@
             [mutableFrames addObject:filter];
         }
         _filters = mutableFrames;
-        NSLog(@"Frames info:%@",_filters);
+        NSLog(@"Filters info:%@",_filters);
     });
 }
 

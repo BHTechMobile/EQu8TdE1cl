@@ -28,15 +28,18 @@
         NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:FRAME_URL]];
         if (!data) {
             NSLog(@"Download Frames failed");
-            if ([[NSUserDefaults standardUserDefaults] valueForKey:FRAME_URL]) {
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:FRAME_URL]) {
                 NSLog(@"Get Frames from cache");
-                data = [[[NSUserDefaults standardUserDefaults] stringForKey:FRAME_URL] dataUsingEncoding:NSUTF8StringEncoding];
+                data = [[[NSUserDefaults standardUserDefaults] objectForKey:FRAME_URL] dataUsingEncoding:NSUTF8StringEncoding];
             }
             else{
-                NSLog(@"Get Frames from cache");
+                NSLog(@"Get Frames from bundle:%@",[[NSBundle mainBundle] URLForResource:@"Frames" withExtension:@"json"]);
                 data = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"Frames" withExtension:@"json"]];
             }
         }
+        
+        [[NSUserDefaults standardUserDefaults] setObject:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] forKey:FRAME_URL];
+        
         NSArray * array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
         NSMutableArray * mutableFrames = [NSMutableArray new];
         for (NSDictionary *dict in array) {
