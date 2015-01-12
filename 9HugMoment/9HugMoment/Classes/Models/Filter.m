@@ -146,14 +146,6 @@
     return [NSHomeDirectory() stringByAppendingPathComponent:fileName];
 }
 
-- (BOOL)isVideoPathExist
-{
-    NSURL *videoURL = [NSURL URLWithString:_videourl];
-    NSString *filterName = [videoURL lastPathComponent];
-    NSString* fileName = [NSString stringWithFormat:@"%@/%@",PATH_COMPONET_FILTER,filterName];
-    return [[NSFileManager defaultManager] fileExistsAtPath:[NSHomeDirectory() stringByAppendingPathComponent:fileName]];
-}
-
 - (void)createFolderFiters
 {
     // if folder doesn't exist, create it

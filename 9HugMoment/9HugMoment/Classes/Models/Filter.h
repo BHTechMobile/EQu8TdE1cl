@@ -27,7 +27,6 @@ typedef void (^GetFilterProgressBlock)(CGFloat percent);
 - (void)downloadThumbnailSuccess:(GetFilterSuccessBlock)success failure:(GetFilterFailureBlock)failure;
 - (void)downloadVideoSuccess:(GetFilterSuccessBlock)success failure:(GetFilterFailureBlock)failure progress:(GetFilterProgressBlock)progress;
 - (NSString*)localFilterPath;
-- (BOOL)isVideoPathExist;
 - (BOOL)downloadedVideo;
 
 @end
