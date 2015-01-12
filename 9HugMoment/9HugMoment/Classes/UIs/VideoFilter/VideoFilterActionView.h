@@ -8,9 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
+@class VideoFilterActionView;
+@protocol VideoFilterActionViewDelegate <NSObject>
+@optional
+- (void)didClickFilter:(VideoFilterActionView *)videoFilterActionView;
+
+@end
+
 @interface VideoFilterActionView : UIView
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UILabel *label;
-@property (weak, nonatomic) IBOutlet UIButton *button;
+
+@property (weak, nonatomic) IBOutlet UIImageView *thumbnailImageView;
+@property (weak, nonatomic) IBOutlet UILabel *filterNameLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *downloadFilterImageView;
+@property (weak, nonatomic) IBOutlet UIButton *filterButton;
+@property (weak, nonatomic) id<VideoFilterActionViewDelegate> delegate;
+@property (strong, nonatomic) NSNumber *videoFilterTag;
+
+- (IBAction)filterAction:(id)sender;
+- (void)hideDownloadImageView;
 
 @end

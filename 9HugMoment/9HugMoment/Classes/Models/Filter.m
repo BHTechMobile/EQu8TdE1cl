@@ -85,19 +85,19 @@
 }
 
 - (void)downloadVideoSuccess:(GetFilterSuccessBlock)success failure:(GetFilterFailureBlock)failure progress:(GetFilterProgressBlock)progress{
-    if ([[NSFileManager defaultManager] fileExistsAtPath:[NSTemporaryDirectory() stringByAppendingPathComponent:[_videourl lastPathComponent]]]){
+    
+    NSURL *videoURL = [NSURL URLWithString:_videourl];
+    [self createFolderFiters];
+    if ([self downloadedVideo]){
         if (success) {
             success();
         }
     }
     else{
-        NSURL *videoURL = [NSURL URLWithString:_videourl];
         NSURLRequest *request = [NSURLRequest requestWithURL:videoURL];
-        
         AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
         
-        NSString *fullPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[videoURL lastPathComponent]];
-        
+        NSString *fullPath = [self localFilterPath];
         [operation setOutputStream:[NSOutputStream outputStreamToFileAtPath:fullPath append:NO]];
         
         [operation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
@@ -107,6 +107,7 @@
         }];
         
         [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [[NSUserDefaults standardUserDefaults] setObject:@"YES" forKey:_videourl];
             NSLog(@"RES: %@", [[[operation response] allHeaderFields] description]);
             NSError *error;
             [[NSFileManager defaultManager] attributesOfItemAtPath:fullPath error:&error];
@@ -131,8 +132,46 @@
     }
 }
 
--(NSString*)description{
+- (NSString*)description{
     return [NSString stringWithFormat:@"thumbnail:%@ is downloaded:%@ class:%@ name:%@ type:%@ videourl:%@",_thumbnail,(_thumbnailImage?@"YES":@"NO"),_className,_name,_type,_videourl];
+}
+
+#pragma mark - Custom Methods
+
+- (NSString*)localFilterPath
+{
+    NSURL *videoURL = [NSURL URLWithString:_videourl];
+    NSString *filterName = [videoURL lastPathComponent];
+    NSString *fileName = [NSString stringWithFormat:@"%@/%@",PATH_COMPONET_FILTER,filterName];
+    return [NSHomeDirectory() stringByAppendingPathComponent:fileName];
+}
+
+- (BOOL)isVideoPathExist
+{
+    NSURL *videoURL = [NSURL URLWithString:_videourl];
+    NSString *filterName = [videoURL lastPathComponent];
+    NSString* fileName = [NSString stringWithFormat:@"%@/%@",PATH_COMPONET_FILTER,filterName];
+    return [[NSFileManager defaultManager] fileExistsAtPath:[NSHomeDirectory() stringByAppendingPathComponent:fileName]];
+}
+
+- (void)createFolderFiters
+{
+    // if folder doesn't exist, create it
+    NSString *folderPath = [NSHomeDirectory() stringByAppendingPathComponent:PATH_COMPONET_FILTER];
+    NSError *error = nil;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isDir;
+    if (![fileManager fileExistsAtPath:folderPath isDirectory:&isDir]) {
+        BOOL success = [fileManager createDirectoryAtPath:folderPath withIntermediateDirectories:NO attributes:nil error:&error];
+        if (!success || error) {
+            NSLog(@"Error: %@", [error localizedDescription]);
+        }
+        NSAssert(success, @"Failed to create folder at path:%@", folderPath);
+    }
+}
+
+- (BOOL)downloadedVideo{
+    return ([[NSUserDefaults standardUserDefaults] objectForKey:_videourl])?YES:NO;
 }
 
 @end

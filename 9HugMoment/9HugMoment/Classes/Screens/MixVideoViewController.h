@@ -15,7 +15,6 @@
 #import "Frame.h"
 #import "FramesModel.h"
 #import "Filter.h"
-#import "FiltersModel.h"
 
 @interface MixVideoViewController : UIViewController<MPMediaPickerControllerDelegate,UIAlertViewDelegate,AVAudioPlayerDelegate,GPUImageMovieDelegate,NavigationCustomViewDelegate,MixAudioViewControllerDelegate,CLLocationManagerDelegate, EnterMessageDelegate>{
     NSMutableArray *_changeFrameButtons;

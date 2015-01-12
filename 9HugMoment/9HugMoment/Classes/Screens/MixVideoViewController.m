@@ -9,10 +9,13 @@
 #import "MixVideoViewController.h"
 #import "VideoFilterActionView.h"
 #import "MixAudioViewController.h"
+#import "FiltersModel.h"
 
-@interface MixVideoViewController ()
+@interface MixVideoViewController ()<VideoFilterActionViewDelegate, MBProgressHUDDelegate>
 
 @property (strong, nonatomic) Filter *selectedFilter;
+@property (strong, nonatomic) NSMutableArray *videoFilterActionViewArray;
+@property (strong, nonatomic) MBProgressHUD *hud;
 
 @end
 
@@ -29,12 +32,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _changeFrameButtons = [[NSMutableArray alloc] init];
+    _videoFilterActionViewArray = [[NSMutableArray alloc] init];
     [self initNavigationView];
     [self.navigationCustomView addSubview:_navigationView];
     [self playVideoWithFilter:_selectedFilter];
     [self createUI];
     imageChoose = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 60, 60)];
-    imageChoose.image = [UIImage imageNamed:@"play-icon"];
+    imageChoose.image = [UIImage imageNamed:IMAGE_NAME_PLAY_ICON];
     [self hightConstraint];
     needShowEnterMessageView = NO;
 }
@@ -176,73 +180,6 @@
 
 #pragma mark - Custom Methods
 
-//+ (NSArray *)filters
-//{
-//    static NSArray *names;
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        names = @[
-//                  @"GPUImageFilter",
-//                  @"GPUImageBilateralFilter",
-//                  @"GPUImageBoxBlurFilter",
-//                  @"GPUImageBulgeDistortionFilter",
-//                  @"GPUImageColorInvertFilter",
-//                  @"GPUImageGaussianBlurPositionFilter",
-//                  @"GPUImageGaussianSelectiveBlurFilter",
-//                  @"GPUImageGrayscaleFilter",
-//                  @"GPUImageMissEtikateFilter",
-//                  @"GPUImageMonochromeFilter",
-//                  @"GPUImagePinchDistortionFilter",
-//                  @"GPUImageSepiaFilter",
-//                  @"GPUImageZoomBlurFilter",
-//                  @"GPUImageColorDodgeBlendFilter0",
-//                  @"GPUImageColorDodgeBlendFilter1",
-//                  @"GPUImageColorDodgeBlendFilter2",
-//                  @"GPUImageColorDodgeBlendFilter3",
-//                  @"GPUImageColorDodgeBlendFilter4",
-//                  @"GPUImageColorDodgeBlendFilter5",
-//                  @"GPUImageColorDodgeBlendFilter6",
-//                  @"GPUImageColorDodgeBlendFilter7",
-//                  @"GPUImageColorDodgeBlendFilter8"
-//                  ];
-//    });
-//    
-//    return names;
-//}
-//
-//+ (NSArray *)titleFilter{
-//    static NSArray *titles;
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        titles = @[
-//                   @"None",
-//                   @"Bilateral",
-//                   @"Box Blur",
-//                   @"Bulge",
-//                   @"Invert",
-//                   @"Blur",
-//                   @"Selective",
-//                   @"Grayscale",
-//                   @"Etikate",
-//                   @"Monochrome",
-//                   @"Distortion",
-//                   @"Sepia",
-//                   @"Zoom Blur",
-//                   @"Blue Yellow",
-//                   @"Binary",
-//                   @"Moving Cloud",
-//                   @"Footage Crate",
-//                   @"Colorful Rays",
-//                   @"Rainning",
-//                   @"Sky",
-//                   @"Shooting Stars",
-//                   @"Swrirling Colored"
-//                   ];
-//    });
-//    
-//    return titles;
-//}
-
 - (void)createUI{
     _imvFrame.image = _imgFrame;
     
@@ -285,7 +222,8 @@
                                                            background:currentThumbnail
                                                                  text:nil
                                                                target:self
-                                                             selector:@selector(changeFrame:) tag:i
+                                                             selector:@selector(changeFrame:)
+                                                                  tag:i
                                                           isTypeFrame:YES];
             if(!currentThumbnail)
             {
@@ -309,7 +247,7 @@
     for (int i = 0;i<_changeFrameButtons.count;i++) {
         
         UIButton * button = _changeFrameButtons[i];
-        if (i ==0) {
+        if (i == 0) {
             button.layer.borderWidth = 3;
             button.layer.borderColor = [UIColor colorWithRed:69/255.0 green:187/255.0 blue:255/255.0 alpha:1.0].CGColor;
             
@@ -329,12 +267,21 @@
     _videoFilterScrollView.scrollEnabled = YES;
     
     for (int i = 0; i < [FiltersModel sharedFilters].filters.count; i++) {
-        VideoFilterActionView * actionView = [VideoFilterActionView fromNib];
+        VideoFilterActionView *actionView = [VideoFilterActionView fromNib];
         Filter *currentFilter = [[FiltersModel sharedFilters].filters objectAtIndex:i];
+        actionView.downloadFilterImageView.hidden = YES;
+        if ([currentFilter.type isEqualToString:FILTER_TYPE_NAME_DYNAMIC]) {
+            if (currentFilter.videourl) {
+                if (![currentFilter downloadedVideo]) {
+                    actionView.downloadFilterImageView.hidden = NO;
+                }
+            }
+        }
+        
         if (!currentFilter.thumbnailImage) {
-            actionView.imageView.image = [UIImage imageNamed:IMAGE_NAME_ICON_DEFAULT_NO_IMAGE];
+            actionView.thumbnailImageView.image = [UIImage imageNamed:IMAGE_NAME_ICON_DEFAULT_NO_IMAGE];
             [currentFilter downloadThumbnailSuccess:^{
-                actionView.imageView.image = [[self class] makeRoundedImage:currentFilter.thumbnailImage radius:30];
+                actionView.thumbnailImageView.image = [[self class] makeRoundedImage:currentFilter.thumbnailImage radius:30];
                 UIView *parent = actionView.superview;
                 [actionView removeFromSuperview];
                 [parent addSubview:actionView];
@@ -344,16 +291,16 @@
         }
         else
         {
-            actionView.imageView.image = [[self class] makeRoundedImage:currentFilter.thumbnailImage radius:30];
+            actionView.thumbnailImageView.image = [[self class] makeRoundedImage:currentFilter.thumbnailImage radius:30];
         }
         
         actionView.layer.masksToBounds = YES;
         //        actionView.imageView.layer.cornerRadius = actionView.imageView.image.size.width/2;
-        actionView.label.text = currentFilter.name;
-        actionView.button.tag = i;
-        [actionView.button addTarget:self action:@selector(changeFilter:) forControlEvents:UIControlEventTouchUpInside];
-        //        actionView.frame = CGRectMake(i * 70, 0, actionView.frame.size.width, actionView.frame.size.height);
-        actionView.frame = CGRectMake(i * 70, 0, 60, 80);
+        actionView.filterNameLabel.text = currentFilter.name;
+        actionView.videoFilterTag = [NSNumber numberWithInt:i];
+        actionView.delegate = self;
+        actionView.frame = CGRectMake(i * (PADDING_SCOLL_VIEW_MIX_VIDEO_VIEW_CONTROLLER + WIDTH_VIDEO_FILTER_ACTION_VIEW_MIX_VIDEO_VIEW_CONTROLLER), 0, WIDTH_VIDEO_FILTER_ACTION_VIEW_MIX_VIDEO_VIEW_CONTROLLER, HEIGHT_VIDEO_FILTER_ACTION_VIEW_MIX_VIDEO_VIEW_CONTROLLER);
+        [_videoFilterActionViewArray addObject:actionView];
         [_videoFilterScrollView addSubview:actionView];
     }
     
@@ -362,9 +309,7 @@
     [self clickedVideoFilterButton:nil];
 }
 
-
-
--(void)processMixingWithStatus:(AVAssetExportSessionStatus)status outputURLString:(NSString*)output{
+- (void)processMixingWithStatus:(AVAssetExportSessionStatus)status outputURLString:(NSString*)output{
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideHUDForView:self.view animated:NO];
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -398,14 +343,12 @@
         [movieFile endProcessing];
         movieFile = nil;
     }
-    
     if (filterMovie){
         [filterMovie cancelProcessing];
         [filterMovie endProcessing];
         filterMovie = nil;
         
     }
-    
     [_audioPlayer stop];
     NSError * audioError = nil;
     
@@ -459,8 +402,7 @@
             }
             
             //TODO: Filter URL;
-            
-            NSURL *filterURL = nil;
+            NSURL *filterURL = [NSURL fileURLWithPath:[filterVideo localFilterPath]];
             
             filterMovie = [[GPUImageMovie alloc] initWithURL:filterURL];
             
@@ -475,82 +417,36 @@
             [filterMovie startProcessing];
         }
     }
-    
-    
     [_audioPlayer performSelector:@selector(play) withObject:nil afterDelay:0.1];
 }
 
--(void)playVideoWithFilterOLD:(NSString*)filterClassString{
-    
-    _currentFilterClassString = filterClassString;
-    
-    _imvPlay.hidden = YES;
-    _isPlaying = YES;
-    if (movieFile) {
-        [movieFile cancelProcessing];
-        [movieFile endProcessing];
-        movieFile = nil;
+- (void)keyboardWillShow:(NSNotification*)aNotification
+{
+    NSDictionary *keyboardInfo = [aNotification userInfo];
+    NSValue *keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
+    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
+    if (needShowEnterMessageView) {
+        [self showEnterMessageViewWithKeyboardFrame:keyboardFrameBeginRect];
     }
-    
-    if (filterMovie){
-        [filterMovie cancelProcessing];
-        [filterMovie endProcessing];
-        filterMovie = nil;
-        
+}
+__strong static UIAlertView *singleAlert;
+
+/**
+ Shows alert view only if there is ho anoters shown alert
+ @param alertView
+ Alert to show.
+ */
++ (void)showSingleAlert:(UIAlertView *)alertView {
+    if (singleAlert.visible) {
+        [singleAlert dismissWithClickedButtonIndex:0 animated:NO];
+        singleAlert = nil;
     }
-    
-    [_audioPlayer stop];
-    NSError * audioError = nil;
-    
-    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:(_exportUrl)?_exportUrl:_capturePath error:&audioError];
-    _audioPlayer.delegate = self;
-    if (!audioError) {
-        [_audioPlayer prepareToPlay];
-    }
-    
-    movieFile = [[GPUImageMovie alloc] initWithURL:(_exportUrl)?_exportUrl:_capturePath];
-    movieFile.playAtActualSpeed = YES;
-    movieFile.shouldRepeat = NO;
-    
-    if (filter) {
-        [filter removeAllTargets];
-        filter = nil;
-    }
-    
-    
-    NSString * subFilterClassString = [filterClassString substringToIndex:filterClassString.length -1];
-    if ([subFilterClassString isEqualToString:@"GPUImageColorDodgeBlendFilter"]) {
-        filter = [[NSClassFromString(subFilterClassString) alloc] init];
-        if (filter == nil) {
-            return;
-        }
-        NSString * videoIndex = [filterClassString substringFromIndex:filterClassString.length -1];
-        
-        NSURL *filterURL = [[NSBundle mainBundle] URLForResource:filterClassString withExtension:(videoIndex.integerValue == 3 || videoIndex.integerValue == 6)?@"mov":@"mp4"];
-        
-        filterMovie = [[GPUImageMovie alloc] initWithURL:filterURL];
-        
-        filterMovie.playAtActualSpeed = YES;
-        
-        [movieFile addTarget:filter];
-        [filterMovie addTarget:filter];
-        
-        [filter addTarget:_playerView];
-        
-        [movieFile startProcessing];
-        [filterMovie startProcessing];
-    }
-    else{
-        filter = [[NSClassFromString(_currentFilterClassString) alloc] init];
-        if (filter == nil) {
-            return;
-        }
-        [movieFile addTarget:filter];
-        GPUImageView *filterView = (GPUImageView *)self.playerView;
-        [filter addTarget:filterView];
-        [movieFile startProcessing];
-    }
-    [_audioPlayer performSelector:@selector(play) withObject:nil afterDelay:0.1];
+    singleAlert = alertView;
+    [singleAlert show];
+}
+
+- (void)processFieldEntries
+{
     
 }
 
@@ -570,23 +466,8 @@
     _btnVideoFilters.selected = YES;
 }
 
-- (void)changeFilter:(id)sender{
-    NSLog(@"%s",__PRETTY_FUNCTION__);
-    for (int i = 0;i<_videoFilterScrollView.subviews.count;i++) {
-        if (i==[sender tag]) {
-            UIView *view = (VideoFilterActionView*)_videoFilterScrollView.subviews[i];
-            [view addSubview:imageChoose];
-            //            ((VideoFilterActionView*)_videoFilterScrollView.subviews[i]).imageView.layer.borderWidth = 3;
-            //            ((VideoFilterActionView*)_videoFilterScrollView.subviews[i]).imageView.layer.borderColor = [UIColor colorWithRed:69/255.0 green:187/255.0 blue:255/255.0 alpha:1.0].CGColor;
-        }
-        //        else{
-        //            ((VideoFilterActionView*)_videoFilterScrollView.subviews[i]).imageView.layer.borderWidth = 0;
-        //        }
-    }
+- (void)changeFilter:(Filter *)currentFilter withVideoFilterTag:(NSNumber *)videoFilterTag{
     
-    //TODO: Filter Play
-//    Filter *currentFilter = [[FiltersModel sharedFilters].filters objectAtIndex:[sender tag]];
-    Filter *currentFilter = [[FiltersModel sharedFilters].filters objectAtIndex:[sender tag]];
     _selectedFilter = currentFilter;
     if (currentFilter) {
         if ([currentFilter.type isEqualToString:FILTER_TYPE_NAME_STATIC])
@@ -595,7 +476,40 @@
         }
         else if ([currentFilter.type isEqualToString:FILTER_TYPE_NAME_DYNAMIC])
         {
-            
+            if ([currentFilter downloadedVideo]) {
+                VideoFilterActionView *currentVideoFilterActionView = [_videoFilterActionViewArray objectAtIndex:[videoFilterTag intValue]];
+                [currentVideoFilterActionView hideDownloadImageView];
+                [self playVideoWithFilter:currentFilter];
+            }
+            else
+            {
+                _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                [_hud setMode:MBProgressHUDModeAnnularDeterminate];
+                _hud.delegate = self;
+                _hud.labelText = @"Downloading...";
+//                [_hud showWhileExecuting:@selector(processFieldEntries) onTarget:self withObject:nil animated:YES];
+                self.view.userInteractionEnabled = NO;
+                [currentFilter downloadVideoSuccess:^{
+                    VideoFilterActionView *currentVideoFilterActionView = [_videoFilterActionViewArray objectAtIndex:[videoFilterTag intValue]];
+                    [currentVideoFilterActionView hideDownloadImageView];
+                    [_hud hide:YES];
+                    self.view.userInteractionEnabled = YES;
+                    [self playVideoWithFilter:currentFilter];
+                } failure:^(NSError *error) {
+                    [_hud hide:YES];
+                    self.view.userInteractionEnabled = YES;
+                    UIAlertView *alertDownloadError = [[UIAlertView alloc] initWithTitle:@"Donwload Failed!"
+                                                                                 message:@"Can not download this filter"
+                                                                                delegate:nil
+                                                                       cancelButtonTitle:@"OK"
+                                                                       otherButtonTitles:nil ];
+                    [self.class showSingleAlert:alertDownloadError];
+                } progress:^(CGFloat percent) {
+                    //TODO: Show download percent
+                    NSLog(@"Current download percent: %f",percent);
+                    _hud.progress = percent;
+                }];
+            }
         }
     }
 }
@@ -646,34 +560,6 @@
     }
     
 }
-
-//#pragma mark - ...
-//
-//- (void)setupRemotePlayerByUrl:(NSURL*)url{
-//    
-//    NSError * audioError = nil;
-//    if (_audioPlayer) {
-//        [_audioPlayer stop];
-//    }
-//    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:_capturePath error:&audioError];
-//    _audioPlayer.delegate = self;
-//    if (!audioError) {
-//        [_audioPlayer prepareToPlay];
-//    }
-//    movieFile = [[GPUImageMovie alloc] initWithURL:url];
-//    movieFile.playAtActualSpeed = YES;
-//    movieFile.shouldRepeat = NO;
-//    
-//    filter = [[GPUImageFilter alloc] init];
-//    [movieFile addTarget:filter];
-//    GPUImageView *filterView = (GPUImageView *)self.playerView;
-//    [filter addTarget:filterView];
-//    [movieFile startProcessing];
-//    [_audioPlayer performSelector:@selector(play) withObject:nil afterDelay:0.2];
-//    _currentFilterClassString = @"GPUImageFilter";
-//    
-//}
-
 
 #pragma mark - Navigation
 
@@ -732,7 +618,6 @@
         
     }
 }
-
 
 - (IBAction)musicButtonTapped:(id)sender {
     if (_isPlaying) {
@@ -817,13 +702,13 @@
             filter = nil;
         }
         //TODO: Change Current Filter
-        filter = [[NSClassFromString([_currentFilterClassString substringToIndex:_currentFilterClassString.length -1]) alloc] init];
+        filter = [[NSClassFromString(_selectedFilter.className) alloc] init];
         if (filter == nil) {
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             return;
         }
-        NSString * videoIndex = [_currentFilterClassString substringFromIndex:_currentFilterClassString.length -1];
         
-        NSURL *filterURL = [[NSBundle mainBundle] URLForResource:_currentFilterClassString withExtension:(videoIndex.integerValue == 3 || videoIndex.integerValue == 6)?@"mov":@"mp4"];
+        NSURL *filterURL = [NSURL fileURLWithPath:[_selectedFilter localFilterPath]];
         
         filterMovie = [[GPUImageMovie alloc] initWithURL:filterURL];
         
@@ -1069,18 +954,6 @@
     //TODO: Completed play movie
 }
 
-#pragma mark - Custom Methods
-
-- (void)keyboardWillShow:(NSNotification*)aNotification
-{
-    NSDictionary *keyboardInfo = [aNotification userInfo];
-    NSValue *keyboardFrameBegin = [keyboardInfo valueForKey:UIKeyboardFrameBeginUserInfoKey];
-    CGRect keyboardFrameBeginRect = [keyboardFrameBegin CGRectValue];
-    if (needShowEnterMessageView) {
-        [self showEnterMessageViewWithKeyboardFrame:keyboardFrameBeginRect];
-    }
-}
-
 #pragma mark - ScheduleView management
 
 - (void)initScheduleView
@@ -1159,5 +1032,12 @@
     [self didCancelInputMessage];
 }
 
+#pragma mark - VideoFilterActionView delegate
+- (void)didClickFilter:(VideoFilterActionView *)videoFilterActionView
+{
+    [videoFilterActionView addSubview:imageChoose];
+     Filter *currentFilter = [[FiltersModel sharedFilters].filters objectAtIndex:[videoFilterActionView.videoFilterTag intValue]];
+    [self changeFilter:currentFilter withVideoFilterTag:videoFilterActionView.videoFilterTag];
+}
 
 @end
