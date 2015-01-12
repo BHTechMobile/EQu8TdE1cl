@@ -73,11 +73,6 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 
-    unlink([_capturePath UTF8String]);
-    [self _resetCapture];
-
-    [[PBJVision sharedInstance] startPreview];
-
     _imgIndex = 0;
     _imvFrame.image = nil;
     _imvCapture.userInteractionEnabled = YES;
@@ -93,6 +88,9 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    unlink([_capturePath UTF8String]);
+    [self _resetCapture];
+    [[PBJVision sharedInstance] startPreview];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -132,7 +130,7 @@
     [[PBJVision sharedInstance] endVideoCapture];
     [[PBJVision sharedInstance] stopPreview];
 
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 
 }
 
