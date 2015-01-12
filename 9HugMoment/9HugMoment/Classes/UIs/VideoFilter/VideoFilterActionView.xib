@@ -11,39 +11,77 @@
             <rect key="frame" x="0.0" y="0.0" width="60" height="80"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LFE-df-79a">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LFE-df-79a">
                     <rect key="frame" x="0.0" y="0.0" width="60" height="80"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lGF-EI-f6d">
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lGF-EI-f6d" userLabel="Thumbnail Image View">
                             <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="CiI-iF-h5O"/>
+                            </constraints>
                         </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="text" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qzx-o5-9EE">
-                            <rect key="frame" x="0.0" y="59" width="60" height="21"/>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_download_cloud" translatesAutoresizingMaskIntoConstraints="NO" id="V42-or-CVw" userLabel="Download Image View">
+                            <rect key="frame" x="0.0" y="0.0" width="60" height="60"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="60" id="Wc7-CS-cY6"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="text" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qzx-o5-9EE" userLabel="Filter Name">
+                            <rect key="frame" x="0.0" y="60" width="60" height="20"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WYR-tR-tMX">
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WYR-tR-tMX">
                             <rect key="frame" x="0.0" y="0.0" width="60" height="80"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <state key="normal">
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
+                            <connections>
+                                <action selector="filterAction:" destination="iN0-l3-epB" eventType="touchUpInside" id="zkU-78-na6"/>
+                            </connections>
                         </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="V42-or-CVw" firstAttribute="top" secondItem="LFE-df-79a" secondAttribute="top" id="1my-sl-yOk"/>
+                        <constraint firstAttribute="bottom" secondItem="qzx-o5-9EE" secondAttribute="bottom" id="APU-Bu-24b"/>
+                        <constraint firstAttribute="bottom" secondItem="WYR-tR-tMX" secondAttribute="bottom" id="IRU-8i-VOu"/>
+                        <constraint firstItem="lGF-EI-f6d" firstAttribute="top" secondItem="LFE-df-79a" secondAttribute="top" id="LN1-vK-De9"/>
+                        <constraint firstAttribute="trailing" secondItem="WYR-tR-tMX" secondAttribute="trailing" id="Ofd-AJ-RxL"/>
+                        <constraint firstAttribute="trailing" secondItem="V42-or-CVw" secondAttribute="trailing" id="Qsd-dV-HVa"/>
+                        <constraint firstItem="lGF-EI-f6d" firstAttribute="leading" secondItem="LFE-df-79a" secondAttribute="leading" id="TrX-a1-ZF9"/>
+                        <constraint firstAttribute="trailing" secondItem="lGF-EI-f6d" secondAttribute="trailing" id="bY8-Oa-d70"/>
+                        <constraint firstItem="WYR-tR-tMX" firstAttribute="leading" secondItem="LFE-df-79a" secondAttribute="leading" id="eQM-Xf-d26"/>
+                        <constraint firstItem="qzx-o5-9EE" firstAttribute="leading" secondItem="LFE-df-79a" secondAttribute="leading" id="for-fO-nPb"/>
+                        <constraint firstItem="V42-or-CVw" firstAttribute="leading" secondItem="LFE-df-79a" secondAttribute="leading" id="gIH-Dn-FzE"/>
+                        <constraint firstItem="qzx-o5-9EE" firstAttribute="top" secondItem="lGF-EI-f6d" secondAttribute="bottom" id="j5t-QJ-xgy"/>
+                        <constraint firstItem="WYR-tR-tMX" firstAttribute="top" secondItem="LFE-df-79a" secondAttribute="top" id="nn6-EK-Qoo"/>
+                        <constraint firstAttribute="trailing" secondItem="qzx-o5-9EE" secondAttribute="trailing" id="vCj-gT-FJI"/>
+                    </constraints>
                 </view>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="LFE-df-79a" secondAttribute="trailing" id="GVa-5B-vG9"/>
+                <constraint firstItem="LFE-df-79a" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="IQP-3C-3kM"/>
+                <constraint firstAttribute="bottom" secondItem="LFE-df-79a" secondAttribute="bottom" id="M72-rx-6EQ"/>
+                <constraint firstItem="LFE-df-79a" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="xDF-de-pg8"/>
+            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="button" destination="WYR-tR-tMX" id="ykn-Qa-DwE"/>
-                <outlet property="imageView" destination="lGF-EI-f6d" id="Ndt-GV-hL4"/>
-                <outlet property="label" destination="qzx-o5-9EE" id="oxB-SR-9rZ"/>
+                <outlet property="downloadFilterImageView" destination="V42-or-CVw" id="ZkK-2n-gaG"/>
+                <outlet property="filterButton" destination="WYR-tR-tMX" id="Fy0-9B-qhw"/>
+                <outlet property="filterNameLabel" destination="qzx-o5-9EE" id="QZN-0C-dDK"/>
+                <outlet property="thumbnailImageView" destination="lGF-EI-f6d" id="dJq-lg-6S6"/>
             </connections>
         </view>
     </objects>
+    <resources>
+        <image name="icon_download_cloud" width="64" height="64"/>
+    </resources>
 </document>

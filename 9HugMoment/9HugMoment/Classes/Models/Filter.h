@@ -24,7 +24,9 @@ typedef void (^GetFilterProgressBlock)(CGFloat percent);
 
 +(Filter*)filterFromDictionary:(NSDictionary*)dict;
 
--(void)downloadThumbnailSuccess:(GetFilterSuccessBlock)success failure:(GetFilterFailureBlock)failure;
+- (void)downloadThumbnailSuccess:(GetFilterSuccessBlock)success failure:(GetFilterFailureBlock)failure;
 - (void)downloadVideoSuccess:(GetFilterSuccessBlock)success failure:(GetFilterFailureBlock)failure progress:(GetFilterProgressBlock)progress;
+- (NSString*)localFilterPath;
+- (BOOL)downloadedVideo;
 
 @end

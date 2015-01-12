@@ -10,9 +10,8 @@
 
 @implementation VideoFilterActionView
 
--(void)awakeFromNib{
+- (void)awakeFromNib{
     [super awakeFromNib];
-
 }
 
 /*
@@ -22,5 +21,23 @@
     // Drawing code
 }
 */
+
+#pragma mark - Custom Methods
+
+- (void)hideDownloadImageView
+{
+    UIView *parentFilterView = self.superview;
+    [self removeFromSuperview];
+    self.downloadFilterImageView.hidden = YES;
+    [parentFilterView addSubview:self];
+}
+
+#pragma mark - Actions
+
+- (IBAction)filterAction:(id)sender {
+    if (_delegate && [_delegate respondsToSelector:@selector(didClickFilter:)]) {
+        [_delegate performSelector:@selector(didClickFilter:) withObject:self];
+    }
+}
 
 @end

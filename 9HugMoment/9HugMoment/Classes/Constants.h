@@ -143,6 +143,7 @@ typedef NS_ENUM(NSInteger, FilterType)
 #define IMAGE_NAME_ICON_TAG_ON @"icon_tag_on"
 #define IMAGE_NAME_BTN_BACK_CYAN @"btn_back_cyan"
 #define IMAGE_NAME_ICON_DEFAULT_NO_IMAGE @"icon_default_no_image"
+#define IMAGE_NAME_PLAY_ICON @"play-icon"
 
 #pragma mark - KEYS
 // KEYS
@@ -248,6 +249,9 @@ typedef NS_ENUM(NSInteger, FilterType)
 /*MixVideoViewController*/
 #define BG_COLOR_PROCESS_MIX_VIDEO [UIColor colorWithRed:224.0/255.0 green:100.0/255.0 blue:176.0/255.0 alpha:1.0]
 #define SIZE_SQUARE_BUTTON_FRAME_MIX_VIDEO_VIEW_CONTROLLER 58
+#define WIDTH_VIDEO_FILTER_ACTION_VIEW_MIX_VIDEO_VIEW_CONTROLLER 60
+#define HEIGHT_VIDEO_FILTER_ACTION_VIEW_MIX_VIDEO_VIEW_CONTROLLER 80
+#define PADDING_SCOLL_VIEW_MIX_VIDEO_VIEW_CONTROLLER 10
 
 #pragma mark - CaptureVideoViewController
 /*CaptureVideoViewController*/
@@ -346,5 +350,9 @@ typedef NS_ENUM(NSInteger, FilterType)
 // Filters
 #define FILTER_TYPE_NAME_STATIC @"static"
 #define FILTER_TYPE_NAME_DYNAMIC @"dynamic"
+
+#define FILTER_CLASS_NAME_NO_FRAME @"GPUImageFilter"
+#define FILTER_CLASS_NAME_DYNAMIC_FRAME @"GPUImageColorDodgeBlendFilter"
+#define PATH_COMPONET_FILTER @"Documents/Filters"
 
 #endif

@@ -15,7 +15,6 @@
 #import "Frame.h"
 #import "FramesModel.h"
 #import "Filter.h"
-#import "FiltersModel.h"
 
 @interface MixVideoViewController : UIViewController<MPMediaPickerControllerDelegate,UIAlertViewDelegate,AVAudioPlayerDelegate,GPUImageMovieDelegate,NavigationCustomViewDelegate,MixAudioViewControllerDelegate,CLLocationManagerDelegate, EnterMessageDelegate>{
     NSMutableArray *_changeFrameButtons;
@@ -27,7 +26,6 @@
     AVAudioPlayer * _audioPlayer;
     BOOL _isPlaying;
     NSString *_currentFilterClassString;
-    Filter *_currentFilter;
     NavigationView *_navigationView;
     
     CLLocation *currentLocation;
