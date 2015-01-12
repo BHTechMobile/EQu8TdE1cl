@@ -119,25 +119,33 @@
                                                               NSError *error) {
                 [FBSession setActiveSession:session];
                 APP_DELEGATE.session = session;
+                if ([UserData currentAccount].strFacebookId) {
+                    _lblName.text = [UserData currentAccount].strFullName;
+                    [_imvAvatar sd_setImageWithURL: [NSURL URLWithString:[NSString stringWithFormat: @"https://graph.facebook.com/"@"%@/picture?type=large", [UserData currentAccount].strFacebookId]] placeholderImage:nil ];
+                }
             }];
         }else{
             [self showLoginFB];
         }
     }
-    
-    
-    [self.navigationController setNavigationBarHidden:YES animated:NO];
-    _scaned = NO;
-    [self createCapture];
-    if ([UserData currentAccount].strFacebookId) {
-        _lblName.text = [UserData currentAccount].strFullName;
-        [_imvAvatar sd_setImageWithURL: [NSURL URLWithString:[NSString stringWithFormat: @"https://graph.facebook.com/"@"%@/picture?type=large", [UserData currentAccount].strFacebookId]] placeholderImage:nil ];
+    else{
+        if ([UserData currentAccount].strFacebookId) {
+            _lblName.text = [UserData currentAccount].strFullName;
+            [_imvAvatar sd_setImageWithURL: [NSURL URLWithString:[NSString stringWithFormat: @"https://graph.facebook.com/"@"%@/picture?type=large", [UserData currentAccount].strFacebookId]] placeholderImage:nil ];
+        }
     }
-    
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
+  
     //#warning TEST DATA
      _enterCodeTextField.text = @"jcxzg";
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    _scaned = NO;
+    [self createCapture];
+
+}
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 }
@@ -337,7 +345,10 @@
 #pragma mark - FBConnectVC Delegate
 
 -(void)fbConnectViewController:(FBConnectViewController*)vc didConnectFacebookSuccess:(id)response{
-    
+    if ([UserData currentAccount].strFacebookId) {
+        _lblName.text = [UserData currentAccount].strFullName;
+        [_imvAvatar sd_setImageWithURL: [NSURL URLWithString:[NSString stringWithFormat: @"https://graph.facebook.com/"@"%@/picture?type=large", [UserData currentAccount].strFacebookId]] placeholderImage:nil ];
+    }
 }
 
 
