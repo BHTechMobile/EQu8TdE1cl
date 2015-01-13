@@ -83,7 +83,7 @@
     NSLog(@"Facebook ID: %@",[UserData currentAccount].strFacebookId);
     [_meScreenModel.class getUserAvatarWithUserFacebookID:[UserData currentAccount].strFacebookId forImageView:_userPhotoImageView];
     //Name
-    _userNameLabel.text = [UserData currentAccount].strFullName;
+    _userNameLabel.text = [[UserData currentAccount].strFullName uppercaseString];
     
     //Status
     [_meScreenModel getUserStatus];
@@ -107,7 +107,7 @@
     
     [_numberOfGiftsSentLabel setFont:CalibriFont(21)];
     [_numberOfRequestsLabel setFont:CalibriFont(21)];
-    [_numberOfFriendsLabel setFont:CalibriFont(21)];
+    [_numberOfFriendsLabel setFont:CalibriFont(18)];
     [_numberOfCreditsLabel setFont:CalibriFont(21)];
     [_numberOfStickersLabel setFont:CalibriFont(28)];
     
@@ -116,7 +116,7 @@
     
     [_giftsSentButton.titleLabel setFont:CalibriFont(18)];
     [_requestsButton.titleLabel setFont:CalibriFont(18)];
-    [_friendsButton.titleLabel setFont:CalibriFont(18)];
+    [_friendsButton.titleLabel setFont:CalibriFont(10)];
     [_creditsButton.titleLabel setFont:CalibriFont(18)];
     [_stickersButton.titleLabel setFont:CalibriFont(28)];
 }
