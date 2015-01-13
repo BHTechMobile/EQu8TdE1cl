@@ -19,13 +19,7 @@
 
 @end
 
-@implementation MixVideoViewController{
-    UIButton *buttonBack;
-    UIImageView *imageChoose;
-    MixAudioViewController *mixAudioViewController;
-    NSString *linkVideoFromServer;
-}
-
+@implementation MixVideoViewController
 
 #pragma mark - Header Control
 
@@ -37,8 +31,6 @@
     [self.navigationCustomView addSubview:_navigationView];
     [self playVideoWithFilter:_selectedFilter];
     [self createUI];
-    imageChoose = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 60, 60)];
-    imageChoose.image = [UIImage imageNamed:IMAGE_NAME_PLAY_ICON];
     [self hightConstraint];
     needShowEnterMessageView = NO;
 }
@@ -112,10 +104,12 @@
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     NSLog(@"%s", __PRETTY_FUNCTION__);
+    self.shareLocationButton.enabled = NO;
     switch (status) {
         case kCLAuthorizationStatusAuthorized:
             NSLog(@"kCLAuthorizationStatusAuthorized");
             [_locationManagement.locationManager startUpdatingLocation];
+            self.shareLocationButton.enabled = YES;
             break;
         case kCLAuthorizationStatusDenied:
             NSLog(@"kCLAuthorizationStatusDenied");
@@ -128,6 +122,7 @@
             break;
         case kCLAuthorizationStatusAuthorizedWhenInUse:
             NSLog(@"kCLAuthorizationStatusAuthorizedWhenInUse");
+            self.shareLocationButton.enabled = YES;
             break;
     }
 }
@@ -135,6 +130,9 @@
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
     NSLog(@"didFailWithError: %@", error);
+    self.shareLocationButton.selected = NO;
+    self.shareLocationButton.enabled = NO;
+    
     [_locationManagement.locationManager stopUpdatingLocation];
 }
 
@@ -263,43 +261,37 @@
 
 - (void)createFiltersVideo
 {
-    _videoFilterScrollView.contentSize = CGSizeMake([FiltersModel sharedFilters].filters.count*60 + ([FiltersModel sharedFilters].filters.count -1) *10, _videoFilterScrollView.frame.size.height);
+    _videoFilterScrollView.contentSize = CGSizeMake([FiltersModel sharedFilters].filters.count*WIDTH_VIDEO_FILTER_ACTION_VIEW_MIX_VIDEO_VIEW_CONTROLLER + ([FiltersModel sharedFilters].filters.count -1) *PADDING_SCOLL_VIEW_MIX_VIDEO_VIEW_CONTROLLER, HEIGHT_VIDEO_FILTER_ACTION_VIEW_MIX_VIDEO_VIEW_CONTROLLER);
     _videoFilterScrollView.scrollEnabled = YES;
     
     for (int i = 0; i < [FiltersModel sharedFilters].filters.count; i++) {
         VideoFilterActionView *actionView = [VideoFilterActionView fromNib];
+        actionView.frame = CGRectMake(i * (PADDING_SCOLL_VIEW_MIX_VIDEO_VIEW_CONTROLLER + WIDTH_VIDEO_FILTER_ACTION_VIEW_MIX_VIDEO_VIEW_CONTROLLER), 0, WIDTH_VIDEO_FILTER_ACTION_VIEW_MIX_VIDEO_VIEW_CONTROLLER, HEIGHT_VIDEO_FILTER_ACTION_VIEW_MIX_VIDEO_VIEW_CONTROLLER);
         Filter *currentFilter = [[FiltersModel sharedFilters].filters objectAtIndex:i];
-        actionView.downloadFilterImageView.hidden = YES;
+        [actionView hideDownloadImageView:YES];
+//        [actionView setBackgroundColor:[self randomColor]];
         if ([currentFilter.type isEqualToString:FILTER_TYPE_NAME_DYNAMIC]) {
             if (currentFilter.videourl) {
                 if (![currentFilter downloadedVideo]) {
-                    actionView.downloadFilterImageView.hidden = NO;
+                    [actionView hideDownloadImageView:NO];
                 }
             }
         }
         
         if (!currentFilter.thumbnailImage) {
-            actionView.thumbnailImageView.image = [UIImage imageNamed:IMAGE_NAME_ICON_DEFAULT_NO_IMAGE];
             [currentFilter downloadThumbnailSuccess:^{
-                actionView.thumbnailImageView.image = [[self class] makeRoundedImage:currentFilter.thumbnailImage radius:30];
-                UIView *parent = actionView.superview;
-                [actionView removeFromSuperview];
-                [parent addSubview:actionView];
+                [actionView setThumbnailImage:[[self class] makeRoundedImage:currentFilter.thumbnailImage radius:30]];
             } failure:^(NSError *error) {
                 NSLog(@"Download Filter failed:%@",error.localizedDescription);
             }];
         }
-        else
-        {
-            actionView.thumbnailImageView.image = [[self class] makeRoundedImage:currentFilter.thumbnailImage radius:30];
+        else{
+            [actionView setThumbnailImage:[[self class] makeRoundedImage:currentFilter.thumbnailImage radius:30]];
         }
         
-        actionView.layer.masksToBounds = YES;
-        //        actionView.imageView.layer.cornerRadius = actionView.imageView.image.size.width/2;
-        actionView.filterNameLabel.text = currentFilter.name;
+        [actionView setFilterName:currentFilter.name];
         actionView.videoFilterTag = [NSNumber numberWithInt:i];
         actionView.delegate = self;
-        actionView.frame = CGRectMake(i * (PADDING_SCOLL_VIEW_MIX_VIDEO_VIEW_CONTROLLER + WIDTH_VIDEO_FILTER_ACTION_VIEW_MIX_VIDEO_VIEW_CONTROLLER), 0, WIDTH_VIDEO_FILTER_ACTION_VIEW_MIX_VIDEO_VIEW_CONTROLLER, HEIGHT_VIDEO_FILTER_ACTION_VIEW_MIX_VIDEO_VIEW_CONTROLLER);
         [_videoFilterActionViewArray addObject:actionView];
         [_videoFilterScrollView addSubview:actionView];
     }
@@ -307,6 +299,7 @@
     _videoFilterScrollView.backgroundColor = [UIColor colorWithRed:43.0/255.0f green:41.0/255.0f blue:50.0/255.0f alpha:1];
     _selectFrameScrollView.backgroundColor = [UIColor colorWithRed:43.0/255.0f green:41.0/255.0f blue:50.0/255.0f alpha:1];
     [self clickedVideoFilterButton:nil];
+    
 }
 
 - (void)processMixingWithStatus:(AVAssetExportSessionStatus)status outputURLString:(NSString*)output{
@@ -478,7 +471,7 @@ __strong static UIAlertView *singleAlert;
         {
             if ([currentFilter downloadedVideo]) {
                 VideoFilterActionView *currentVideoFilterActionView = [_videoFilterActionViewArray objectAtIndex:[videoFilterTag intValue]];
-                [currentVideoFilterActionView hideDownloadImageView];
+                [currentVideoFilterActionView hideDownloadImageView:YES];
                 [self playVideoWithFilter:currentFilter];
             }
             else
@@ -491,7 +484,7 @@ __strong static UIAlertView *singleAlert;
                 self.view.userInteractionEnabled = NO;
                 [currentFilter downloadVideoSuccess:^{
                     VideoFilterActionView *currentVideoFilterActionView = [_videoFilterActionViewArray objectAtIndex:[videoFilterTag intValue]];
-                    [currentVideoFilterActionView hideDownloadImageView];
+                    [currentVideoFilterActionView hideDownloadImageView:YES];
                     [_hud hide:YES];
                     self.view.userInteractionEnabled = YES;
                     [self playVideoWithFilter:currentFilter];
@@ -671,7 +664,8 @@ __strong static UIAlertView *singleAlert;
     
     dispatch_async(dispatch_get_main_queue(), ^{
         _imvPlay.hidden = YES;
-        [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.labelText = @"Processing...";
     });
     if ([_selectedFilter.className isEqualToString:FILTER_CLASS_NAME_NO_FRAME]) {
         // No Frame
@@ -679,7 +673,7 @@ __strong static UIAlertView *singleAlert;
             [self processMixingWithStatus:status outputURLString:output];
         }];
     }
-    else if ([_selectedFilter.className isEqualToString:FILTER_CLASS_NAME_DYNAMIC_FRAME]){
+    else if ([_selectedFilter.type isEqualToString:FILTER_TYPE_NAME_DYNAMIC]){
         // Dynamic
         if (movieFile) {
             [movieFile cancelProcessing];
@@ -733,16 +727,37 @@ __strong static UIAlertView *singleAlert;
         [filterMovie startProcessing];
         [movieWriter startRecording];
         
-        double delayInSeconds = _duration;
-        dispatch_time_t stopTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-        dispatch_after(stopTime, dispatch_get_main_queue(), ^(void){
+        [movieWriter setCompletionBlock:^{
             [filter removeTarget:movieWriter];
             movieFile.audioEncodingTarget = nil;
             [movieWriter finishRecording];
             [MixEngine mixImage:_imgFrame videoUrl:movieURL completionHandler:^(NSString *output, AVAssetExportSessionStatus status) {
                 [self processMixingWithStatus:status outputURLString:output];
             }];
-        });
+
+        }];
+        
+        [movieWriter setFailureBlock:^(NSError *error) {
+            NSLog(@"%@",error);
+            [filter removeTarget:movieWriter];
+            movieFile.audioEncodingTarget = nil;
+            [movieWriter finishRecording];
+            [MixEngine mixImage:_imgFrame videoUrl:movieURL completionHandler:^(NSString *output, AVAssetExportSessionStatus status) {
+                [self processMixingWithStatus:status outputURLString:output];
+            }];
+
+        }];
+        
+//        double delayInSeconds = floor(_duration);
+//        dispatch_time_t stopTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+//        dispatch_after(stopTime, dispatch_get_main_queue(), ^(void){
+//            [filter removeTarget:movieWriter];
+//            movieFile.audioEncodingTarget = nil;
+//            [movieWriter finishRecording];
+//            [MixEngine mixImage:_imgFrame videoUrl:movieURL completionHandler:^(NSString *output, AVAssetExportSessionStatus status) {
+//                [self processMixingWithStatus:status outputURLString:output];
+//            }];
+//        });
     }
     else {
         // Static
@@ -776,17 +791,38 @@ __strong static UIAlertView *singleAlert;
         
         [movieFile startProcessing];
         [movieWriter startRecording];
-        
-        double delayInSeconds = _duration;
-        dispatch_time_t stopTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
-        dispatch_after(stopTime, dispatch_get_main_queue(), ^(void){
+
+        [movieWriter setCompletionBlock:^{
             [filter removeTarget:movieWriter];
             movieFile.audioEncodingTarget = nil;
             [movieWriter finishRecording];
             [MixEngine mixImage:_imgFrame videoUrl:movieURL completionHandler:^(NSString *output, AVAssetExportSessionStatus status) {
                 [self processMixingWithStatus:status outputURLString:output];
             }];
-        });
+            
+        }];
+        
+        [movieWriter setFailureBlock:^(NSError *error) {
+            NSLog(@"%@",error);
+            [filter removeTarget:movieWriter];
+            movieFile.audioEncodingTarget = nil;
+            [movieWriter finishRecording];
+            [MixEngine mixImage:_imgFrame videoUrl:movieURL completionHandler:^(NSString *output, AVAssetExportSessionStatus status) {
+                [self processMixingWithStatus:status outputURLString:output];
+            }];
+            
+        }];
+        
+//        double delayInSeconds = floor(_duration);
+//        dispatch_time_t stopTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+//        dispatch_after(stopTime, dispatch_get_main_queue(), ^(void){
+//            [filter removeTarget:movieWriter];
+//            movieFile.audioEncodingTarget = nil;
+//            [movieWriter finishRecording];
+//            [MixEngine mixImage:_imgFrame videoUrl:movieURL completionHandler:^(NSString *output, AVAssetExportSessionStatus status) {
+//                [self processMixingWithStatus:status outputURLString:output];
+//            }];
+//        });
     }
 }
 
@@ -855,6 +891,7 @@ __strong static UIAlertView *singleAlert;
 #pragma mark - Upload video
 
 -(void)upload{
+    
     NSLog(@"_exportUrl %@",_exportUrl);
     [BaseServices generateImage:_exportUrl success:^(UIImage *image) {
         [self uploadWithImage:image];
@@ -865,8 +902,23 @@ __strong static UIAlertView *singleAlert;
 
 -(void)uploadWithImage:(UIImage*)image{
     
-    NSString *latitudeLocal = [NSString stringWithFormat:@"%f", currentLocation.coordinate.latitude];
-    NSString *longitudeLocal = [NSString stringWithFormat:@"%f", currentLocation.coordinate.longitude];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        _hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        [_hud setMode:MBProgressHUDModeAnnularDeterminate];
+        _hud.labelText = @"Uploading...";
+
+    });
+
+    
+    NSString *latitudeLocal = @"0";
+    NSString *longitudeLocal = @"0";
+    if (self.shareLocationButton.isSelected) {
+        latitudeLocal = [NSString stringWithFormat:@"%f", currentLocation.coordinate.latitude];
+        longitudeLocal = [NSString stringWithFormat:@"%f", currentLocation.coordinate.longitude];
+
+    }
+
     NSLog(@"latitudeLocal %f ",currentLocation.coordinate.latitude);
     NSLog(@"longitudeLocal %f ",currentLocation.coordinate.longitude);
     [MixVideoServices updateMessage:_message?_message:@""
@@ -876,20 +928,27 @@ __strong static UIAlertView *singleAlert;
                            latitude:latitudeLocal
                           longitude:longitudeLocal
                        notification:_notificationButton.selected
+                           isPublic:self.publicButton.isSelected
                           scheduled:[NSString stringWithFormat:@"%f",[[_scheduleView getSelectedDate] timeIntervalSince1970]]
                           thumbnail:image
                             sussess:^(AFHTTPRequestOperation *operation, id responseObject) {
                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                                     [[NSNotificationCenter defaultCenter] postNotificationName:CALL_PUSH_NOTIFICATIONS object:nil];
                                     [self.navigationController popToRootViewControllerAnimated:YES];
                                 });
                             }
                             failure:^(NSString *bodyString, NSError *error) {
                                 dispatch_async(dispatch_get_main_queue(), ^{
-                                    [MBProgressHUD hideHUDForView:self.view animated:YES];
+                                    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
                                 });
                             _mixed = NO;
+                        } progress:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                _hud.progress = (totalBytesWritten*1.0)/(totalBytesExpectedToWrite*1.0);
+                                NSLog(@"%f",_hud.progress);
+                            });
+
                         }];
 }
 
@@ -940,6 +999,12 @@ __strong static UIAlertView *singleAlert;
     {
         [_tagButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_TAG] forState:UIControlStateNormal];
     }
+}
+- (IBAction)selectMakePublicButton:(id)sender {
+    self.publicButton.selected = !self.publicButton.isSelected;
+}
+- (IBAction)selectShowLocation:(id)sender {
+    self.shareLocationButton.selected = !self.shareLocationButton.isSelected;
 }
 
 - (IBAction)publicVideoButtonAction:(id)sender {
@@ -1013,8 +1078,8 @@ __strong static UIAlertView *singleAlert;
     }
 }
 
-- (void)didCancelInputMessage
-{
+- (void)didCancelInputMessage{
+    
     needShowEnterMessageView = NO;
     if ((![_message isEqualToString:@""]) && (_message != nil)) {
         [_messageButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_TEXT_MESSAGE_ON] forState:UIControlStateNormal];
@@ -1035,9 +1100,19 @@ __strong static UIAlertView *singleAlert;
 #pragma mark - VideoFilterActionView delegate
 - (void)didClickFilter:(VideoFilterActionView *)videoFilterActionView
 {
-    [videoFilterActionView addSubview:imageChoose];
+    NSLog(@"%s %@",__PRETTY_FUNCTION__,videoFilterActionView.videoFilterTag);
+    
+    for (VideoFilterActionView * filterAction in _videoFilterActionViewArray) {
+        [filterAction showSelectionView:NO];
+    }
+    [videoFilterActionView showSelectionView:YES];
+    
      Filter *currentFilter = [[FiltersModel sharedFilters].filters objectAtIndex:[videoFilterActionView.videoFilterTag intValue]];
     [self changeFilter:currentFilter withVideoFilterTag:videoFilterActionView.videoFilterTag];
+}
+
+-(UIColor*)randomColor{
+    return [UIColor colorWithRed:((arc4random()%255)*1.0)/255.0 green:((arc4random()%255)*1.0)/255.0 blue:((arc4random()%255)*1.0)/255.0 alpha:1];
 }
 
 @end

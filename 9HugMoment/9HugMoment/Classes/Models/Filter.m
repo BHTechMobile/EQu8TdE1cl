@@ -85,9 +85,8 @@
 }
 
 - (void)downloadVideoSuccess:(GetFilterSuccessBlock)success failure:(GetFilterFailureBlock)failure progress:(GetFilterProgressBlock)progress{
-    
+    NSLog(@"%s %@",__PRETTY_FUNCTION__,_videourl);
     NSURL *videoURL = [NSURL URLWithString:_videourl];
-    [self createFolderFiters];
     if ([self downloadedVideo]){
         if (success) {
             success();
@@ -146,21 +145,6 @@
     return [NSHomeDirectory() stringByAppendingPathComponent:fileName];
 }
 
-- (void)createFolderFiters
-{
-    // if folder doesn't exist, create it
-    NSString *folderPath = [NSHomeDirectory() stringByAppendingPathComponent:PATH_COMPONET_FILTER];
-    NSError *error = nil;
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    BOOL isDir;
-    if (![fileManager fileExistsAtPath:folderPath isDirectory:&isDir]) {
-        BOOL success = [fileManager createDirectoryAtPath:folderPath withIntermediateDirectories:NO attributes:nil error:&error];
-        if (!success || error) {
-            NSLog(@"Error: %@", [error localizedDescription]);
-        }
-        NSAssert(success, @"Failed to create folder at path:%@", folderPath);
-    }
-}
 
 - (BOOL)downloadedVideo{
     return ([[NSUserDefaults standardUserDefaults] objectForKey:_videourl])?YES:NO;

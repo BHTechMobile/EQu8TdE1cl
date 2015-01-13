@@ -16,6 +16,7 @@
 #import "MessageObject.h"
 #import "DownloadVideoView.h"
 #import "FBConnectViewController.h"
+#import <SDWebImage/SDImageCache.h>
 
 static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 
@@ -25,7 +26,6 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
     MessageObject *message;
     ODRefreshControl *_refreshControl;
     MBProgressHUD *_hud;
-    NSCache *_avatarCache;
     MessageDetailsViewController *_messageDetailsViewController;
 }
 
@@ -43,7 +43,6 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 - (void)viewDidLoad {
     [super viewDidLoad];
     _momentModel = [[MomentsModel alloc] init];
-    _avatarCache = [[NSCache alloc] init];
     
     _hud = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:_hud];

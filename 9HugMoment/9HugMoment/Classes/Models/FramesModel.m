@@ -23,31 +23,44 @@
 }
 
 -(void)getFrames{
+    NSData* data = nil;
+
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:FRAME_URL]) {
+        NSLog(@"Get Frames from cache");
+        data = [[[NSUserDefaults standardUserDefaults] objectForKey:FRAME_URL] dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    else{
+        NSLog(@"Get Frames from bundle");
+        data = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"Frames" withExtension:@"json"]];
+    }
+    NSArray * array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+    NSMutableArray * mutableFrames = [NSMutableArray new];
+    for (NSDictionary *dict in array) {
+        Frame* frame = [Frame frameFromDictionary:dict];
+        [mutableFrames addObject:frame];
+    }
+    _frames = mutableFrames;
+    NSLog(@"Cache Frames info:%@",_frames);
+    
+    [self downloadNewFrames];
+}
+
+-(void)downloadNewFrames{
     dispatch_async(dispatch_queue_create("frame_list", NULL), ^{
         NSLog(@"Download Frames from server");
         NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:FRAME_URL]];
-        if (!data) {
-            NSLog(@"Download Frames failed");
-            if ([[NSUserDefaults standardUserDefaults] objectForKey:FRAME_URL]) {
-                NSLog(@"Get Frames from cache");
-                data = [[[NSUserDefaults standardUserDefaults] objectForKey:FRAME_URL] dataUsingEncoding:NSUTF8StringEncoding];
+        if (data) {
+            [[NSUserDefaults standardUserDefaults] setObject:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] forKey:FRAME_URL];
+            
+            NSArray * array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+            NSMutableArray * mutableFrames = [NSMutableArray new];
+            for (NSDictionary *dict in array) {
+                Frame* frame = [Frame frameFromDictionary:dict];
+                [mutableFrames addObject:frame];
             }
-            else{
-                NSLog(@"Get Frames from bundle:%@",[[NSBundle mainBundle] URLForResource:@"Frames" withExtension:@"json"]);
-                data = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"Frames" withExtension:@"json"]];
-            }
+            _frames = mutableFrames;
+            NSLog(@"Downloaded Frames info:%@",_frames);
         }
-        
-        [[NSUserDefaults standardUserDefaults] setObject:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] forKey:FRAME_URL];
-        
-        NSArray * array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-        NSMutableArray * mutableFrames = [NSMutableArray new];
-        for (NSDictionary *dict in array) {
-            Frame* frame = [Frame frameFromDictionary:dict];
-            [mutableFrames addObject:frame];
-        }
-        _frames = mutableFrames;
-        NSLog(@"Frames info:%@",_frames);
     });
 }
 

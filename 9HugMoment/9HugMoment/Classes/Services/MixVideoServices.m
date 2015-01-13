@@ -27,10 +27,12 @@
              latitude:(NSString*)latitude
             longitude:(NSString *)longitude
          notification:(BOOL)notiF
+             isPublic:(BOOL)isPublic
             scheduled:(NSString*)scheduled
             thumbnail:(UIImage*)image
               sussess:(SuccessBlock)success
-              failure:(MessageBlock)failure;
+              failure:(MessageBlock)failure
+             progress:(ProgressBlock)progress
 {
     NSDictionary* dict;
     dict = @{@"key":key,
@@ -40,6 +42,7 @@
              @"longitude":longitude,
              @"notification":@(notiF),
              @"scheduled":scheduled,
+             @"ispublic":@(isPublic),
              @"userid":[[UserData currentAccount] strId]
              };
     
@@ -73,7 +76,9 @@
                                             
                                         }];
     [operator setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
-        
+        if (progress) {
+            progress(bytesWritten,totalBytesWritten,totalBytesExpectedToWrite);
+        }
     }];
 }
 

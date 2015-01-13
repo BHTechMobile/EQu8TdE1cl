@@ -30,6 +30,9 @@
     
     CLLocation *currentLocation;
     BOOL needShowEnterMessageView;
+    UIButton *buttonBack;
+    MixAudioViewController *mixAudioViewController;
+    NSString *linkVideoFromServer;
 }
 
 @property (weak, nonatomic) IBOutlet UIButton *touchPublicVideoButton;
@@ -51,6 +54,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *frameInputButton;
 @property (weak, nonatomic) IBOutlet UIButton *notificationButton;
 @property (weak, nonatomic) IBOutlet UIButton *tagButton;
+@property (weak, nonatomic) IBOutlet UIButton *shareLocationButton;
+@property (weak, nonatomic) IBOutlet UIButton *publicButton;
 
 @property (nonatomic, assign) CLLocationCoordinate2D currenLocations;
 @property (strong, nonatomic) LocationManagement *locationManagement;
