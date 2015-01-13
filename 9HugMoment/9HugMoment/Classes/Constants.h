@@ -20,6 +20,7 @@
 #define HOUR_IN_DAY 24
 #define INDEX_START_FROM_1_TO_0(x) (x - 1)
 #define INDEX_START_FROM_0_TO_1(x) (x + 1)
+#define CalibriFont(fontSize) [UIFont fontWithName : @"Calibri" size : fontSize]
 
 #import <AFNetworking.h>
 #import <CoreLocation/CoreLocation.h>

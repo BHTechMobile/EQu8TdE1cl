@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ky8-NG-bMV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="Ky8-NG-bMV">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -476,44 +476,27 @@
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fBy-ih-lzo" userLabel="Gifts Sent Button">
                                                                 <rect key="frame" x="0.0" y="0.0" width="102" height="102"/>
-                                                                <state key="normal">
-                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <state key="normal" title="Gifts Sent">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </state>
                                                                 <connections>
                                                                     <action selector="giftsSentAction:" destination="yxI-cH-mMe" eventType="touchUpInside" id="9UZ-sr-2mP"/>
                                                                 </connections>
                                                             </button>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BSC-qw-P6A">
-                                                                <rect key="frame" x="0.0" y="30" width="102" height="21"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="21" id="wPq-nI-TSM"/>
-                                                                </constraints>
-                                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Gifts Sent" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yuA-g3-5DC">
-                                                                <rect key="frame" x="0.0" y="48" width="102" height="21"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="21" id="NCY-oh-toW"/>
-                                                                </constraints>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BSC-qw-P6A">
+                                                                <rect key="frame" x="0.0" y="24" width="102" height="21"/>
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
                                                         <constraints>
-                                                            <constraint firstAttribute="trailing" secondItem="BSC-qw-P6A" secondAttribute="trailing" id="4al-os-7Zq"/>
                                                             <constraint firstAttribute="width" secondItem="iaP-xn-XFQ" secondAttribute="height" multiplier="1:1" id="Bb8-pb-vWP"/>
-                                                            <constraint firstItem="BSC-qw-P6A" firstAttribute="leading" secondItem="iaP-xn-XFQ" secondAttribute="leading" id="E3J-t2-o0U"/>
-                                                            <constraint firstAttribute="centerY" secondItem="yuA-g3-5DC" secondAttribute="centerY" constant="-7.5" id="G8H-Yj-yKC"/>
                                                             <constraint firstAttribute="bottom" secondItem="fBy-ih-lzo" secondAttribute="bottom" id="Jpn-A8-xWd"/>
                                                             <constraint firstItem="fBy-ih-lzo" firstAttribute="leading" secondItem="iaP-xn-XFQ" secondAttribute="leading" id="LXa-bs-LMP"/>
-                                                            <constraint firstItem="yuA-g3-5DC" firstAttribute="leading" secondItem="iaP-xn-XFQ" secondAttribute="leading" id="ajy-zx-IfQ"/>
                                                             <constraint firstItem="fBy-ih-lzo" firstAttribute="top" secondItem="iaP-xn-XFQ" secondAttribute="top" id="gJj-Lu-05l"/>
                                                             <constraint firstAttribute="trailing" secondItem="fBy-ih-lzo" secondAttribute="trailing" id="kf0-ab-qlU"/>
-                                                            <constraint firstAttribute="centerY" secondItem="BSC-qw-P6A" secondAttribute="centerY" constant="10.5" id="muQ-DZ-Mol"/>
-                                                            <constraint firstAttribute="trailing" secondItem="yuA-g3-5DC" secondAttribute="trailing" id="vez-1n-P8E"/>
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gUP-Wu-XcS" userLabel="Requests View">
@@ -521,21 +504,16 @@
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H0P-6E-kbv" userLabel="Requests Button">
                                                                 <rect key="frame" x="0.0" y="0.0" width="107" height="107"/>
-                                                                <state key="normal">
-                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <state key="normal" title="Requests">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </state>
                                                                 <connections>
                                                                     <action selector="requestsAction:" destination="yxI-cH-mMe" eventType="touchUpInside" id="n5c-ku-9Gk"/>
                                                                 </connections>
                                                             </button>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Requests" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dbv-1E-xJX">
-                                                                <rect key="frame" x="0.0" y="64" width="107" height="21"/>
-                                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wdH-EL-oXY">
-                                                                <rect key="frame" x="0.0" y="43" width="107" height="21"/>
+                                                                <rect key="frame" x="0.0" y="28" width="107" height="21"/>
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -555,21 +533,16 @@
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5as-be-xFp" userLabel="Friends Button">
                                                                 <rect key="frame" x="0.0" y="0.0" width="93" height="93"/>
-                                                                <state key="normal">
-                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <state key="normal" title="Friends">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </state>
                                                                 <connections>
                                                                     <action selector="friendsAction:" destination="yxI-cH-mMe" eventType="touchUpInside" id="A17-K1-jbK"/>
                                                                 </connections>
                                                             </button>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hw4-bk-bVq">
-                                                                <rect key="frame" x="0.0" y="37" width="93" height="21"/>
-                                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Friends" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z8g-eo-rLo">
-                                                                <rect key="frame" x="0.0" y="58" width="93" height="21"/>
+                                                                <rect key="frame" x="0.0" y="21" width="93" height="21"/>
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -589,21 +562,16 @@
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B5g-LC-lve" userLabel="Credits Button">
                                                                 <rect key="frame" x="0.0" y="0.0" width="89" height="89"/>
-                                                                <state key="normal">
-                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <state key="normal" title="Credits">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <color key="titleShadowColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                                 </state>
                                                                 <connections>
                                                                     <action selector="creditsAction:" destination="yxI-cH-mMe" eventType="touchUpInside" id="QEE-5s-HZc"/>
                                                                 </connections>
                                                             </button>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vp5-7I-x9h">
-                                                                <rect key="frame" x="0.0" y="29" width="89" height="21"/>
-                                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Credits" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wOk-Dt-gzt">
-                                                                <rect key="frame" x="0.0" y="48" width="89" height="21"/>
+                                                                <rect key="frame" x="0.0" y="20" width="89" height="21"/>
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -623,21 +591,16 @@
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UpY-yd-LRZ" userLabel="Stickers Button">
                                                                 <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
-                                                                <state key="normal">
-                                                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                                <state key="normal" title="Stickers">
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                                    <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 </state>
                                                                 <connections>
                                                                     <action selector="stickersAction:" destination="yxI-cH-mMe" eventType="touchUpInside" id="wDl-w6-6Rd"/>
                                                                 </connections>
                                                             </button>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Stickers" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E5p-WX-BbJ">
-                                                                <rect key="frame" x="0.0" y="93" width="160" height="21"/>
-                                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                                <nil key="highlightedColor"/>
-                                                            </label>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ujN-m3-rhL">
-                                                                <rect key="frame" x="0.0" y="70" width="160" height="21"/>
+                                                                <rect key="frame" x="0.0" y="52" width="160" height="21"/>
                                                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -721,12 +684,9 @@
                     <connections>
                         <outlet property="backgroundStatisticImageView" destination="9jS-U5-bdP" id="R6S-zI-SSk"/>
                         <outlet property="creditsButton" destination="B5g-LC-lve" id="fcs-bx-1G6"/>
-                        <outlet property="creditsLabel" destination="wOk-Dt-gzt" id="IAt-th-qm3"/>
                         <outlet property="creditsTopContentLabel" destination="bnk-EL-Q7N" id="4So-Gh-DrZ"/>
                         <outlet property="friendsButton" destination="5as-be-xFp" id="zvc-KT-Yvi"/>
-                        <outlet property="friendsLabel" destination="z8g-eo-rLo" id="uSP-S5-i2h"/>
                         <outlet property="giftsSentButton" destination="fBy-ih-lzo" id="gBY-9d-pXb"/>
-                        <outlet property="giftsSentLabel" destination="yuA-g3-5DC" id="yHq-1U-on9"/>
                         <outlet property="inputStatusTextField" destination="td0-qr-s2R" id="zeu-sU-abN"/>
                         <outlet property="numberOfCreditsLabel" destination="vp5-7I-x9h" id="uVN-RA-VKw"/>
                         <outlet property="numberOfCreditsTopContentLabel" destination="ypl-ya-6tu" id="rnL-p3-bhd"/>
@@ -735,9 +695,7 @@
                         <outlet property="numberOfRequestsLabel" destination="wdH-EL-oXY" id="Odp-NA-5Xz"/>
                         <outlet property="numberOfStickersLabel" destination="ujN-m3-rhL" id="FXx-Jw-wvO"/>
                         <outlet property="requestsButton" destination="H0P-6E-kbv" id="7MS-r7-vvx"/>
-                        <outlet property="requestsLabel" destination="dbv-1E-xJX" id="0rm-Yc-e6m"/>
                         <outlet property="stickersButton" destination="UpY-yd-LRZ" id="Onx-Zp-KSA"/>
-                        <outlet property="stickersLabel" destination="E5p-WX-BbJ" id="uLx-LO-aeh"/>
                         <outlet property="userNameLabel" destination="g2R-j9-zGl" id="LUn-Pu-uKa"/>
                         <outlet property="userPhotoButton" destination="Ali-4R-e1y" id="BX6-9q-HuX"/>
                         <outlet property="userPhotoImageView" destination="qzT-L2-7KC" id="aIh-Nz-Xzm"/>

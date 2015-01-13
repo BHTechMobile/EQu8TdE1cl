@@ -22,6 +22,7 @@
     // Do any additional setup after loading the view.
     _meScreenModel = [[MeScreenModel alloc] init];
     _meScreenModel.delegate = self;
+    [self setFontCalibri];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -98,6 +99,26 @@
     _numberOfFriendsLabel.text = statisticsObject.numberOfFriends;
     _numberOfCreditsLabel.text = _numberOfCreditsTopContentLabel.text = statisticsObject.numberOfCredits;
     _numberOfStickersLabel.text = statisticsObject.numberOfStickers;
+}
+
+- (void)setFontCalibri{
+    
+    [_creditsTopContentLabel setFont:CalibriFont(18)];
+    
+    [_numberOfGiftsSentLabel setFont:CalibriFont(21)];
+    [_numberOfRequestsLabel setFont:CalibriFont(21)];
+    [_numberOfFriendsLabel setFont:CalibriFont(21)];
+    [_numberOfCreditsLabel setFont:CalibriFont(21)];
+    [_numberOfStickersLabel setFont:CalibriFont(28)];
+    
+    [_userNameLabel setFont:CalibriFont(28)];
+    [_inputStatusTextField setFont:CalibriFont(21)];
+    
+    [_giftsSentButton.titleLabel setFont:CalibriFont(18)];
+    [_requestsButton.titleLabel setFont:CalibriFont(18)];
+    [_friendsButton.titleLabel setFont:CalibriFont(18)];
+    [_creditsButton.titleLabel setFont:CalibriFont(18)];
+    [_stickersButton.titleLabel setFont:CalibriFont(28)];
 }
 
 #pragma mark - UITextField Delegate
