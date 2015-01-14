@@ -17,6 +17,14 @@
 @property (nonatomic,retain) NSString *strId;
 
 @property (nonatomic,retain) NSString *strUserToken;
+@property (nonatomic,retain) NSString *strUserStatus;
+//Statistics
+@property (nonatomic,retain) NSString *strUserNumberOfGifts;
+@property (nonatomic,retain) NSString *strUserNumberOfRequests;
+@property (nonatomic,retain) NSString *strUserNumberOfFriends;
+@property (nonatomic,retain) NSString *strUserNumberOfCredits;
+@property (nonatomic,retain) NSString *strUserNumberOfStickers;
+
 
 +(UserData*)currentAccount;
 

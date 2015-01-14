@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		041CBCB91A5BFBBD00522FD7 /* FriendsScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CBCB81A5BFBBD00522FD7 /* FriendsScreenViewController.m */; };
 		041CBCBC1A5BFFAB00522FD7 /* MeScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CBCBB1A5BFFAB00522FD7 /* MeScreenViewController.m */; };
+		046F3D3C1A65199300F6ABD6 /* Calibri.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 046F3D3B1A65199300F6ABD6 /* Calibri.ttf */; };
+		0499E2251A65144C00523444 /* MeScreenServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499E2241A65144C00523444 /* MeScreenServices.m */; };
+		0499E22A1A65145500523444 /* MeScreenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499E2271A65145500523444 /* MeScreenModel.m */; };
 		04A469221A5B86130091F948 /* MessageDetailsServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A469211A5B86130091F948 /* MessageDetailsServices.m */; };
 		04A469381A5B883D0091F948 /* CommentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A469251A5B883D0091F948 /* CommentObject.m */; };
 		04A469391A5B883D0091F948 /* MessageAudioPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A469271A5B883D0091F948 /* MessageAudioPreviewView.m */; };
@@ -150,6 +153,11 @@
 		041CBCB81A5BFBBD00522FD7 /* FriendsScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsScreenViewController.m; sourceTree = "<group>"; };
 		041CBCBA1A5BFFAB00522FD7 /* MeScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeScreenViewController.h; sourceTree = "<group>"; };
 		041CBCBB1A5BFFAB00522FD7 /* MeScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeScreenViewController.m; sourceTree = "<group>"; };
+		046F3D3B1A65199300F6ABD6 /* Calibri.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Calibri.ttf; sourceTree = "<group>"; };
+		0499E2231A65144C00523444 /* MeScreenServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeScreenServices.h; sourceTree = "<group>"; };
+		0499E2241A65144C00523444 /* MeScreenServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeScreenServices.m; sourceTree = "<group>"; };
+		0499E2261A65145500523444 /* MeScreenModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeScreenModel.h; sourceTree = "<group>"; };
+		0499E2271A65145500523444 /* MeScreenModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeScreenModel.m; sourceTree = "<group>"; };
 		04A469201A5B86130091F948 /* MessageDetailsServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDetailsServices.h; sourceTree = "<group>"; };
 		04A469211A5B86130091F948 /* MessageDetailsServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDetailsServices.m; sourceTree = "<group>"; };
 		04A469241A5B883D0091F948 /* CommentObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentObject.h; sourceTree = "<group>"; };
@@ -380,6 +388,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		046F3D3A1A65199300F6ABD6 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				046F3D3B1A65199300F6ABD6 /* Calibri.ttf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
 		04A469231A5B87980091F948 /* MessageDetails */ = {
 			isa = PBXGroup;
 			children = (
@@ -560,6 +576,7 @@
 		9FA218A11A320C4000C3891B /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				046F3D3A1A65199300F6ABD6 /* fonts */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -567,6 +584,8 @@
 		9FADF12C1A2C5226007FFCFF /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				0499E2231A65144C00523444 /* MeScreenServices.h */,
+				0499E2241A65144C00523444 /* MeScreenServices.m */,
 				04A469201A5B86130091F948 /* MessageDetailsServices.h */,
 				04A469211A5B86130091F948 /* MessageDetailsServices.m */,
 				9FADF12D1A2C5226007FFCFF /* BaseServices.h */,
@@ -697,6 +716,8 @@
 		CECCB7821A2344D300C1220C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				0499E2261A65145500523444 /* MeScreenModel.h */,
+				0499E2271A65145500523444 /* MeScreenModel.m */,
 				04BC5EB61A5B820B0053B5F0 /* MessageDetailsModel.h */,
 				04BC5EB71A5B820B0053B5F0 /* MessageDetailsModel.m */,
 				9F9F63D01A42CFC9006D7113 /* RecentsMomentsModel.h */,
@@ -985,6 +1006,8 @@
 				9FB03B2B1A27909400370885 /* NavigationView.xib in Resources */,
 				9F9F98441A286D640089018B /* PlayerView.xib in Resources */,
 				04A4693E1A5B883D0091F948 /* MessageCaptionTableViewCell.xib in Resources */,
+				9FA218B01A320C4000C3891B /* GPUImageColorDodgeBlendFilter4.mp4 in Resources */,
+				046F3D3C1A65199300F6ABD6 /* Calibri.ttf in Resources */,
 				D23BA4691A357F75000EDE47 /* MomentsMessageTableViewCell.xib in Resources */,
 				04BC5EB51A5B7C970053B5F0 /* SquareCamViewController.xib in Resources */,
 			);
@@ -1056,6 +1079,7 @@
 				51A6E3081A31BC3C00BE3039 /* JTViewController.m in Sources */,
 				D23BA4681A357F75000EDE47 /* MomentsMessageTableViewCell.m in Sources */,
 				D23BA4741A357FA0000EDE47 /* NSDate+Helpers.m in Sources */,
+				0499E2251A65144C00523444 /* MeScreenServices.m in Sources */,
 				9FF86FAC1A4181F500EA94EA /* MyMomentsModel.m in Sources */,
 				CECCB7971A23472E00C1220C /* CaptureVideoViewController.m in Sources */,
 				9FD2AB171A3AFF0200275FDC /* LocationManagement.m in Sources */,
@@ -1082,6 +1106,7 @@
 				04EA40AA1A5E387300290CB7 /* ScheduleView.m in Sources */,
 				DDD04ECB1A5A42A600AE0CE8 /* Frame.m in Sources */,
 				9FA12BF51A35D66300CE737C /* CommentHeaderTableViewCell.m in Sources */,
+				0499E22A1A65145500523444 /* MeScreenModel.m in Sources */,
 				CE3E23431A233CDF00008D27 /* main.m in Sources */,
 				9FB03B291A27905C00370885 /* NavigationView.m in Sources */,
 				9FEA53D71A42883900CC6B89 /* ImageCacheObject.m in Sources */,
