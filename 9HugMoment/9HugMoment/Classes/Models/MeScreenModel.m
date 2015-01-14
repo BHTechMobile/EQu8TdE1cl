@@ -108,4 +108,12 @@
     }
 }
 
+- (void)setImageFrameMessage:(UIImageView *)imageView
+{
+    UIImage *frameMessageImage = [UIImage imageNamed:IMAGE_NAME_ICON_FRAME_MESSAGE];
+    UIImage *result = [frameMessageImage resizableImageWithCapInsets:UIEdgeInsetsMake(HALF_OF(frameMessageImage.size.height), HALF_OF(frameMessageImage.size.width), HALF_OF(frameMessageImage.size.height), HALF_OF(frameMessageImage.size.width))];
+    
+    imageView.image = result;
+}
+
 @end

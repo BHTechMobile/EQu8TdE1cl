@@ -393,14 +393,15 @@
                                                     <action selector="userPhotoAction:" destination="yxI-cH-mMe" eventType="touchUpInside" id="fVN-hf-wB6"/>
                                                 </connections>
                                             </button>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_frame_message" translatesAutoresizingMaskIntoConstraints="NO" id="cWR-Y5-gUm">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cWR-Y5-gUm">
                                                 <rect key="frame" x="40" y="20" width="225" height="40"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="40" id="kxr-fK-Tt0"/>
                                                 </constraints>
                                             </imageView>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Status" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="td0-qr-s2R">
-                                                <rect key="frame" x="50" y="20" width="205" height="40"/>
+                                                <rect key="frame" x="60" y="20" width="185" height="40"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="send"/>
                                                 <connections>
@@ -451,7 +452,7 @@
                                             <constraint firstItem="g2R-j9-zGl" firstAttribute="leading" secondItem="8KH-gB-M0G" secondAttribute="leading" constant="40" id="Wae-Kp-Twd"/>
                                             <constraint firstItem="bnk-EL-Q7N" firstAttribute="leading" secondItem="ypl-ya-6tu" secondAttribute="trailing" constant="5" id="Y3y-zi-t0L"/>
                                             <constraint firstItem="g2R-j9-zGl" firstAttribute="top" relation="greaterThanOrEqual" secondItem="Ali-4R-e1y" secondAttribute="bottom" constant="2" id="YVZ-GL-feA"/>
-                                            <constraint firstItem="td0-qr-s2R" firstAttribute="width" secondItem="cWR-Y5-gUm" secondAttribute="width" constant="-20" id="cUB-21-9kU"/>
+                                            <constraint firstItem="td0-qr-s2R" firstAttribute="width" secondItem="cWR-Y5-gUm" secondAttribute="width" constant="-40" id="cUB-21-9kU"/>
                                             <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="bnk-EL-Q7N" secondAttribute="bottom" constant="2" id="e63-TZ-ykh"/>
                                             <constraint firstItem="ypl-ya-6tu" firstAttribute="leading" secondItem="8KH-gB-M0G" secondAttribute="leading" constant="40" id="eV8-Dc-QT5"/>
                                             <constraint firstItem="qzT-L2-7KC" firstAttribute="centerX" secondItem="Ali-4R-e1y" secondAttribute="centerX" id="g9p-Pb-5Cq"/>
@@ -577,9 +578,9 @@
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MMf-3h-Iss">
-                                                        <rect key="frame" x="0.0" y="0.0" width="114" height="72"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="114" height="90"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" secondItem="MMf-3h-Iss" secondAttribute="height" multiplier="19:12" id="Ci5-ci-Uka"/>
+                                                            <constraint firstAttribute="width" secondItem="MMf-3h-Iss" secondAttribute="height" multiplier="19:15" id="Ci5-ci-Uka"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -622,9 +623,9 @@
                                                         </connections>
                                                     </button>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lu3-Jk-pWd">
-                                                        <rect key="frame" x="0.0" y="0.0" width="110" height="80"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="110" height="90"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" secondItem="Lu3-Jk-pWd" secondAttribute="height" multiplier="11:8" id="YLH-CE-W1d"/>
+                                                            <constraint firstAttribute="width" secondItem="Lu3-Jk-pWd" secondAttribute="height" multiplier="11:9" id="YLH-CE-W1d"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -703,9 +704,9 @@
                                                 <rect key="frame" x="0.0" y="176" width="130" height="130"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T0y-Ir-6Jq">
-                                                        <rect key="frame" x="0.0" y="0.0" width="130" height="90"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="130" height="100"/>
                                                         <constraints>
-                                                            <constraint firstAttribute="width" secondItem="T0y-Ir-6Jq" secondAttribute="height" multiplier="13:9" id="rPw-Xo-Exn"/>
+                                                            <constraint firstAttribute="width" secondItem="T0y-Ir-6Jq" secondAttribute="height" multiplier="13:10" id="rPw-Xo-Exn"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="17"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -841,6 +842,7 @@
                         <outlet property="numberOfStickersLabel" destination="ekB-fK-tSe" id="ewA-3t-SRf"/>
                         <outlet property="requestsButton" destination="jb8-BM-D8R" id="G4d-fg-lBD"/>
                         <outlet property="requestsLabel" destination="M9U-NI-2WO" id="iby-yy-ddC"/>
+                        <outlet property="statusImageView" destination="cWR-Y5-gUm" id="dUp-a8-hGU"/>
                         <outlet property="stickersButton" destination="seg-01-fqH" id="1VC-iI-fjD"/>
                         <outlet property="stickersLabel" destination="rnA-RV-3xc" id="WVh-Ia-Khy"/>
                         <outlet property="userNameLabel" destination="g2R-j9-zGl" id="LUn-Pu-uKa"/>
@@ -866,7 +868,6 @@
         <image name="btn_nex_cyan" width="14" height="22"/>
         <image name="btn_ok_big_manual_code" width="47" height="46"/>
         <image name="icon_add_photo" width="66" height="63"/>
-        <image name="icon_frame_message" width="131" height="48"/>
         <image name="icon_refresh" width="28" height="28"/>
         <image name="img_camera_target" width="199" height="199"/>
         <image name="nav_bg" width="320" height="44"/>

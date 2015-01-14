@@ -17,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *numberOfCreditsTopContentLabel;
 @property (weak, nonatomic) IBOutlet UILabel *creditsTopContentLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *backgroundStatisticImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *statusImageView;
+
 //Gifts Sent
 @property (strong, nonatomic) IBOutlet UIButton *giftsSentButton;
 @property (strong, nonatomic) IBOutlet UILabel *numberOfGiftsSentLabel;
@@ -69,7 +71,7 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     [self initData];
-    [self setFontCalibri];
+    [self setUpStatusImage];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -144,22 +146,27 @@
 }
 
 - (void)setFontCalibri{
-    [_userNameLabel setFont:CalibriFont(21.0)];
-    [_creditsTopContentLabel setFont:CalibriFont(18)];
+    [_userNameLabel setFont:CalibriFont(SIZE_FONT_LABEL_USER_NAME_ME_SCREEN_VIEW_CONTROLLER)];
+    [_inputStatusTextField setFont:CalibriFont(SIZE_FONT_LABEL_INPUT_STATUS_ME_SCREEN_VIEW_CONTROLLER)];
+    [_creditsTopContentLabel setFont:CalibriFont(SIZE_FONT_LABEL_CREDIT_TOP_CONTENT_ME_SCREEN_VIEW_CONTROLLER)];
     
-    [_numberOfGiftsSentLabel setFont:CalibriFont(21)];
-    [_numberOfRequestsLabel setFont:CalibriFont(21)];
-    [_numberOfFriendsLabel setFont:CalibriFont(18)];
-    [_numberOfCreditsLabel setFont:CalibriFont(21)];
-    [_numberOfStickersLabel setFont:CalibriFont(28)];
+    [_numberOfGiftsSentLabel setFont:CalibriFont(_numberOfGiftsSentLabel.size.width / PROPORTION_LABEL_WIDH_AND_FONT_ME_SCREEN_VIEW_CONTROLLER)];
+    [_numberOfRequestsLabel setFont:CalibriFont(_numberOfRequestsLabel.size.width / PROPORTION_LABEL_WIDH_AND_FONT_ME_SCREEN_VIEW_CONTROLLER)];
+    [_numberOfFriendsLabel setFont:CalibriFont(_numberOfFriendsLabel.size.width / PROPORTION_LABEL_WIDH_AND_FONT_ME_SCREEN_VIEW_CONTROLLER)];
+    [_numberOfCreditsLabel setFont:CalibriFont(_numberOfCreditsLabel.size.width / PROPORTION_LABEL_WIDH_AND_FONT_ME_SCREEN_VIEW_CONTROLLER)];
+    [_numberOfStickersLabel setFont:CalibriFont(_numberOfStickersLabel.size.width / PROPORTION_LABEL_WIDH_AND_FONT_ME_SCREEN_VIEW_CONTROLLER)];
     
-    [_inputStatusTextField setFont:CalibriFont(21)];
+    [_giftsSentLabel setFont:CalibriFont(_giftsSentLabel.size.width / PROPORTION_LABEL_WIDH_AND_FONT_ME_SCREEN_VIEW_CONTROLLER)];
+    [_requestsLabel setFont:CalibriFont(_requestsLabel.size.width / PROPORTION_LABEL_WIDH_AND_FONT_ME_SCREEN_VIEW_CONTROLLER)];
+    [_friendsLabel setFont:CalibriFont(_friendsLabel.size.width / PROPORTION_LABEL_WIDH_AND_FONT_ME_SCREEN_VIEW_CONTROLLER)];
+    [_creditsLabel setFont:CalibriFont(_creditsLabel.size.width / PROPORTION_LABEL_WIDH_AND_FONT_ME_SCREEN_VIEW_CONTROLLER)];
+    [_stickersLabel setFont:CalibriFont(_stickersLabel.size.width / PROPORTION_LABEL_WIDH_AND_FONT_ME_SCREEN_VIEW_CONTROLLER)];
     
-    [_giftsSentLabel setFont:CalibriFont(18)];
-    [_requestsLabel setFont:CalibriFont(18)];
-    [_friendsLabel setFont:CalibriFont(18)];
-    [_creditsLabel setFont:CalibriFont(18)];
-    [_stickersLabel setFont:CalibriFont(28)];
+}
+
+- (void)setUpStatusImage
+{
+    [_meScreenModel setImageFrameMessage:_statusImageView];
 }
 
 #pragma mark - UITextField Delegate

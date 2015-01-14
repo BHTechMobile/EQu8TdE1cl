@@ -28,5 +28,6 @@
 - (void)getUserStatus;
 - (void)updateUserStatus:(NSString *)userStatusString;
 - (void)getUserStatistics;
+- (void)setImageFrameMessage:(UIImageView *)imageView;
 
 @end

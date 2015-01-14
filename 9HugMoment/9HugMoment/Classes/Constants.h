@@ -145,6 +145,7 @@ typedef NS_ENUM(NSInteger, FilterType)
 #define IMAGE_NAME_BTN_BACK_CYAN @"btn_back_cyan"
 #define IMAGE_NAME_ICON_DEFAULT_NO_IMAGE @"icon_default_no_image"
 #define IMAGE_NAME_PLAY_ICON @"play-icon"
+#define IMAGE_NAME_ICON_FRAME_MESSAGE @"icon_frame_message"
 
 #pragma mark - KEYS
 // KEYS
@@ -354,5 +355,12 @@ typedef NS_ENUM(NSInteger, FilterType)
 
 #define FILTER_CLASS_NAME_NO_FRAME @"GPUImageFilter"
 #define PATH_COMPONET_FILTER @"Documents"
+
+#pragma mark - MeScreenViewController
+
+#define PROPORTION_LABEL_WIDH_AND_FONT_ME_SCREEN_VIEW_CONTROLLER 7
+#define SIZE_FONT_LABEL_USER_NAME_ME_SCREEN_VIEW_CONTROLLER 30
+#define SIZE_FONT_LABEL_INPUT_STATUS_ME_SCREEN_VIEW_CONTROLLER 21
+#define SIZE_FONT_LABEL_CREDIT_TOP_CONTENT_ME_SCREEN_VIEW_CONTROLLER 18
 
 #endif
