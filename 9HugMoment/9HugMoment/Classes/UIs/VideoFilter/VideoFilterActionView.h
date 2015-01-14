@@ -17,14 +17,13 @@
 
 @interface VideoFilterActionView : UIView
 
-@property (weak, nonatomic) IBOutlet UIImageView *thumbnailImageView;
-@property (weak, nonatomic) IBOutlet UILabel *filterNameLabel;
-@property (weak, nonatomic) IBOutlet UIImageView *downloadFilterImageView;
-@property (weak, nonatomic) IBOutlet UIButton *filterButton;
 @property (weak, nonatomic) id<VideoFilterActionViewDelegate> delegate;
+
 @property (strong, nonatomic) NSNumber *videoFilterTag;
 
-- (IBAction)filterAction:(id)sender;
-- (void)hideDownloadImageView;
+- (void)setFilterName:(NSString *)filterName;
+- (void)setThumbnailImage:(UIImage *)thumbnailImage;
+- (void)hideDownloadImageView:(BOOL)yesOrNo;
+- (void)showSelectionView:(BOOL)yesOrNo;
 
 @end

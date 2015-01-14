@@ -19,20 +19,16 @@
 @property(nonatomic,strong) NSTimer* timerCursor;
 @property(nonatomic,strong) NSString* capturePath;
 
-@property (weak, nonatomic) IBOutlet UIView *navigationCustomView;
-@property (weak, nonatomic) IBOutlet UIButton *touchMixVideoButton;
+@property (strong, nonatomic) IBOutlet UIView *navigationCustomView;
+@property (strong, nonatomic) IBOutlet UIButton *touchMixVideoButton;
 
-@property (weak, nonatomic) IBOutlet UIView *previewView;
-@property (weak, nonatomic) IBOutlet UIView *bottomView;
-@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
-@property (weak, nonatomic) IBOutlet UIButton *removeCapturedButton;
-@property (weak, nonatomic) IBOutlet UIButton *doneCaptureButton;
-@property (weak, nonatomic) IBOutlet UIImageView *imvFrame;
-@property (weak, nonatomic) IBOutlet UIImageView *imvCapture;
-@property (weak, nonatomic) IBOutlet UIView *recordPercent;
-@property (weak, nonatomic) IBOutlet UIImageView *imvAnimationFrame;
-@property (weak, nonatomic) IBOutlet UILabel *lblTutorial;
-@property (weak, nonatomic) IBOutlet UIButton *touchDoneCapture;
+@property (strong, nonatomic) IBOutlet UIView *previewView;
+@property (strong, nonatomic) IBOutlet UIView *bottomView;
+@property (strong, nonatomic) IBOutlet UILabel *timeLabel;
+@property (strong, nonatomic) IBOutlet UIImageView *imvFrame;
+@property (strong, nonatomic) IBOutlet UIImageView *imvCapture;
+@property (strong, nonatomic) IBOutlet UIView *recordPercent;
+@property (strong, nonatomic) IBOutlet UIImageView *imvAnimationFrame;
 
 - (void)showAlertResumVideo;
 
@@ -76,7 +72,7 @@
     _imgIndex = 0;
     _imvFrame.image = nil;
     _imvCapture.userInteractionEnabled = YES;
-    navigationView.titleNvgLabel.text = @"New Moment";
+    navigationView.titleNvgLabel.text = @"New Message";
     self.touchMixVideoButton.enabled = NO;
     _count = 12;
     _timeLabel.text = [NSString stringWithFormat:@"00:%ld",(long)_count];
@@ -100,6 +96,11 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+}
+
+- (void)dealloc{
+    NSLog(@"%s",__PRETTY_FUNCTION__);
+    
 }
 
 - (void)hightButtonCaptureConstraint{
@@ -188,6 +189,7 @@
                              _imvFrame.image = _imvAnimationFrame.image;
                              [_imvFrame setFrame:CGRectMake(0, 44, width, width)];
                              _imvAnimationFrame.hidden = YES;
+                             [self.view bringSubviewToFront:_timeLabel];
                          });
                      }];
 }

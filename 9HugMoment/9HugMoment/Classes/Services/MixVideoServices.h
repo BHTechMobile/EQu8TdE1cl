@@ -14,6 +14,6 @@ typedef void (^DownloadResponseBlock)(float progress);
 
 @interface MixVideoServices : NSObject
 
-+ (void)updateMessage:(NSString*)message key:(NSString*)key frame:(NSString*)frame path:(NSURL*)videoPath latitude:(NSString*)latitude longitude:(NSString *)longitude notification:(BOOL)notiF scheduled:(NSString*)scheduled thumbnail:(UIImage*)image sussess:(SuccessBlock)success failure:(MessageBlock)failure;
++ (void)updateMessage:(NSString*)message key:(NSString*)key frame:(NSString*)frame path:(NSURL*)videoPath latitude:(NSString*)latitude longitude:(NSString *)longitude notification:(BOOL)notiF isPublic:(BOOL)isPublic scheduled:(NSString*)scheduled thumbnail:(UIImage*)image sussess:(SuccessBlock)success failure:(MessageBlock)failure progress:(ProgressBlock)progress;
 
 @end
