@@ -10,12 +10,13 @@
 
 - (void)showRecordView:(UIView *)recordView withParentView:(UIView *)parentView
 {
+    [self vibrate];
+
     _isRecordSuccess = NO;
     [self createRecordTimer];
     CGRect fRecord = recordView.frame;
     [recordView.layer setCornerRadius:5.0f];
     [recordView.layer setMasksToBounds:YES];
-    [self vibrate];
     
     fRecord.origin.y = (CGRectGetHeight(parentView.frame) - CGRectGetHeight(recordView.frame))/2;
     [recordView setFrame:fRecord];

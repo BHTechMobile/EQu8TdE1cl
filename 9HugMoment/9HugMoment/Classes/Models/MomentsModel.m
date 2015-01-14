@@ -34,7 +34,9 @@
         [_messages removeAllObjects];
         for (NSDictionary* mDict in aaData) {
             MessageObject* message = [MessageObject createMessageByDictionnary:mDict];
-            [_messages addObject:message];
+            if (message.ispublic || [message.userID isEqualToString:[UserData currentAccount].strId]) {
+                [_messages addObject:message];
+            }
         }
         
         for (int i =0; i<_messages.count-1; ++i) {

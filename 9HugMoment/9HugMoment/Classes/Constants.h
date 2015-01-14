@@ -62,7 +62,7 @@
 #define IS_HEIGHT_GTE_736 (([[UIScreen mainScreen ] bounds].size.height >= 700)?TRUE:FALSE)
 #define IS_IPHONE_6_PLUS (IS_IPHONE && IS_HEIGHT_GTE_736)
 
-#define URL_ATTACH_IMAGE [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"my_capture.jpg"]]
+#define URL_ATTACH_IMAGE [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"my_capture.png"]]
 #define URL_RECORD [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@/Documents/MySounds.aac", NSHomeDirectory()]]
 
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
@@ -151,6 +151,7 @@ typedef NS_ENUM(NSInteger, FilterType)
 // KEYS
 #define KEY_TOKEN @"token"
 #define KEY_ID @"id"
+#define KEY_IS_PUBLIC @"ispublic"
 #define KEY_AGENT_ID @"agentid"
 #define KEY_TYPE @"type"
 #define KEY_STYLE @"style"

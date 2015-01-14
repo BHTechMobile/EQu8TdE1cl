@@ -38,6 +38,7 @@
     NSString *fullNameFromDict  = [dict stringForKey:KEY_FULL_NAME];
     NSString *userFacebookID    = [dict stringForKey:KEY_FACEBOOK_ID];
     NSString *styleFromDict  = [dict stringForKey:KEY_STYLE];
+    
     NSMutableArray *votesArrayFromDict = (NSMutableArray *)[dict stringForKey:KEY_VOTES];
     NSString *totalVotesFromDict = [dict stringForKey:KEY_TOTAL_VOTES];
     NSMutableArray *voicesArrayFromDict = (NSMutableArray *)[dict stringForKey:KEY_VOICES];
@@ -67,15 +68,17 @@
     message.fullName        = (fullNameFromDict!= (id)[NSNull null])?fullNameFromDict:@"";
     message.style           = (styleFromDict!= (id)[NSNull null])?styleFromDict:@"";
     message.userFacebookID  = (userFacebookID != (id)[NSNull null])?userFacebookID:@"";
-
+    
     message.latitude        = [[dict valueForKey:KEY_LATITUDE] floatValue];
     message.longitude       = [[dict valueForKey:KEY_LONGITUDE] floatValue];
+    message.ispublic        = [[dict valueForKey:KEY_IS_PUBLIC] floatValue];
+
     message.location        = [dict valueForKey:KEY_LOCATION];
 
     message.votesArray      = [[NSMutableArray alloc] init];
     message.voicesArray     = [[NSMutableArray alloc] init];
     message.photosArray     = [[NSMutableArray alloc] init];
-    
+
     message.votesArray      = (votesArrayFromDict != (id)[NSNull null])?votesArrayFromDict:message.votesArray;
     message.totalVotes      = (totalVotesFromDict != (id)[NSNull null])?totalVotesFromDict:message.totalVotes;
     message.voicesArray     = (voicesArrayFromDict != (id)[NSNull null])?voicesArrayFromDict:message.votesArray;
