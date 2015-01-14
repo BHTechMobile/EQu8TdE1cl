@@ -57,7 +57,7 @@
     // Do any additional setup after loading the view.
     _meScreenModel = [[MeScreenModel alloc] init];
     _meScreenModel.delegate = self;
-//    [self setFontCalibri];
+    [self setFontCalibri];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -69,6 +69,7 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
     [self initData];
+    [self setFontCalibri];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -144,6 +145,15 @@
 
 - (void)setFontCalibri{
     
+    for (NSString* family in [UIFont familyNames])
+    {
+        NSLog(@"%@", family);
+        
+        for (NSString* name in [UIFont fontNamesForFamilyName: family])
+        {
+            NSLog(@"  %@", name);
+        }
+    }
     [_userNameLabel setFont:CalibriFont(21.0)];
     [_creditsTopContentLabel setFont:CalibriFont(18)];
     
@@ -155,11 +165,11 @@
     
     [_inputStatusTextField setFont:CalibriFont(21)];
     
-    [_giftsSentButton.titleLabel setFont:CalibriFont(18)];
-    [_requestsButton.titleLabel setFont:CalibriFont(18)];
-    [_friendsButton.titleLabel setFont:CalibriFont(10)];
-    [_creditsButton.titleLabel setFont:CalibriFont(18)];
-    [_stickersButton.titleLabel setFont:CalibriFont(28)];
+    [_giftsSentLabel setFont:CalibriFont(18)];
+    [_requestsLabel setFont:CalibriFont(18)];
+    [_friendsLabel setFont:CalibriFont(18)];
+    [_creditsLabel setFont:CalibriFont(18)];
+    [_stickersLabel setFont:CalibriFont(28)];
 }
 
 #pragma mark - UITextField Delegate

@@ -577,7 +577,6 @@
 			isa = PBXGroup;
 			children = (
 				046F3D3A1A65199300F6ABD6 /* fonts */,
-				9FA218A21A320C4000C3891B /* VideoMix */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
