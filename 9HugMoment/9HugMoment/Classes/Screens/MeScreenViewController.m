@@ -144,16 +144,6 @@
 }
 
 - (void)setFontCalibri{
-    
-    for (NSString* family in [UIFont familyNames])
-    {
-        NSLog(@"%@", family);
-        
-        for (NSString* name in [UIFont fontNamesForFamilyName: family])
-        {
-            NSLog(@"  %@", name);
-        }
-    }
     [_userNameLabel setFont:CalibriFont(21.0)];
     [_creditsTopContentLabel setFont:CalibriFont(18)];
     
