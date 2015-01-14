@@ -39,6 +39,7 @@
 //                               @"key_status":userStatusString,
 //                               KEY_USER_ID:[UserData currentAccount].strId};
 //    [MeScreenServices updateUserStatus:dicParam success:^(AFHTTPRequestOperation *operation, id responseObject){
+//        //TODO: Update user status to UserData
 //        if (_delegate && [_delegate respondsToSelector:@selector(didUpdateUserStatusSuccess:)]) {
 //            [_delegate performSelector:@selector(didUpdateUserStatusSuccess:) withObject:self];
 //        }
@@ -49,7 +50,7 @@
 //    }];
     
     //TODO: Temp need remove
-    [[NSUserDefaults standardUserDefaults] setObject:userStatusString forKey:@"STATUS_TEMP"];
+    [UserData currentAccount].strUserStatus = userStatusString;
 }
 
 - (void)getUserStatus
@@ -58,8 +59,9 @@
 //    NSDictionary *dicParam = @{KEY_TOKEN:[UserData currentAccount].strUserToken,
 //                               KEY_USER_ID:[UserData currentAccount].strId};
 //    [MeScreenServices getUserStatus:dicParam sussess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        if (_delegate && [_delegate respondsToSelector:@selector(didGetUserStatusSuccess:withStatus:)]) {
-//            [_delegate performSelector:@selector(didGetUserStatusSuccess:withStatus:) withObject:self withObject:responseObject];
+//        //TODO: Update user status to UserData
+//        if (_delegate && [_delegate respondsToSelector:@selector(didGetUserStatusSuccess:)]) {
+//            [_delegate performSelector:@selector(didGetUserStatusSuccess:) withObject:self];
 //        }
 //    } failure:^(NSString *bodyString, NSError *error) {
 //        if (_delegate && [_delegate respondsToSelector:@selector(didGetUserStatusFail:withError:)]) {
@@ -68,9 +70,8 @@
 //    }];
     
     //TODO: Temp need remove
-    NSString *responseStatus = [[NSUserDefaults standardUserDefaults] objectForKey:@"STATUS_TEMP"];
-    if (_delegate && [_delegate respondsToSelector:@selector(didGetUserStatusSuccess:withStatus:)]) {
-        [_delegate performSelector:@selector(didGetUserStatusSuccess:withStatus:) withObject:self withObject:responseStatus];
+    if (_delegate && [_delegate respondsToSelector:@selector(didGetUserStatusSuccess:)]) {
+        [_delegate performSelector:@selector(didGetUserStatusSuccess:) withObject:self];
     }
 }
 
@@ -80,9 +81,9 @@
 //    NSDictionary *dicParam = @{KEY_TOKEN:[UserData currentAccount].strUserToken,
 //                               KEY_USER_ID:[UserData currentAccount].strId};
 //    [MeScreenServices getUserStatistic:dicParam sussess:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        if (_delegate && [_delegate respondsToSelector:@selector(didGetUserStatisticsSuccess:withDict:)]) {
-//            StatisticsObject *statisticsObject = [StatisticsObject createStatisticByDictionnary:responseObject];
-//            [_delegate performSelector:@selector(didGetUserStatisticsSuccess:withDict:) withObject:self withObject:statisticsObject];
+//        if (_delegate && [_delegate respondsToSelector:@selector(didGetUserStatisticsSuccess:)]) {
+//            //TODO: Save Statistics to UserData
+//            [_delegate performSelector:@selector(didGetUserStatisticsSuccess:) withObject:self];
 //        }
 //    } failure:^(NSString *bodyString, NSError *error) {
 //        if (_delegate && [_delegate respondsToSelector:@selector(didGetUserStatisticsFail:withError:)]) {
@@ -96,10 +97,14 @@
                                          @"key_friends":@"888",
                                          @"key_credits":@"1234",
                                          @"key_stickers":@"123"};
+    [UserData currentAccount].strUserNumberOfGifts = [responseStatistics objectForKey:@"key_gifts"];
+    [UserData currentAccount].strUserNumberOfRequests = [responseStatistics objectForKey:@"key_requests"];
+    [UserData currentAccount].strUserNumberOfFriends = [responseStatistics objectForKey:@"key_friends"];
+    [UserData currentAccount].strUserNumberOfCredits = [responseStatistics objectForKey:@"key_credits"];
+    [UserData currentAccount].strUserNumberOfStickers = [responseStatistics objectForKey:@"key_stickers"];
     
-    if (_delegate && [_delegate respondsToSelector:@selector(didGetUserStatisticsSuccess:withDict:)]) {
-        StatisticsObject *statisticsObject = [StatisticsObject createStatisticByDictionnary:responseStatistics];
-        [_delegate performSelector:@selector(didGetUserStatisticsSuccess:withDict:) withObject:self withObject:statisticsObject];
+    if (_delegate && [_delegate respondsToSelector:@selector(didGetUserStatisticsSuccess:)]) {
+        [_delegate performSelector:@selector(didGetUserStatisticsSuccess:) withObject:self];
     }
 }
 

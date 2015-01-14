@@ -7,7 +7,6 @@
 
 @implementation UserData
 
-
 #define USERFACEBOOKID @"USERFACEBOOKID"
 #define USERFACEBOOKTOKEN @"USERFACEBOOKTOKEN"
 #define USERFULLNAME @"USERFULLNAME"
@@ -19,6 +18,13 @@
 #define USERCREATEDATE @"USERCREATED"
 
 #define USERCTOKEN @"USERCTOKEN"
+
+#define USER_STATUS @"USERSTATUS"
+#define USER_NUMBER_OF_GIFTS @"USERNUMBEROFGIFTS"
+#define USER_NUMBER_OF_REQUESTS @"USERNUMBEROFREQUESTS"
+#define USER_NUMBER_OF_FRIENDS @"USERNUMBEROFRIENDS"
+#define USER_NUMBER_OF_CREDITS @"USERNUMBEROFCREDITS"
+#define USER_NUMBER_OF_STICKERS @"USERNUMBEROFSTICKERS"
 
 +(UserData*)currentAccount{
     static UserData *_sharedInstance = nil;
@@ -124,4 +130,74 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:USERCTOKEN];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
+- (void)setStrUserStatus:(NSString *)strUserStatus
+{
+    [[NSUserDefaults standardUserDefaults] setValue:strUserStatus forKey:USER_STATUS];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)strUserStatus
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:USER_STATUS];
+}
+
+#pragma mark - Statistics
+// Statistics
+
+- (void)setStrUserNumberOfGifts:(NSString *)strUserNumberOfGifts
+{
+    [[NSUserDefaults standardUserDefaults] setValue:strUserNumberOfGifts forKey:USER_NUMBER_OF_GIFTS];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)strUserNumberOfGifts
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:USER_NUMBER_OF_GIFTS];
+}
+
+- (void)setStrUserNumberOfRequests:(NSString *)strUserNumberOfRequests
+{
+    [[NSUserDefaults standardUserDefaults] setValue:strUserNumberOfRequests forKey:USER_NUMBER_OF_REQUESTS];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)strUserNumberOfRequests
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:USER_NUMBER_OF_REQUESTS];
+}
+
+- (void)setStrUserNumberOfFriends:(NSString *)strUserNumberOfFriends
+{
+    [[NSUserDefaults standardUserDefaults] setValue:strUserNumberOfFriends forKey:USER_NUMBER_OF_FRIENDS];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)strUserNumberOfFriends
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:USER_NUMBER_OF_FRIENDS];
+}
+
+- (void)setStrUserNumberOfCredits:(NSString *)strUserNumberOfCredits
+{
+    [[NSUserDefaults standardUserDefaults] setValue:strUserNumberOfCredits forKey:USER_NUMBER_OF_CREDITS];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)strUserNumberOfCredits
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:USER_NUMBER_OF_CREDITS];
+}
+
+- (void)setStrUserNumberOfStickers:(NSString *)strUserNumberOfStickers
+{
+    [[NSUserDefaults standardUserDefaults] setValue:strUserNumberOfStickers forKey:USER_NUMBER_OF_STICKERS];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)strUserNumberOfStickers
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:USER_NUMBER_OF_STICKERS];
+}
+
 @end

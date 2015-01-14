@@ -5,11 +5,46 @@
 
 #import "MeScreenViewController.h"
 #import "MeScreenModel.h"
-#import "StatisticsObject.h"
 
 @interface MeScreenViewController ()<UITextFieldDelegate, MeScreenModelDelegate>
 
 @property (strong, nonatomic) MeScreenModel *meScreenModel;
+
+@property (weak, nonatomic) IBOutlet UIImageView *userPhotoImageView;
+@property (weak, nonatomic) IBOutlet UIButton *userPhotoButton;
+@property (weak, nonatomic) IBOutlet UITextField *inputStatusTextField;
+@property (weak, nonatomic) IBOutlet UILabel *userNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *numberOfCreditsTopContentLabel;
+@property (weak, nonatomic) IBOutlet UILabel *creditsTopContentLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundStatisticImageView;
+//Gifts Sent
+@property (strong, nonatomic) IBOutlet UIButton *giftsSentButton;
+@property (strong, nonatomic) IBOutlet UILabel *numberOfGiftsSentLabel;
+@property (weak, nonatomic) IBOutlet UILabel *giftsSentLabel;
+//Request
+@property (strong, nonatomic) IBOutlet UIButton *requestsButton;
+@property (strong, nonatomic) IBOutlet UILabel *numberOfRequestsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *requestsLabel;
+//Friends
+@property (strong, nonatomic) IBOutlet UIButton *friendsButton;
+@property (strong, nonatomic) IBOutlet UILabel *numberOfFriendsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *friendsLabel;
+//Credits
+@property (strong, nonatomic) IBOutlet UIButton *creditsButton;
+@property (strong, nonatomic) IBOutlet UILabel *numberOfCreditsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *creditsLabel;
+//Stickers
+@property (strong, nonatomic) IBOutlet UIButton *stickersButton;
+@property (strong, nonatomic) IBOutlet UILabel *numberOfStickersLabel;
+@property (weak, nonatomic) IBOutlet UILabel *stickersLabel;
+
+- (IBAction)userPhotoAction:(id)sender;
+- (IBAction)giftsSentAction:(id)sender;
+- (IBAction)requestsAction:(id)sender;
+- (IBAction)friendsAction:(id)sender;
+- (IBAction)creditsAction:(id)sender;
+- (IBAction)stickersAction:(id)sender;
+- (IBAction)tapViewAction:(id)sender;
 
 @end
 
@@ -22,7 +57,7 @@
     // Do any additional setup after loading the view.
     _meScreenModel = [[MeScreenModel alloc] init];
     _meScreenModel.delegate = self;
-    [self setFontCalibri];
+//    [self setFontCalibri];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,21 +86,27 @@
 }
 
 - (IBAction)userPhotoAction:(id)sender {
+    //TODO: Click to user Photo
 }
 
 - (IBAction)giftsSentAction:(id)sender {
+    //TODO: Click to user Gifts sent
 }
 
 - (IBAction)requestsAction:(id)sender {
+    //TODO: Click to user Request
 }
 
 - (IBAction)friendsAction:(id)sender {
+    //TODO: Click to user Friends
 }
 
 - (IBAction)creditsAction:(id)sender {
+    //TODO: Click to user Credits
 }
 
 - (IBAction)stickersAction:(id)sender {
+    //TODO: Click to user Stcikers
 }
 
 - (IBAction)tapViewAction:(id)sender {
@@ -92,17 +133,18 @@
     [_meScreenModel getUserStatistics];
 }
 
-- (void)updateStatistics:(StatisticsObject *)statisticsObject
+- (void)updateStatistics
 {
-    _numberOfGiftsSentLabel.text = statisticsObject.numberOfGifts;
-    _numberOfRequestsLabel.text = statisticsObject.numberOfRequests;
-    _numberOfFriendsLabel.text = statisticsObject.numberOfFriends;
-    _numberOfCreditsLabel.text = _numberOfCreditsTopContentLabel.text = statisticsObject.numberOfCredits;
-    _numberOfStickersLabel.text = statisticsObject.numberOfStickers;
+    _numberOfGiftsSentLabel.text = [UserData currentAccount].strUserNumberOfGifts;
+    _numberOfRequestsLabel.text = [UserData currentAccount].strUserNumberOfRequests;
+    _numberOfFriendsLabel.text = [UserData currentAccount].strUserNumberOfFriends;
+    _numberOfCreditsLabel.text = _numberOfCreditsTopContentLabel.text = [UserData currentAccount].strUserNumberOfCredits;
+    _numberOfStickersLabel.text = [UserData currentAccount].strUserNumberOfStickers;
 }
 
 - (void)setFontCalibri{
     
+    [_userNameLabel setFont:CalibriFont(21.0)];
     [_creditsTopContentLabel setFont:CalibriFont(18)];
     
     [_numberOfGiftsSentLabel setFont:CalibriFont(21)];
@@ -111,7 +153,6 @@
     [_numberOfCreditsLabel setFont:CalibriFont(21)];
     [_numberOfStickersLabel setFont:CalibriFont(28)];
     
-    [_userNameLabel setFont:CalibriFont(28)];
     [_inputStatusTextField setFont:CalibriFont(21)];
     
     [_giftsSentButton.titleLabel setFont:CalibriFont(18)];
@@ -148,6 +189,7 @@
 - (void)didUpdateUserStatusSuccess:(MeScreenModel *)meScreenModel
 {
     //TODO: Waiting server
+    _inputStatusTextField.text = [UserData currentAccount].strUserStatus;
 }
 
 - (void)didUpdateUserStatusFail:(MeScreenModel *)meScreenModel withError:(NSError *)error
@@ -155,10 +197,10 @@
     //TODO: Waiting server
 }
 
-- (void)didGetUserStatusSuccess:(MeScreenModel *)meScreenModel withStatus:(NSString *)statusString
+- (void)didGetUserStatusSuccess:(MeScreenModel *)meScreenModel
 {
     //TODO: Waiting server
-    _inputStatusTextField.text = statusString;
+    _inputStatusTextField.text = [UserData currentAccount].strUserStatus;
 }
 
 - (void)didGetUserStatusFail:(MeScreenModel *)meScreenModel withError:(NSError *)error
@@ -166,10 +208,10 @@
     //TODO: Waiting server
 }
 
-- (void)didGetUserStatisticsSuccess:(MeScreenModel *)meScreenModel withDict:(StatisticsObject *)statisticsObject
+- (void)didGetUserStatisticsSuccess:(MeScreenModel *)meScreenModel
 {
     //TODO: Waiting server
-    [self updateStatistics:statisticsObject];
+    [self updateStatistics];
 }
 
 - (void)didGetUserStatisticsFail:(MeScreenModel *)meScreenModel withError:(NSError *)error

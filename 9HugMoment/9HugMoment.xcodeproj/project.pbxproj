@@ -12,7 +12,6 @@
 		046F3D3C1A65199300F6ABD6 /* Calibri.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 046F3D3B1A65199300F6ABD6 /* Calibri.ttf */; };
 		0499E2251A65144C00523444 /* MeScreenServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499E2241A65144C00523444 /* MeScreenServices.m */; };
 		0499E22A1A65145500523444 /* MeScreenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499E2271A65145500523444 /* MeScreenModel.m */; };
-		0499E22B1A65145500523444 /* StatisticsObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499E2291A65145500523444 /* StatisticsObject.m */; };
 		04A469221A5B86130091F948 /* MessageDetailsServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A469211A5B86130091F948 /* MessageDetailsServices.m */; };
 		04A469381A5B883D0091F948 /* CommentObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A469251A5B883D0091F948 /* CommentObject.m */; };
 		04A469391A5B883D0091F948 /* MessageAudioPreviewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A469271A5B883D0091F948 /* MessageAudioPreviewView.m */; };
@@ -168,8 +167,6 @@
 		0499E2241A65144C00523444 /* MeScreenServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeScreenServices.m; sourceTree = "<group>"; };
 		0499E2261A65145500523444 /* MeScreenModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeScreenModel.h; sourceTree = "<group>"; };
 		0499E2271A65145500523444 /* MeScreenModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeScreenModel.m; sourceTree = "<group>"; };
-		0499E2281A65145500523444 /* StatisticsObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatisticsObject.h; sourceTree = "<group>"; };
-		0499E2291A65145500523444 /* StatisticsObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatisticsObject.m; sourceTree = "<group>"; };
 		04A469201A5B86130091F948 /* MessageDetailsServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDetailsServices.h; sourceTree = "<group>"; };
 		04A469211A5B86130091F948 /* MessageDetailsServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDetailsServices.m; sourceTree = "<group>"; };
 		04A469241A5B883D0091F948 /* CommentObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentObject.h; sourceTree = "<group>"; };
@@ -756,8 +753,6 @@
 			children = (
 				0499E2261A65145500523444 /* MeScreenModel.h */,
 				0499E2271A65145500523444 /* MeScreenModel.m */,
-				0499E2281A65145500523444 /* StatisticsObject.h */,
-				0499E2291A65145500523444 /* StatisticsObject.m */,
 				04BC5EB61A5B820B0053B5F0 /* MessageDetailsModel.h */,
 				04BC5EB71A5B820B0053B5F0 /* MessageDetailsModel.m */,
 				9F9F63D01A42CFC9006D7113 /* RecentsMomentsModel.h */,
@@ -1127,7 +1122,6 @@
 				51A6E3081A31BC3C00BE3039 /* JTViewController.m in Sources */,
 				D23BA4681A357F75000EDE47 /* MomentsMessageTableViewCell.m in Sources */,
 				D23BA4741A357FA0000EDE47 /* NSDate+Helpers.m in Sources */,
-				0499E22B1A65145500523444 /* StatisticsObject.m in Sources */,
 				0499E2251A65144C00523444 /* MeScreenServices.m in Sources */,
 				9FF86FAC1A4181F500EA94EA /* MyMomentsModel.m in Sources */,
 				CECCB7971A23472E00C1220C /* CaptureVideoViewController.m in Sources */,
