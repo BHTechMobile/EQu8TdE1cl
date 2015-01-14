@@ -145,18 +145,14 @@
               [MBProgressHUD hideHUDForView:self.view animated:YES];
           });
           switch (status){
-              case AVAssetExportSessionStatusFailed:
-              {
-                  
+              case AVAssetExportSessionStatusFailed:{
                   break;
               }
-              case AVAssetExportSessionStatusCompleted:
-              {
+              case AVAssetExportSessionStatusCompleted:{
                   _exportUrl = [NSURL URLWithString:output];
                   if (_delegate && [_delegate respondsToSelector:@selector(mixAudioViewController:didMixVideoUrl:)]) {
                       [_delegate mixAudioViewController:self didMixVideoUrl:_exportUrl];
                   }
-                  
                   break;
               }
           }

@@ -379,10 +379,13 @@
 }
 
 - (void)saveImage :(UIImage *)image{
-    CGFloat size = image.size.width>image.size.height?image.size.height:image.size.width;
-    UIImage * newImage = [Utilities imageWithImage:image cropToRect:CGRectMake(0, 0, size, size)];
+    UIImage * scaledImage = image;//[Utilities imageWithImage:image scaledToRatio:640.0/image.size.width];
+    CGFloat size = (scaledImage.size.width>scaledImage.size.height)?scaledImage.size.height:scaledImage.size.width;
+    CGFloat max = (scaledImage.size.width>scaledImage.size.height)?scaledImage.size.width:scaledImage.size.height;
+
+    UIImage * newImage = [Utilities imageWithImage:scaledImage cropToRect:CGRectMake(0, (max-size)/2.0f, size, size)];
     
-    NSData* imageData = UIImageJPEGRepresentation(newImage, 1.0);
+    NSData* imageData = UIImagePNGRepresentation(newImage);
     [imageData writeToFile:URL_ATTACH_IMAGE atomically:YES];
 }
 

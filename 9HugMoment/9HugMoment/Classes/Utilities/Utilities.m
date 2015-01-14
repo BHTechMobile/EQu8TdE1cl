@@ -10,6 +10,10 @@
 #import <CommonCrypto/CommonDigest.h>
 //#import "ProgressHUD.h"
 
+double mradian(double deg){
+    return deg / 180.0 * M_PI;
+}
+
 @implementation Utilities
 //+ (void) hideTabBar:(UITabBarController *) tabbarcontroller {
 //
@@ -148,7 +152,24 @@
 }
 
 + (UIImage *)imageWithImage:(UIImage *)image cropToRect:(CGRect)rect{
-    CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], rect);
+    CGAffineTransform rectTransform;
+    switch (image.imageOrientation)
+    {
+        case UIImageOrientationLeft:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(mradian(90)), 0, -image.size.height);
+            break;
+        case UIImageOrientationRight:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(mradian(-90)), -image.size.width, 0);
+            break;
+        case UIImageOrientationDown:
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(mradian(-180)), -image.size.width, -image.size.height);
+            break;
+        default:
+            rectTransform = CGAffineTransformIdentity;
+    };
+    rectTransform = CGAffineTransformScale(rectTransform, image.scale, image.scale);
+
+    CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], CGRectApplyAffineTransform(rect, rectTransform));
     UIImage * result = [UIImage imageWithCGImage:imageRef];
     CGImageRelease(imageRef);
     
