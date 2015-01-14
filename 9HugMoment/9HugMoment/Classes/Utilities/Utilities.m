@@ -147,6 +147,14 @@
     return newImage;
 }
 
++ (UIImage *)imageWithImage:(UIImage *)image cropToRect:(CGRect)rect{
+    CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], rect);
+    UIImage * result = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    
+    return result;
+}
+
 + (UIImage *)imageWithImage:(UIImage *)image scaledToRatio:(CGFloat)ratio
 {
     CGFloat width = image.size.width * ratio;

@@ -32,11 +32,13 @@
 @property (nonatomic, strong) NSString *userFacebookID;
 @property (nonatomic, strong) NSString *totalVotes;
 @property (nonatomic, strong) NSString *style;
+@property (nonatomic, strong) NSString *location;
 
-@property (nonatomic, assign) BOOL downloaded;
 @property (nonatomic, assign) CGFloat latitude;
 @property (nonatomic, assign) CGFloat longitude;
-@property (nonatomic, strong) NSString *location;
+@property (nonatomic, assign) CGFloat ispublic;
+
+@property (nonatomic, assign) BOOL downloaded;
 
 @property (nonatomic, strong) NSMutableArray *votesArray;
 @property (nonatomic, strong) NSMutableArray *voicesArray;

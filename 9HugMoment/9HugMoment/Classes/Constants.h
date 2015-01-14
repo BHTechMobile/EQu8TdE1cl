@@ -149,6 +149,7 @@ typedef NS_ENUM(NSInteger, FilterType)
 // KEYS
 #define KEY_TOKEN @"token"
 #define KEY_ID @"id"
+#define KEY_IS_PUBLIC @"ispublic"
 #define KEY_AGENT_ID @"agentid"
 #define KEY_TYPE @"type"
 #define KEY_STYLE @"style"

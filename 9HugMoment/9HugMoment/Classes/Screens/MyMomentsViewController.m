@@ -23,7 +23,6 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 
 @implementation MyMomentsViewController{
     MyMomentsModel *_myMomentModel;
-    DownloadVideoView *_downloadVideoView;
     MessageObject *message;
     ODRefreshControl *_refreshControl;
     MBProgressHUD *_hud;
@@ -35,9 +34,6 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
     [super viewDidLoad];
     self.navigationItem.title = TITLES_MYMOMENTS;
     _myMomentModel = [[MyMomentsModel alloc] init];
-
-    _downloadVideoView = [DownloadVideoView downloadVideoViewWithDelegate:self];
-    [self.view addSubview:_downloadVideoView];
     
     _hud = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:_hud];
@@ -71,6 +67,16 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    
+    if (_myMomentModel.messages.count>0) {
+        if (![[UserData currentAccount].strId isEqualToString:((MessageObject*)_myMomentModel.messages[0]).userID]) {
+            [self refreshTableView];
+        }
+    }
+    else{
+        [self refreshTableView];
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning {

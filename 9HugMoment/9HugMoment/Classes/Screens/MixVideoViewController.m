@@ -843,6 +843,7 @@ __strong static UIAlertView *singleAlert;
 }
 
 #pragma mark - AVAudioPlayer Delegate
+
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag{
     _imvPlay.hidden = NO;
     _isPlaying = NO;

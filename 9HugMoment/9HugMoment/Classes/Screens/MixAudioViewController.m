@@ -7,10 +7,32 @@
 //
 
 #import "MixAudioViewController.h"
+
+#import <MediaPlayer/MediaPlayer.h>
+
 #import "AudioRangerSelectorView.h"
+#import "PlayerView.h"
+#import "MixEngine.h"
+#import "VolumeView.h"
 
-@interface MixAudioViewController ()
+@interface MixAudioViewController ()<MPMediaPickerControllerDelegate,AudioRangerSelectorViewDelegate,VolumeViewDelegate>
 
+@property(nonatomic, strong) IBOutlet AudioRangerSelectorView* rangeSelectorView;
+@property(nonatomic, strong) IBOutlet VolumeView* audioVolume;
+@property(nonatomic, strong) IBOutlet VolumeView* videoVolume;
+
+@property (strong, nonatomic) IBOutlet UIView *playerView;
+@property (strong, nonatomic) IBOutlet UIView *groupView;
+@property (strong, nonatomic) IBOutlet UILabel *songNamelabel;
+@property (strong, nonatomic) IBOutlet UIButton *mixButtonTapped;
+@property (strong, nonatomic) IBOutlet UIButton *doneButton;
+
+@property(nonatomic, strong) PlayerView* videoPlayer;
+
+- (IBAction)doneButtonTapped:(id)sender;
+- (IBAction)addMusicButtonTapped:(id)sender;
+- (IBAction)mixButtonTapped:(id)sender;
+- (IBAction)cancelButtonTapped:(id)sender;
 @end
 
 @implementation MixAudioViewController
@@ -29,6 +51,12 @@
 {
     [super viewDidLoad];
     [self createUI];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    _exportUrl = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -62,8 +90,6 @@
     [_videoVolume autoPinEdgeToSuperviewEdge:ALEdgeBottom withInset:0];
     [_videoVolume autoSetDimensionsToSize:CGSizeMake(84, 112)];
     
-    //        [self.view bringSubviewToFront:_bottomView];
-    //        [_groupView bringSubviewToFront:_doneButton];
     _videoPlayer = [PlayerView fromNib];
     
     if (IS_IPHONE_4) {
@@ -75,8 +101,6 @@
     }else if (IS_IPHONE_6_PLUS){
         [_videoPlayer setFrame:CGRectMake(0, 0, 334, 334)];
     }
-    
-//    [_videoPlayer setFrame:CGRectMake(0, 0, CGRectGetWidth(self.playerView.frame), CGRectGetHeight(self.playerView.frame))];
     
     [_playerView insertSubview:_videoPlayer atIndex:0];
     [_videoPlayer preparePlayWithUrl:_capturePath];
@@ -155,6 +179,7 @@
 - (IBAction)mixButtonTapped:(id)sender {
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     [MixEngine mixAudio:[_audioItem valueForProperty:MPMediaItemPropertyAssetURL]
                  volume:[_audioVolume getVolumeValue]
           startAtSecond:[_rangeSelectorView getSecondStartAt]

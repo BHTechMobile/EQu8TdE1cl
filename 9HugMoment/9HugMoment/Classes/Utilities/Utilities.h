@@ -19,6 +19,7 @@
 + (NSString*)timeFromAudio:(float)value;
 + (UIImage *)imageWithImage:(UIImage *)image scaledToFillSize:(CGSize)size;
 + (UIImage *)imageWithImage:(UIImage *)image scaledToRatio:(CGFloat)ratio;
++ (UIImage *)imageWithImage:(UIImage *)image cropToRect:(CGRect)rect;
 
 + (CGFloat)getTextHeight :(UITextView *)m_pDesTextView;
 + (NSArray *)findFiles:(NSString *)extension;

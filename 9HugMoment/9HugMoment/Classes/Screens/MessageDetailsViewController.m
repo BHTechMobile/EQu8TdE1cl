@@ -379,7 +379,10 @@
 }
 
 - (void)saveImage :(UIImage *)image{
-    NSData* imageData = UIImageJPEGRepresentation(image, 1.0);
+    CGFloat size = image.size.width>image.size.height?image.size.height:image.size.width;
+    UIImage * newImage = [Utilities imageWithImage:image cropToRect:CGRectMake(0, 0, size, size)];
+    
+    NSData* imageData = UIImageJPEGRepresentation(newImage, 1.0);
     [imageData writeToFile:URL_ATTACH_IMAGE atomically:YES];
 }
 
