@@ -89,13 +89,6 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 
 #pragma mark - Custom Methods
 
-- (void)setupTable{
-    for (int i=0; i<_myMomentModel.messages.count; i++) {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-        [self setupTableView:indexPath];
-    }
-}
-
 - (void)getAllMessage {
     _newsMomentButton.hidden = YES;
     [_hud show:YES];
@@ -110,7 +103,7 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 
 #pragma mark - TableView delegates & datasources
 
-- (void)setupTableView:(NSIndexPath *)indexPath{
+- (void)setupTableView{
     TableViewCellConfigureBlock configureCell = ^(MomentsMessageTableViewCell *momentsMessageTableViewCell, MessageObject *myMessage){
         [momentsMessageTableViewCell setMessageWithMessage:myMessage];
     };
@@ -152,7 +145,7 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 - (void)refreshTableViewDone {
     [_refreshControl endRefreshing];
     [_myMessagesTableView reloadData];
-    [self setupTable];
+    [self setupTableView];
 }
 
 @end

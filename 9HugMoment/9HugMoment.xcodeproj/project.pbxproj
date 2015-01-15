@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		041CBCB91A5BFBBD00522FD7 /* FriendsScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CBCB81A5BFBBD00522FD7 /* FriendsScreenViewController.m */; };
 		041CBCBC1A5BFFAB00522FD7 /* MeScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CBCBB1A5BFFAB00522FD7 /* MeScreenViewController.m */; };
+		0455037B1A67C9A100237484 /* PublicScreenServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 0455037A1A67C9A100237484 /* PublicScreenServices.m */; };
 		046F3D3C1A65199300F6ABD6 /* Calibri.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 046F3D3B1A65199300F6ABD6 /* Calibri.ttf */; };
 		0499E2251A65144C00523444 /* MeScreenServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499E2241A65144C00523444 /* MeScreenServices.m */; };
 		0499E22A1A65145500523444 /* MeScreenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499E2271A65145500523444 /* MeScreenModel.m */; };
@@ -199,6 +200,8 @@
 		041CBCB81A5BFBBD00522FD7 /* FriendsScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsScreenViewController.m; sourceTree = "<group>"; };
 		041CBCBA1A5BFFAB00522FD7 /* MeScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeScreenViewController.h; sourceTree = "<group>"; };
 		041CBCBB1A5BFFAB00522FD7 /* MeScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeScreenViewController.m; sourceTree = "<group>"; };
+		045503791A67C9A100237484 /* PublicScreenServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicScreenServices.h; sourceTree = "<group>"; };
+		0455037A1A67C9A100237484 /* PublicScreenServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicScreenServices.m; sourceTree = "<group>"; };
 		046F3D3B1A65199300F6ABD6 /* Calibri.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Calibri.ttf; sourceTree = "<group>"; };
 		0499E2231A65144C00523444 /* MeScreenServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeScreenServices.h; sourceTree = "<group>"; };
 		0499E2241A65144C00523444 /* MeScreenServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeScreenServices.m; sourceTree = "<group>"; };
@@ -653,6 +656,8 @@
 		9FADF12C1A2C5226007FFCFF /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				045503791A67C9A100237484 /* PublicScreenServices.h */,
+				0455037A1A67C9A100237484 /* PublicScreenServices.m */,
 				0499E2231A65144C00523444 /* MeScreenServices.h */,
 				0499E2241A65144C00523444 /* MeScreenServices.m */,
 				04A469201A5B86130091F948 /* MessageDetailsServices.h */,
@@ -1519,6 +1524,7 @@
 				DDB63BE91A67ABDD000C0076 /* CLToneCurveTool.m in Sources */,
 				9F9F98301A282A640089018B /* NSString+Helpers.m in Sources */,
 				DDB63B3C1A679A0E000C0076 /* JTViewController.m in Sources */,
+				0455037B1A67C9A100237484 /* PublicScreenServices.m in Sources */,
 				9F8D55EC1A3694A700735634 /* PlayerViewTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

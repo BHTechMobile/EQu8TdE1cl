@@ -5,22 +5,28 @@
 
 #import "MomentsModel.h"
 #import "MessageObject.h"
+#import "PublicScreenServices.h"
 
 @implementation MomentsModel
+
+#pragma mark - MomentsModel management
 
 - (id)init
 {
     self = [super init];
     if(self){
-        _messages = [NSMutableArray array];
+        _messagesHot = [NSMutableArray array];
+        _messagesNewest = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
+#pragma mark - MomentsModel Services
+
 - (void)getAllMessagesSuccess:(void (^)(id result))success
-                     failure:(void (^)(NSError *error))failure
+                      failure:(void (^)(NSError *error))failure
 {
-    [BaseServices getAllMessageSussess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [PublicScreenServices getAllMessageSussess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary* dict = (NSDictionary*)responseObject;
         
         NSArray* aaData;
@@ -31,21 +37,7 @@
             aaData = @[];
         }
         NSLog(@"%@",aaData);
-        [_messages removeAllObjects];
-        for (NSDictionary* mDict in aaData) {
-            MessageObject* message = [MessageObject createMessageByDictionnary:mDict];
-            if (message.ispublic || [message.userID isEqualToString:[UserData currentAccount].strId]) {
-                [_messages addObject:message];
-            }
-        }
-        
-        for (int i =0; i<_messages.count-1; ++i) {
-            for (int j=i+1; j<_messages.count; ++j) {
-                if (((MessageObject*)_messages[i]).createDated.integerValue < ((MessageObject*)_messages[j]).createDated.integerValue) {
-                    [_messages exchangeObjectAtIndex:i withObjectAtIndex:j];
-                }
-            }
-        }
+        [self getMessageFromArray:aaData];
         if (success) {
             success(responseObject);
         }
@@ -58,9 +50,9 @@
 }
 
 - (void)resetMessages:(MessageObject *)message Success:(void (^)(id result))success
-             failure:(void (^)(NSError *error))failure
-{    
-    [BaseServices resetMessage:message Sussess:^(AFHTTPRequestOperation *operation, id responseObject) {
+              failure:(void (^)(NSError *error))failure
+{
+    [PublicScreenServices resetMessage:message Sussess:^(AFHTTPRequestOperation *operation, id responseObject) {
         [BaseServices getAllMessageSussess:^(AFHTTPRequestOperation *operation, id responseObject) {
             if (success) {
                 success(responseObject);
@@ -75,6 +67,78 @@
             failure(error);
         }
     }];
+}
+
+- (void)voteMessage:(MessageObject *)messageObject {
+    NSDictionary *dicParam = @{KEY_TOKEN:[UserData currentAccount].strUserToken,
+                               KEY_MESSAGE_ID:messageObject.messageID,
+                               KEY_TYPE:[NSString stringWithFormat:@"%d",(int)MessageTypeVote],
+                               KEY_MESSAGE_STRING:@"message for vote",
+                               KEY_MEDIA_LINK:@"media link for vote",
+                               KEY_USER_ID:[UserData currentAccount].strId
+                               };
+    [PublicScreenServices responseMessage:dicParam success:^(AFHTTPRequestOperation *operation, id responseObject){
+        if (_delegate && [_delegate respondsToSelector:@selector(didVoteMessageSuccess:)]) {
+            [_delegate performSelector:@selector(didVoteMessageSuccess:) withObject:self];
+        }
+    }failure:^(AFHTTPRequestOperation *operation, NSError *error){
+        if (_delegate && [_delegate respondsToSelector:@selector(didVoteMessageFailed:)]) {
+            [_delegate performSelector:@selector(didVoteMessageFailed:) withObject:self];
+        }
+    }];
+}
+
+#pragma mark - Custom Methods
+
+- (void)getMessageFromArray:(NSArray *)responseMessage
+{
+    [_messagesNewest removeAllObjects];
+    [_messagesHot removeAllObjects];
+    
+    // Bring data to array
+    for (NSDictionary* mDict in responseMessage) {
+        MessageObject* message = [MessageObject createMessageByDictionnary:mDict];
+        if (message.ispublic || [message.userID isEqualToString:[UserData currentAccount].strId]) {
+            [_messagesNewest addObject:message];
+            [_messagesHot addObject:message];
+        }
+    }
+    
+    // Sort data - Message Newest
+    for (int i =0; i<_messagesNewest.count-1; ++i) {
+        for (int j=i+1; j<_messagesNewest.count; ++j) {
+            if (((MessageObject*)_messagesNewest[i]).createDated.integerValue < ((MessageObject*)_messagesNewest[j]).createDated.integerValue) {
+                [_messagesNewest exchangeObjectAtIndex:i withObjectAtIndex:j];
+            }
+        }
+    }
+    
+    for (int i = 0; i < _messagesNewest.count; i++) {
+        MessageObject *cur = [_messagesNewest objectAtIndex:i];
+        NSLog(@"current voted: %@ - message id: %@",cur.voted, cur.messageID);
+    }
+    
+    // Sort data - Message Hot
+    for (int i =0; i < _messagesHot.count-1; ++i) {
+        for (int j= i+1; j<_messagesHot.count; ++j) {
+            if (((MessageObject*)_messagesHot[i]).totalVotes.integerValue < ((MessageObject*)_messagesHot[j]).totalVotes.integerValue) {
+                [_messagesHot exchangeObjectAtIndex:i withObjectAtIndex:j];
+            }
+        }
+    }
+    // 2nd Sort Message hot - sort with vote and second is create date
+    for (int i = 0; i < _messagesHot.count - 1; i++)
+    {
+        for (int j= i+1; j<_messagesHot.count; ++j) {
+            if (((MessageObject*)_messagesHot[i]).totalVotes.integerValue == ((MessageObject*)_messagesHot[j]).totalVotes.integerValue) {
+                if (((MessageObject*)_messagesNewest[i]).createDated.integerValue < ((MessageObject*)_messagesNewest[j]).createDated.integerValue) {
+                    [_messagesNewest exchangeObjectAtIndex:i withObjectAtIndex:j];
+                }
+            }else{
+                break;
+            }
+        }
+    }
 }
 
 @end

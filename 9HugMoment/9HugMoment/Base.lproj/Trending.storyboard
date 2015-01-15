@@ -63,23 +63,59 @@
                                             <constraint firstAttribute="centerY" secondItem="9aW-7V-t5H" secondAttribute="centerY" id="myb-uh-BiB"/>
                                         </constraints>
                                     </view>
-                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="272" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Iw5-Sx-IO9" userLabel="Message - Table View">
-                                        <rect key="frame" x="0.0" y="45" width="320" height="386"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PwG-oZ-ffW" userLabel="Top View">
+                                        <rect key="frame" x="0.0" y="45" width="320" height="50"/>
+                                        <subviews>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="q3U-rg-7GD">
+                                                <rect key="frame" x="90" y="11" width="140" height="29"/>
+                                                <segments>
+                                                    <segment title="Hot"/>
+                                                    <segment title="Newest"/>
+                                                </segments>
+                                                <connections>
+                                                    <action selector="changeTypeToShowMessageAction:" destination="9Z4-rF-abU" eventType="valueChanged" id="duZ-pE-3MC"/>
+                                                </connections>
+                                            </segmentedControl>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="q3U-rg-7GD" firstAttribute="leading" secondItem="PwG-oZ-ffW" secondAttribute="leading" constant="90" id="SFj-8A-dy7"/>
+                                            <constraint firstAttribute="height" constant="50" id="WET-oR-M4r"/>
+                                            <constraint firstAttribute="centerY" secondItem="q3U-rg-7GD" secondAttribute="centerY" id="aEC-S9-P2f"/>
+                                            <constraint firstAttribute="trailing" secondItem="q3U-rg-7GD" secondAttribute="trailing" constant="90" id="dzi-kk-Hwd"/>
+                                        </constraints>
+                                    </view>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="272" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Iw5-Sx-IO9" userLabel="Hot Message - Table View">
+                                        <rect key="frame" x="0.0" y="95" width="320" height="336"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <outlet property="delegate" destination="9Z4-rF-abU" id="d0e-GO-LDW"/>
                                         </connections>
                                     </tableView>
+                                    <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="272" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="2uq-zC-RAO" userLabel="Newest Message - Table View">
+                                        <rect key="frame" x="0.0" y="95" width="320" height="336"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="9Z4-rF-abU" id="uLL-B8-Opm"/>
+                                        </connections>
+                                    </tableView>
                                 </subviews>
                                 <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="2uq-zC-RAO" secondAttribute="bottom" id="2Uk-u4-De0"/>
+                                    <constraint firstItem="PwG-oZ-ffW" firstAttribute="top" secondItem="V3w-zv-1Xt" secondAttribute="bottom" id="B7G-Lf-u1g"/>
+                                    <constraint firstAttribute="trailing" secondItem="2uq-zC-RAO" secondAttribute="trailing" id="QTf-rg-cwc"/>
+                                    <constraint firstItem="2uq-zC-RAO" firstAttribute="top" secondItem="PwG-oZ-ffW" secondAttribute="bottom" id="RbA-3L-MIn"/>
                                     <constraint firstAttribute="trailing" secondItem="V3w-zv-1Xt" secondAttribute="trailing" id="SDP-PE-cGs"/>
+                                    <constraint firstItem="Iw5-Sx-IO9" firstAttribute="top" secondItem="PwG-oZ-ffW" secondAttribute="bottom" id="Zf3-2S-VoQ"/>
                                     <constraint firstAttribute="trailing" secondItem="Iw5-Sx-IO9" secondAttribute="trailing" id="bRG-rM-0zn"/>
                                     <constraint firstItem="Iw5-Sx-IO9" firstAttribute="leading" secondItem="NdO-YG-2z1" secondAttribute="leading" id="bWk-Jt-y0s"/>
                                     <constraint firstItem="V3w-zv-1Xt" firstAttribute="leading" secondItem="NdO-YG-2z1" secondAttribute="leading" id="hOa-b1-3IM"/>
-                                    <constraint firstItem="Iw5-Sx-IO9" firstAttribute="top" secondItem="V3w-zv-1Xt" secondAttribute="bottom" id="hcN-tp-Zhf"/>
+                                    <constraint firstItem="2uq-zC-RAO" firstAttribute="leading" secondItem="NdO-YG-2z1" secondAttribute="leading" id="hxP-Cn-ajm"/>
                                     <constraint firstAttribute="bottom" secondItem="Iw5-Sx-IO9" secondAttribute="bottom" id="mzH-Gp-LsA"/>
                                     <constraint firstItem="V3w-zv-1Xt" firstAttribute="top" secondItem="NdO-YG-2z1" secondAttribute="top" id="o9G-vf-la7"/>
+                                    <constraint firstItem="PwG-oZ-ffW" firstAttribute="leading" secondItem="NdO-YG-2z1" secondAttribute="leading" id="vJF-lI-hqf"/>
+                                    <constraint firstAttribute="trailing" secondItem="PwG-oZ-ffW" secondAttribute="trailing" id="yhg-xd-SOz"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -99,7 +135,9 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="contentView" destination="NdO-YG-2z1" id="WjX-RF-tHZ"/>
-                        <outlet property="messagesTableView" destination="Iw5-Sx-IO9" id="weA-9u-RJ9"/>
+                        <outlet property="messagesHotTableView" destination="Iw5-Sx-IO9" id="J8c-TF-EKe"/>
+                        <outlet property="messagesNewestTableView" destination="2uq-zC-RAO" id="C7F-zJ-ztj"/>
+                        <outlet property="typeToShowMessageSegment" destination="q3U-rg-7GD" id="wRG-bJ-8FU"/>
                         <segue destination="Sez-qI-75R" kind="push" identifier="pushCaptureVideoViewController" id="vYE-wn-f0s"/>
                         <segue destination="HcW-8P-sdX" kind="push" identifier="pushMessageDetailsViewController" id="IIx-oo-yMx"/>
                     </connections>
@@ -214,7 +252,7 @@
                                             <constraint firstAttribute="height" constant="37" id="4ep-dk-Mk0"/>
                                             <constraint firstAttribute="width" constant="37" id="8PS-bf-eRR"/>
                                         </constraints>
-                                        <state key="normal" image="camera" backgroundImage="945A76EA-C104-4FCE-8D5A-AC8972F413C5">
+                                        <state key="normal" image="camera" backgroundImage="15B99B61-3348-430A-93EF-D93628F26EAC">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -1226,7 +1264,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="945A76EA-C104-4FCE-8D5A-AC8972F413C5" width="37" height="37">
+        <image name="15B99B61-3348-430A-93EF-D93628F26EAC" width="37" height="37">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw

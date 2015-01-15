@@ -37,7 +37,8 @@
     NSString *readsFromDict     = [dict stringForKey:KEY_READS];
     NSString *fullNameFromDict  = [dict stringForKey:KEY_FULL_NAME];
     NSString *userFacebookID    = [dict stringForKey:KEY_FACEBOOK_ID];
-    NSString *styleFromDict  = [dict stringForKey:KEY_STYLE];
+    NSString *styleFromDict     = [dict stringForKey:KEY_STYLE];
+    NSString *votedFromDict     = [dict stringForKey:KEY_VOTED];
     
     NSMutableArray *votesArrayFromDict = (NSMutableArray *)[dict stringForKey:KEY_VOTES];
     NSString *totalVotesFromDict = [dict stringForKey:KEY_TOTAL_VOTES];
@@ -74,6 +75,7 @@
     message.ispublic        = [[dict valueForKey:KEY_IS_PUBLIC] floatValue];
 
     message.location        = [dict valueForKey:KEY_LOCATION];
+    message.voted           = (votedFromDict != (id)[NSNull null])?votedFromDict:@"";
 
     message.votesArray      = [[NSMutableArray alloc] init];
     message.voicesArray     = [[NSMutableArray alloc] init];
@@ -97,4 +99,12 @@
     NSString* fileName = [NSString stringWithFormat:@"Documents/%@.mp4",self.key];
     return [[NSFileManager defaultManager] fileExistsAtPath:[NSHomeDirectory() stringByAppendingPathComponent:fileName]];
 }
+
+- (BOOL)isUserVotedMessage
+{
+    BOOL result = NO;
+    result = [self.voted boolValue];
+    return result;
+}
+
 @end

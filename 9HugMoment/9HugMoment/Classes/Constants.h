@@ -115,6 +115,12 @@ typedef NS_ENUM(NSInteger, FilterType)
     FilterTypeDynamic
 };
 
+typedef NS_ENUM(NSInteger, TypeToShowMessage)
+{
+    TypeToShowMessageHot,
+    TypeToShowMessageNewest
+};
+
 #pragma mark - Images Name
 // Images Name
 #define IMAGE_NAME_ICON_LIKE_BLUE @"icon_like_blue"
@@ -146,6 +152,8 @@ typedef NS_ENUM(NSInteger, FilterType)
 #define IMAGE_NAME_ICON_DEFAULT_NO_IMAGE @"icon_default_no_image"
 #define IMAGE_NAME_PLAY_ICON @"play-icon"
 #define IMAGE_NAME_ICON_FRAME_MESSAGE @"icon_frame_message"
+#define IMAGE_NAME_ICON_CARET_RED @"icon_caret_red"
+#define IMAGE_NAME_ICON_CARET_GRAY @"icon_caret_gray"
 
 #pragma mark - KEYS
 // KEYS
@@ -198,6 +206,7 @@ typedef NS_ENUM(NSInteger, FilterType)
 #define KEY_LATITUDE @"latitude"
 #define KEY_LONGITUDE @"longitude"
 #define KEY_LOCATION @"location"
+#define KEY_VOTED @"voted"
 //User setting key
 #define KEY_USER_SETTING_LOGGED_IN_ID @"userSettingLoggedInID"
 #define KEY_USER_SETTING_LOGGED_IN_TOKEN @"userSettingLoggedInToken"
@@ -276,7 +285,7 @@ typedef NS_ENUM(NSInteger, FilterType)
 #define TITLE_BUTTON_NEW_MOMENTS_FONT_SIZE 12
 #define HIGHT_BUTTON_NEW_MOMENTS 30
 #define WIDTH_BUTTON_NEW_MOMENTS 50
-#define CALL_PUSH_NOTIFICATIONS @"songsongsong"
+#define CALL_PUSH_NOTIFICATIONS @"PushNotifications"
 
 #pragma mark - MomentsDetailViewController
 // MomentsDetailViewController

@@ -7,9 +7,11 @@
 #import "UIImageView+WebCache.h"
 #import "MyMomentsModel.h"
 #import <SDWebImage/SDImageCache.h>
+
 @interface MomentsMessageTableViewCell ()
 
-@property (nonatomic,strong) MessageObject *message;
+@property (weak, nonatomic) IBOutlet UIButton *voteButton;
+@property (weak, nonatomic) IBOutlet UIImageView *statusVoteImageView;
 
 @end
 
@@ -30,14 +32,23 @@
     return self;
 }
 
+#pragma mark - Actions
+
+- (IBAction)voteAction:(id)sender {
+    if (_delegate && [_delegate respondsToSelector:@selector(didClickVote:withMessage:)]) {
+        [_delegate performSelector:@selector(didClickVote:withMessage:) withObject:self withObject:_message];
+    }
+}
+
+#pragma mark - Custom Methods
+
 - (void)setMessageWithMessage:(MessageObject *)message {
-    NSLog(@"%s %@",__PRETTY_FUNCTION__,message.messageID);
     _message = message;
-    
     _userNameLabel.text = message.fullName;
     NSString *numberOfVote = message.totalVotes;
     _numberCountsLabel.text = numberOfVote;
-
+    self.statusVoteImageView.image = ([message isUserVotedMessage])?[UIImage imageNamed:IMAGE_NAME_ICON_CARET_RED]:[UIImage imageNamed:IMAGE_NAME_ICON_CARET_GRAY];
+    
     //location
     if ([message.location isEqualToString:@""] || !message.location) {
         _locationLabel.text = @"Private";
@@ -105,7 +116,6 @@
             }
         }];
     }
-    
 }
 
 @end
