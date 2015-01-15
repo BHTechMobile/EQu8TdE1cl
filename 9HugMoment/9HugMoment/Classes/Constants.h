@@ -115,6 +115,12 @@ typedef NS_ENUM(NSInteger, FilterType)
     FilterTypeDynamic
 };
 
+typedef NS_ENUM(NSInteger, TypeToShowMessage)
+{
+    TypeToShowMessageHot,
+    TypeToShowMessageNewest
+};
+
 #pragma mark - Images Name
 // Images Name
 #define IMAGE_NAME_ICON_LIKE_BLUE @"icon_like_blue"
@@ -276,7 +282,7 @@ typedef NS_ENUM(NSInteger, FilterType)
 #define TITLE_BUTTON_NEW_MOMENTS_FONT_SIZE 12
 #define HIGHT_BUTTON_NEW_MOMENTS 30
 #define WIDTH_BUTTON_NEW_MOMENTS 50
-#define CALL_PUSH_NOTIFICATIONS @"songsongsong"
+#define CALL_PUSH_NOTIFICATIONS @"PushNotifications"
 
 #pragma mark - MomentsDetailViewController
 // MomentsDetailViewController
