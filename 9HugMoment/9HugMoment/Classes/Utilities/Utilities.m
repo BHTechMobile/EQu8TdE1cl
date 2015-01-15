@@ -152,17 +152,19 @@ double mradian(double deg){
 }
 
 + (UIImage *)imageWithImage:(UIImage *)image cropToRect:(CGRect)rect{
+    
+    NSLog(@"original image orientation:%ld",image.imageOrientation);
+    
     CGAffineTransform rectTransform;
-    switch (image.imageOrientation)
-    {
+    switch (image.imageOrientation){
         case UIImageOrientationLeft:
-            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(mradian(90)), 0, -image.size.height);
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(M_PI_2), 0, -image.size.height);
             break;
         case UIImageOrientationRight:
-            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(mradian(-90)), -image.size.width, 0);
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(-M_PI_2), -image.size.width, 0);
             break;
         case UIImageOrientationDown:
-            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(mradian(-180)), -image.size.width, -image.size.height);
+            rectTransform = CGAffineTransformTranslate(CGAffineTransformMakeRotation(-M_PI), -image.size.width, -image.size.height);
             break;
         default:
             rectTransform = CGAffineTransformIdentity;

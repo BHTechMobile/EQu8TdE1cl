@@ -119,7 +119,7 @@
     dispatch_queue_t backgroundQueue = dispatch_queue_create("com.mycompany.myqueue", 0);
     
     dispatch_async(backgroundQueue, ^{
-        UIImage *fetchImage = [Utilities setThumbnail:[UIImage imageWithContentsOfFile:URL_ATTACH_IMAGE] withSize:CGSizeMake(720, 720)];
+        UIImage *fetchImage = [UIImage imageWithContentsOfFile:URL_ATTACH_IMAGE];
         
         [[MessageDetailsServices sharedManager].requestSerializer setTimeoutInterval:300];
         

@@ -46,7 +46,6 @@
     [self initNavigationView];
     [self createUI];
     [self.navigationCustomView addSubview:navigationView];
-    [self _resetCapture];
 
     _previewView.backgroundColor = [UIColor blackColor];
     CGRect previewFrame = CGRectMake(0, 60.0f, CGRectGetWidth(self.view.frame), CGRectGetWidth(self.view.frame));
@@ -77,7 +76,6 @@
     _count = 12;
     _timeLabel.text = [NSString stringWithFormat:@"00:%ld",(long)_count];
     [self createProcessView];
-    [self touchResetCapturedButton:nil];
     [self hightButtonCaptureConstraint];
     [self.swipeFrameLabel bringSubviewToFront:self.view];
 }
@@ -85,7 +83,7 @@
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     unlink([_capturePath UTF8String]);
-    [self _resetCapture];
+    [self touchResetCapturedButton:nil];
     [[PBJVision sharedInstance] startPreview];
 }
 
@@ -678,6 +676,7 @@
         }
     }
     [_arrayViewSpeacators removeAllObjects];
+    [self _resetCapture];
 }
 
 - (IBAction)changeCamera:(id)sender {

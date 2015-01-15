@@ -9,11 +9,12 @@
 #import "SlideImageViewController.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import <SDWebImage/UIImageView+WebCache.h>
 
-#define kImageBack                      [UIImage imageNamed:@"back_btn.png"]
-#define kImageDownload                  [UIImage imageNamed:@"SacveImage.png"]
-#define kImageShare                     [UIImage imageNamed:@"share.png"]
-#define kImageBackgroundNavigation      [UIImage imageNamed:@"nav_bar_bg.png"]
+#define kImageBack                      [UIImage imageNamed:@"back_btn"]
+#define kImageDownload                  [UIImage imageNamed:@"SacveImage"]
+#define kImageShare                     [UIImage imageNamed:@"share"]
+#define kImageBackgroundNavigation      [UIImage imageNamed:@"nav_bar_bg"]
 #define IS_IOS_7_OR_LATER       SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"7.0")
 #define MAIN_SCREEN_HEIGHT          (SYSTEM_VERSION_LESS_THAN(@"7.0") ? [[UIScreen mainScreen] bounds].size.height - 20 : [[UIScreen mainScreen] bounds].size.height)
 
@@ -244,19 +245,13 @@ CGFloat const kInitialZoomScale = 0.5f;
             UIImage *image = [UIImage imageWithData:data];
             imageView.image = image;
         } else {
-            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0ul);
-            dispatch_async(queue, ^{
-                NSData *data = [NSData dataWithContentsOfURL:imageURL];
+            [imageView sd_setImageWithURL:imageURL placeholderImage:nil options:SDWebImageProgressiveDownload completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                NSData *data = UIImagePNGRepresentation(image);
                 [FTWCache setObject:data forKey:key];
-                UIImage *image = [UIImage imageWithData:data];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    imageView.image = image;
-                });
-            });
+            }];
         }
         imageView.tag = i;
         [imageScrollView addSubview:imageView];
-        
     }
     
     //  set contentSize + contentOffset

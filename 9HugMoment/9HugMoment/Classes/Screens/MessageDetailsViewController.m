@@ -4,8 +4,9 @@
 //
 
 #import "MessageDetailsViewController.h"
+#import "CLImageEditor.h"
 
-@interface MessageDetailsViewController ()
+@interface MessageDetailsViewController ()<CLImageEditorDelegate>
 
 @end
 
@@ -100,6 +101,8 @@
 
 - (IBAction)holdAndRecordAction:(id)sender {
     [_moviePlayerStreaming pause];
+
+    _currentTimeRecordLabel.text = @"0:00";
     [_recordObject showRecordView:_recordView withParentView:self.view];
 }
 
@@ -378,15 +381,31 @@
     }
 }
 
-- (void)saveImage :(UIImage *)image{
-    UIImage * scaledImage = image;//[Utilities imageWithImage:image scaledToRatio:640.0/image.size.width];
-    CGFloat size = (scaledImage.size.width>scaledImage.size.height)?scaledImage.size.height:scaledImage.size.width;
-    CGFloat max = (scaledImage.size.width>scaledImage.size.height)?scaledImage.size.width:scaledImage.size.height;
+- (void)loadPhotoEditorWithImage:(UIImage *)image
+{
+//    CGFloat size = (image.size.width>image.size.height)?image.size.height:image.size.width;
+//    CGFloat max = (image.size.width>image.size.height)?image.size.width:image.size.height;
+//    
+//    UIImage * newImage = [Utilities imageWithImage:image cropToRect:CGRectMake(0, (max-size)/2.0f, size, size)];
 
-    UIImage * newImage = [Utilities imageWithImage:scaledImage cropToRect:CGRectMake(0, (max-size)/2.0f, size, size)];
+    CLImageEditor *editor = [[CLImageEditor alloc] initWithImage:image];
+    editor.delegate = self;
     
-    NSData* imageData = UIImagePNGRepresentation(newImage);
-    [imageData writeToFile:URL_ATTACH_IMAGE atomically:YES];
+    [self presentViewController:editor animated:YES completion:nil];
+
+}
+
+- (void)saveImage :(UIImage *)image{
+    
+//    UIImage * scaledImage = image;//[Utilities imageWithImage:image scaledToRatio:640.0/image.size.width];
+//    CGFloat size = (scaledImage.size.width>scaledImage.size.height)?scaledImage.size.height:scaledImage.size.width;
+//    CGFloat max = (scaledImage.size.width>scaledImage.size.height)?scaledImage.size.width:scaledImage.size.height;
+//
+//    UIImage * newImage = [Utilities imageWithImage:scaledImage cropToRect:CGRectMake(0, (max-size)/2.0f, size, size)];
+//    
+//    NSData* imageData = UIImagePNGRepresentation(newImage);
+//    [imageData writeToFile:URL_ATTACH_IMAGE atomically:YES];
+    
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
@@ -395,27 +414,11 @@
     UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
     [picker dismissViewControllerAnimated:YES completion:nil];
     // set thumbnail
-    [self saveImage:image];
-    //upload
-    [_hud show:YES];
-    [_messageDetailsModel uploadPhotoMessage:^(id response, NSError *error) {
-        if (!error)
-        {
-            [_messageDetailsModel getMessageByKey:_messageObject.key];
-        }
-    }];
+    [self loadPhotoEditorWithImage:image];
 }
 
 - (void)didCaptureCamera:(UIImage *)image{
-    [self saveImage:image];
-    //upload
-    [_hud show:YES];
-    [_messageDetailsModel uploadPhotoMessage:^(id response, NSError *error) {
-        if (!error)
-        {
-            [_messageDetailsModel getMessageByKey:_messageObject.key];
-        }
-    }];
+    [self loadPhotoEditorWithImage:image];
 }
 
 #pragma mark - MessagePictureTableViewCell delegate
@@ -449,5 +452,26 @@
 {
     [_playAudioButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_PLAY_BLUE] forState:UIControlStateNormal];
 }
+
+#pragma mark - Photo Editor Delegate
+- (void)imageEditor:(CLImageEditor *)editor didFinishEdittingWithImage:(UIImage *)image
+{
+    if (image) {
+        NSData* imageData = UIImagePNGRepresentation(image);
+        [imageData writeToFile:URL_ATTACH_IMAGE atomically:YES];
+        //upload
+        [_hud show:YES];
+        [_messageDetailsModel uploadPhotoMessage:^(id response, NSError *error) {
+            if (!error){
+                [_messageDetailsModel getMessageByKey:_messageObject.key];
+            }
+        }];
+    }
+    
+    [editor dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+
 
 @end

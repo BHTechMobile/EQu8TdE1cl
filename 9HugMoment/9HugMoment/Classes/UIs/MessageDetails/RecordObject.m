@@ -13,7 +13,6 @@
     [self vibrate];
 
     _isRecordSuccess = NO;
-    [self createRecordTimer];
     CGRect fRecord = recordView.frame;
     [recordView.layer setCornerRadius:5.0f];
     [recordView.layer setMasksToBounds:YES];
@@ -26,12 +25,8 @@
     
     [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
         if (granted) {
-            [self prepareRecord];
-            if (!_audioRecorder.recording) {
-                AVAudioSession *session = [AVAudioSession sharedInstance];
-                [session setActive:YES error:nil];
-                [self.audioRecorder record];
-            }
+            [self performSelector:@selector(prepareRecord) withObject:nil afterDelay:0.3];
+            
         }
         else {
             [UIAlertView showTitle:@"Microphone Access Denied" message:@"You must allow microphone access in Settings > Privacy > Microphone"];
@@ -73,6 +68,8 @@
 
 - (void)prepareRecord
 {
+    [self createRecordTimer];
+
     NSURL *outputFileURL = [NSURL fileURLWithPathComponents:[self arrComponent]];
     
     // Setup audio session
@@ -92,6 +89,12 @@
     self.audioRecorder.delegate = self;
     self.audioRecorder.meteringEnabled = YES;
     [self.audioRecorder prepareToRecord];
+    
+    if (!self.audioRecorder.recording) {
+        AVAudioSession *session = [AVAudioSession sharedInstance];
+        [session setActive:YES error:nil];
+        [self.audioRecorder record];
+    }
 }
 
 - (NSArray *)arrComponent{
