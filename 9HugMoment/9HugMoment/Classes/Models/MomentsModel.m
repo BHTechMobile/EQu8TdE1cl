@@ -5,6 +5,7 @@
 
 #import "MomentsModel.h"
 #import "MessageObject.h"
+#import "PublicScreenServices.h"
 
 @implementation MomentsModel
 
@@ -25,7 +26,7 @@
 - (void)getAllMessagesSuccess:(void (^)(id result))success
                       failure:(void (^)(NSError *error))failure
 {
-    [BaseServices getAllMessageSussess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [PublicScreenServices getAllMessageSussess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary* dict = (NSDictionary*)responseObject;
         
         NSArray* aaData;
@@ -51,7 +52,7 @@
 - (void)resetMessages:(MessageObject *)message Success:(void (^)(id result))success
               failure:(void (^)(NSError *error))failure
 {
-    [BaseServices resetMessage:message Sussess:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [PublicScreenServices resetMessage:message Sussess:^(AFHTTPRequestOperation *operation, id responseObject) {
         [BaseServices getAllMessageSussess:^(AFHTTPRequestOperation *operation, id responseObject) {
             if (success) {
                 success(responseObject);
@@ -64,6 +65,25 @@
     } failure:^(NSString *bodyString, NSError *error) {
         if (failure) {
             failure(error);
+        }
+    }];
+}
+
+- (void)voteMessage:(MessageObject *)messageObject {
+    NSDictionary *dicParam = @{KEY_TOKEN:[UserData currentAccount].strUserToken,
+                               KEY_MESSAGE_ID:messageObject.messageID,
+                               KEY_TYPE:[NSString stringWithFormat:@"%d",(int)MessageTypeVote],
+                               KEY_MESSAGE_STRING:@"message for vote",
+                               KEY_MEDIA_LINK:@"media link for vote",
+                               KEY_USER_ID:[UserData currentAccount].strId
+                               };
+    [PublicScreenServices responseMessage:dicParam success:^(AFHTTPRequestOperation *operation, id responseObject){
+        if (_delegate && [_delegate respondsToSelector:@selector(didVoteMessageSuccess:)]) {
+            [_delegate performSelector:@selector(didVoteMessageSuccess:) withObject:self];
+        }
+    }failure:^(AFHTTPRequestOperation *operation, NSError *error){
+        if (_delegate && [_delegate respondsToSelector:@selector(didVoteMessageFailed:)]) {
+            [_delegate performSelector:@selector(didVoteMessageFailed:) withObject:self];
         }
     }];
 }
@@ -91,6 +111,11 @@
                 [_messagesNewest exchangeObjectAtIndex:i withObjectAtIndex:j];
             }
         }
+    }
+    
+    for (int i = 0; i < _messagesNewest.count; i++) {
+        MessageObject *cur = [_messagesNewest objectAtIndex:i];
+        NSLog(@"current voted: %@ - message id: %@",cur.voted, cur.messageID);
     }
     
     // Sort data - Message Hot

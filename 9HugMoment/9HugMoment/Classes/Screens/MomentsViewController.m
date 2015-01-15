@@ -20,7 +20,7 @@
 
 static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 
-@interface MomentsViewController (){
+@interface MomentsViewController ()<MomentsModelDelegate, MomentsMessageTableViewCellDelegate>{
     CaptureVideoViewController *captureVideoViewController;
     MomentsModel *_momentModel;
     MessageObject *_messageSelected;
@@ -48,6 +48,7 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 - (void)viewDidLoad {
     [super viewDidLoad];
     _momentModel = [[MomentsModel alloc] init];
+    _momentModel.delegate = self;
     _hud = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:_hud];
     [self initRefreshControl];
@@ -136,6 +137,7 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 
 - (void)setupTableView:(UITableView *)tableView{
     TableViewCellConfigureBlock configureCell = ^(MomentsMessageTableViewCell *momentsMessageTableViewCell, MessageObject *myMessage){
+        momentsMessageTableViewCell.delegate = self;
         [momentsMessageTableViewCell setMessageWithMessage:myMessage];
     };
     
@@ -206,6 +208,25 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 - (void)callPullDownRequest:(id)sender{
     // Button New moment
     [self getAllMessage];
+}
+
+#pragma mark - MomentsModel delegate
+
+- (void)didVoteMessageSuccess:(MomentsModel *)momentsDetailsModel
+{
+    [self getAllMessage];
+}
+
+- (void)didVoteMessageFailed:(MomentsModel *)momentsDetailsModel
+{
+    [self getAllMessage];
+}
+
+#pragma MomentsMessageTableViewCell delegate
+
+- (void)didClickVote:(MomentsMessageTableViewCell *)momentsMessageTableViewCell withMessage:(MessageObject *)messageVote
+{
+    [_momentModel voteMessage:messageVote];
 }
 
 @end

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -64,9 +64,18 @@
                                 <color key="textColor" red="0.66666666666666663" green="0.69803921568627447" blue="0.74117647058823533" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dn8-Wv-RLJ" userLabel="Reads View">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dn8-Wv-RLJ" userLabel="Vote View">
                                 <rect key="frame" x="250" y="25" width="50" height="40"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VcJ-Dl-4Sj" userLabel="Vote Button">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="40"/>
+                                        <state key="normal">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="voteAction:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Btf-9x-oHp"/>
+                                        </connections>
+                                    </button>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_caret_red" translatesAutoresizingMaskIntoConstraints="NO" id="TE1-oJ-3WZ">
                                         <rect key="frame" x="16" y="4" width="18" height="10"/>
                                         <constraints>
@@ -74,7 +83,7 @@
                                             <constraint firstAttribute="height" constant="10" id="ky9-yH-Pbn"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SeQ-jc-GQm" userLabel="Number Of Reads">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SeQ-jc-GQm" userLabel="Number Of Vote">
                                         <rect key="frame" x="10" y="16" width="30" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="pCZ-so-3kX"/>
@@ -89,9 +98,13 @@
                                     <constraint firstAttribute="trailing" secondItem="SeQ-jc-GQm" secondAttribute="trailing" constant="10" id="18j-Xn-lAn"/>
                                     <constraint firstItem="SeQ-jc-GQm" firstAttribute="top" secondItem="TE1-oJ-3WZ" secondAttribute="bottom" constant="2" id="35W-9b-Tvd"/>
                                     <constraint firstAttribute="width" constant="50" id="4Kz-Vx-iyd"/>
+                                    <constraint firstAttribute="trailing" secondItem="VcJ-Dl-4Sj" secondAttribute="trailing" id="8Um-PC-Doz"/>
+                                    <constraint firstAttribute="bottom" secondItem="VcJ-Dl-4Sj" secondAttribute="bottom" id="BIl-vs-Stu"/>
                                     <constraint firstItem="TE1-oJ-3WZ" firstAttribute="centerX" secondItem="SeQ-jc-GQm" secondAttribute="centerX" id="dHM-DJ-jE2"/>
                                     <constraint firstAttribute="height" constant="40" id="f3M-3d-yih"/>
+                                    <constraint firstItem="VcJ-Dl-4Sj" firstAttribute="top" secondItem="dn8-Wv-RLJ" secondAttribute="top" id="hrj-JS-JvD"/>
                                     <constraint firstAttribute="bottom" secondItem="SeQ-jc-GQm" secondAttribute="bottom" constant="4" id="mit-Ic-XWS"/>
+                                    <constraint firstItem="VcJ-Dl-4Sj" firstAttribute="leading" secondItem="dn8-Wv-RLJ" secondAttribute="leading" id="nxZ-XH-DxO"/>
                                     <constraint firstItem="SeQ-jc-GQm" firstAttribute="leading" secondItem="dn8-Wv-RLJ" secondAttribute="leading" constant="10" id="onv-Bg-ztR"/>
                                 </constraints>
                             </view>
@@ -131,8 +144,10 @@
                 <outlet property="locationLabel" destination="nXZ-DG-TYc" id="Bmd-b4-TQ0"/>
                 <outlet property="numberCountsLabel" destination="SeQ-jc-GQm" id="9XC-Q0-1nd"/>
                 <outlet property="rightSpaceDataViewConstraint" destination="Cvb-qd-SWq" id="7GS-6k-we8"/>
+                <outlet property="statusVoteImageView" destination="TE1-oJ-3WZ" id="fKn-AL-ciF"/>
                 <outlet property="thumbnailImageView" destination="TMm-rZ-aDn" id="Pg3-6x-DjU"/>
                 <outlet property="userNameLabel" destination="OtT-Qz-JhY" id="F2r-8V-Cto"/>
+                <outlet property="voteButton" destination="VcJ-Dl-4Sj" id="FI0-cg-wlC"/>
             </connections>
             <point key="canvasLocation" x="131" y="190"/>
         </tableViewCell>

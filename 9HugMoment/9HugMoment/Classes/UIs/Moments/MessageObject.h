@@ -33,6 +33,7 @@
 @property (nonatomic, strong) NSString *totalVotes;
 @property (nonatomic, strong) NSString *style;
 @property (nonatomic, strong) NSString *location;
+@property (nonatomic, strong) NSString *voted;
 
 @property (nonatomic, assign) CGFloat latitude;
 @property (nonatomic, assign) CGFloat longitude;
@@ -47,5 +48,6 @@
 
 + (MessageObject *)createMessageByDictionnary:(NSDictionary *)dict;
 - (NSString*)localVideoPath;
+- (BOOL)isUserVotedMessage;
 
 @end
