@@ -7,11 +7,12 @@
 
 @interface MomentsModel : NSObject
 
-@property (nonatomic,strong) NSMutableArray *messages;
+@property (nonatomic,strong) NSMutableArray *messagesHot;
+@property (nonatomic,strong) NSMutableArray *messagesNewest;
 
 - (void)getAllMessagesSuccess:(void (^)(id result))success
                       failure:(void (^)(NSError *error))failure;
 - (void)resetMessages:(MessageObject *)message Success:(void (^)(id result))success
-             failure:(void (^)(NSError *error))failure;
+              failure:(void (^)(NSError *error))failure;
 
 @end
