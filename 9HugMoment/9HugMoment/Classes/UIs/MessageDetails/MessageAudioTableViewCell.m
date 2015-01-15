@@ -34,10 +34,26 @@
     [self startPlayAudio];
 }
 
-- (void)playAllAudioAction
-{
-    isPlayAll = YES;
-    [self startPlayAudio];
+- (void)playAllAudioAction{
+    isPlayAll = !isPlayAll;
+    if (isPlayAll) {
+        if (_audioCommentObjectArray.count>0) {
+            isPlayAll = YES;
+            _currentCommentObject = [_audioCommentObjectArray objectAtIndex:0];
+            [self updateCurrentUser];
+            [self startPlayAudio];
+        }
+    }
+    else{
+        if ([_audioPlayer isPlaying]) {
+            [_audioPlayer stop];
+        }
+        [_playAudioSelectButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_MIX_PLAY] forState:UIControlStateNormal];
+        [self updateCurrentUser];
+        if (_delegate && [_delegate respondsToSelector:@selector(didStopAudio:)]) {
+            [_delegate performSelector:@selector(didStopAudio:) withObject:self];
+        }
+    }
 }
 
 #pragma mark - Custom Methods
@@ -239,6 +255,12 @@
             [self startPlayAudio];
         }
     }
+    else{
+        [_playAudioSelectButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_MIX_PLAY] forState:UIControlStateNormal];
+        if (_delegate && [_delegate respondsToSelector:@selector(didStopAudio:)]) {
+            [_delegate performSelector:@selector(didStopAudio:) withObject:self];
+        }
+    }
 }
 
 - (void)audioPlayerDecodeErrorDidOccur:(AVAudioPlayer *)player error:(NSError *)error{
@@ -261,6 +283,11 @@
 #pragma mark - MessageAudioPreviewView delegate
 - (void)didClickPreviewUserButton:(MessageAudioPreviewView *)messageAudioPreviewView
 {
+    isPlayAll = NO;
+    [_playAudioSelectButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_MIX_PLAY] forState:UIControlStateNormal];
+    if (_delegate && [_delegate respondsToSelector:@selector(didStopAudio:)]) {
+        [_delegate performSelector:@selector(didStopAudio:) withObject:self];
+    }
     _currentCommentObject = [_audioCommentObjectArray objectAtIndex:[messageAudioPreviewView.audioIndex integerValue]];
     [self updateCurrentUser];
 }

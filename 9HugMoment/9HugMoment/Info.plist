@@ -37,16 +37,14 @@
 	<string>1378676099100353</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Calibri.ttf</string>
-	</array>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Permissions for App even when not in use</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Permissions for App when in use</string>
-	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Calibri.ttf</string>
+	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
