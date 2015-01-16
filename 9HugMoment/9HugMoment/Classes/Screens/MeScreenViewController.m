@@ -59,7 +59,6 @@
     // Do any additional setup after loading the view.
     _meScreenModel = [[MeScreenModel alloc] init];
     _meScreenModel.delegate = self;
-    [self setFontCalibri];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,6 +69,7 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    [self setFontCalibri];
     [self initData];
     [self setUpStatusImage];
 }
@@ -84,6 +84,7 @@
 - (IBAction)logout:(id)sender {
     [[FBSession activeSession] closeAndClearTokenInformation];
     [APP_DELEGATE.session closeAndClearTokenInformation];
+    [UserData currentAccount].previousFacebookID = [UserData currentAccount].strFacebookId;
     [[UserData currentAccount] clearCached];
     self.tabBarController.selectedIndex = 2;
 }
@@ -120,20 +121,22 @@
 
 - (void)initData
 {
-    
-    //Avatar
-    [_userPhotoImageView.layer setMasksToBounds:YES];
-    [_userPhotoImageView.layer setCornerRadius:HALF_OF(_userPhotoImageView.frame.size.width)];
-    NSLog(@"Facebook ID: %@",[UserData currentAccount].strFacebookId);
-    [_meScreenModel.class getUserAvatarWithUserFacebookID:[UserData currentAccount].strFacebookId forImageView:_userPhotoImageView];
-    //Name
-    _userNameLabel.text = [[UserData currentAccount].strFullName uppercaseString];
-    
-    //Status
-    [_meScreenModel getUserStatus];
-    
-    //Statistics
-    [_meScreenModel getUserStatistics];
+    if ([[UserData currentAccount].needRefreshMeScreen boolValue]) {
+        //Avatar
+        [_userPhotoImageView.layer setMasksToBounds:YES];
+        [_userPhotoImageView.layer setCornerRadius:HALF_OF(_userPhotoImageView.frame.size.width)];
+        NSLog(@"Facebook ID: %@",[UserData currentAccount].strFacebookId);
+        [_meScreenModel.class getUserAvatarWithUserFacebookID:[UserData currentAccount].strFacebookId forImageView:_userPhotoImageView];
+        //Name
+        _userNameLabel.text = [[UserData currentAccount].strFullName uppercaseString];
+        
+        //Status
+        [_meScreenModel getUserStatus];
+        
+        //Statistics
+        [_meScreenModel getUserStatistics];
+        [UserData currentAccount].needRefreshMeScreen = @"0";
+    }
 }
 
 - (void)updateStatistics
@@ -146,7 +149,8 @@
 }
 
 - (void)setFontCalibri{
-    [_userNameLabel setFont:CalibriFont(SIZE_FONT_LABEL_USER_NAME_ME_SCREEN_VIEW_CONTROLLER)];
+    CGFloat sizeFontForUserNameLabel = (SIZE_FONT_LABEL_USER_NAME_ME_SCREEN_VIEW_CONTROLLER * _userNameLabel.size.height) / HEIGHT_DEFAUL_LABEL_USER_NAME_ME_SCREEN_VIEW_CONTROLLER;
+    [_userNameLabel setFont:CalibriFont(sizeFontForUserNameLabel)];
     [_inputStatusTextField setFont:CalibriFont(SIZE_FONT_LABEL_INPUT_STATUS_ME_SCREEN_VIEW_CONTROLLER)];
     [_creditsTopContentLabel setFont:CalibriFont(SIZE_FONT_LABEL_CREDIT_TOP_CONTENT_ME_SCREEN_VIEW_CONTROLLER)];
     

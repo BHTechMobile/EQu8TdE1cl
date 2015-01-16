@@ -52,7 +52,6 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
     _hud = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:_hud];
     [self initRefreshControl];
-    [self getAllMessage];
     [self initNewMessageView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNSNotifications:)
                                                  name:CALL_PUSH_NOTIFICATIONS object:nil];
@@ -61,6 +60,11 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:NO];
+    if ([[UserData currentAccount].needRefreshPublicScreen boolValue])
+    {
+        [self getAllMessage];
+        [UserData currentAccount].needRefreshPublicScreen = @"0";
+    }
 }
 
 - (void)pushNSNotifications:(NSNotification*)notify{
