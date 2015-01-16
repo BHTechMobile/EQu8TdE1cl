@@ -137,7 +137,7 @@
     [self.navigationController setNavigationBarHidden:YES animated:NO];
 
     //#warning TEST DATA
-     _enterCodeTextField.text = @"jcxzg";
+//     _enterCodeTextField.text = @"jcxzg";
 }
 
 -(void)viewDidAppear:(BOOL)animated{
