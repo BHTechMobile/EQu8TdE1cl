@@ -5,6 +5,7 @@
 
 #import "MessageDetailsViewController.h"
 #import "CLImageEditor.h"
+#import "UIImage+Utility.h"
 
 @interface MessageDetailsViewController ()<CLImageEditorDelegate>
 
@@ -383,29 +384,16 @@
 
 - (void)loadPhotoEditorWithImage:(UIImage *)image
 {
-//    CGFloat size = (image.size.width>image.size.height)?image.size.height:image.size.width;
-//    CGFloat max = (image.size.width>image.size.height)?image.size.width:image.size.height;
-//    
-//    UIImage * newImage = [Utilities imageWithImage:image cropToRect:CGRectMake(0, (max-size)/2.0f, size, size)];
+    CGFloat size = (image.size.width>image.size.height)?image.size.height:image.size.width;
+    CGFloat max = (image.size.width>image.size.height)?image.size.width:image.size.height;
+    
+    UIImage * newImage = [image crop:CGRectMake(0, (max-size)/2.0f, size, size)];
 
-    CLImageEditor *editor = [[CLImageEditor alloc] initWithImage:image];
+    CLImageEditor *editor = [[CLImageEditor alloc] initWithImage:newImage];
     editor.delegate = self;
     
     [self presentViewController:editor animated:YES completion:nil];
 
-}
-
-- (void)saveImage :(UIImage *)image{
-    
-//    UIImage * scaledImage = image;//[Utilities imageWithImage:image scaledToRatio:640.0/image.size.width];
-//    CGFloat size = (scaledImage.size.width>scaledImage.size.height)?scaledImage.size.height:scaledImage.size.width;
-//    CGFloat max = (scaledImage.size.width>scaledImage.size.height)?scaledImage.size.width:scaledImage.size.height;
-//
-//    UIImage * newImage = [Utilities imageWithImage:scaledImage cropToRect:CGRectMake(0, (max-size)/2.0f, size, size)];
-//    
-//    NSData* imageData = UIImagePNGRepresentation(newImage);
-//    [imageData writeToFile:URL_ATTACH_IMAGE atomically:YES];
-    
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
@@ -470,8 +458,5 @@
     
     [editor dismissViewControllerAnimated:YES completion:nil];
 }
-
-
-
 
 @end
