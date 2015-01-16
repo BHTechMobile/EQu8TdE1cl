@@ -296,6 +296,12 @@
         [_videoFilterScrollView addSubview:actionView];
     }
     
+    if ([FiltersModel sharedFilters].filters.count>0) {
+        _selectedFilter = [FiltersModel sharedFilters].filters[0];
+        VideoFilterActionView *actionView = _videoFilterActionViewArray[0];
+        [actionView clickMe];
+    }
+    
     _videoFilterScrollView.backgroundColor = [UIColor colorWithRed:43.0/255.0f green:41.0/255.0f blue:50.0/255.0f alpha:1];
     _selectFrameScrollView.backgroundColor = [UIColor colorWithRed:43.0/255.0f green:41.0/255.0f blue:50.0/255.0f alpha:1];
     [self clickedVideoFilterButton:nil];

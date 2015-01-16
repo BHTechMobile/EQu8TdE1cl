@@ -42,6 +42,10 @@
     self.selectedImage.hidden = !yesOrNo;
 }
 
+- (void)clickMe{
+    [self performSelector:@selector(filterAction:) withObject:self.filterButton afterDelay:0.0];
+}
+
 #pragma mark - Actions
 
 - (IBAction)filterAction:(id)sender {

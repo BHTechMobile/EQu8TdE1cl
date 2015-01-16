@@ -305,10 +305,13 @@
 - (void)didGetMessageDetailSuccess:(MessageDetailsModel *)momentsDetailsModel withMessage:(MessageObject *)messageResponce
 {
     //TODO: Update Data
-    _messageDetailsModel.message = _messageObject = messageResponce;
-    [_messageDetailsTableView reloadData];
-    [_hud hide:YES];
-    [self updateUpVote];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _messageDetailsModel.message = _messageObject = messageResponce;
+        [_messageDetailsTableView reloadData];
+        [_hud hide:YES];
+        [self updateUpVote];
+
+    });
 }
 
 - (void)didGetMessageDetailFailed:(MessageDetailsModel *)momentsDetailsModel withError:(NSError *)error
@@ -352,7 +355,10 @@
 
 - (void)imagePickerPressed
 {
-    [_moviePlayerStreaming pause];
+    if (_moviePlayerStreaming) {
+        [_moviePlayerStreaming stop];
+        _moviePlayerStreaming = nil;
+    }
     if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
         [_imageSourceActionSheet showInView:self.view];
     } else {
@@ -364,19 +370,18 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     switch (buttonIndex) {
-        case 0:
-        {
+        case 0:{
             _imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
             SquareCamViewController *squareVC = [SquareCamViewController new];
             squareVC.delegate = self;
             [self.navigationController pushViewController:squareVC animated:YES];
             break;
         }
-        case 1:
+        case 1:{
             _imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
             [self presentViewController:_imagePicker animated:YES completion:nil];
             break;
-            
+        }
         default:
             break;
     }

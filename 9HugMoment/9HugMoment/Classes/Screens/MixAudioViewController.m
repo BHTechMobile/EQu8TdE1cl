@@ -126,7 +126,7 @@
 - (IBAction)doneButtonTapped:(id)sender {
     
     [_videoPlayer pause];
-    
+    _videoPlayer = nil;
     if (_exportUrl) {
         if (_delegate && [_delegate respondsToSelector:@selector(mixAudioViewController:didMixVideoUrl:)]) {
             [_delegate mixAudioViewController:self didMixVideoUrl:_exportUrl];
@@ -135,6 +135,7 @@
     }
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     [MixEngine mixAudio:[_audioItem valueForProperty:MPMediaItemPropertyAssetURL]
                  volume:[_audioVolume getVolumeValue]
           startAtSecond:[_rangeSelectorView getSecondStartAt]

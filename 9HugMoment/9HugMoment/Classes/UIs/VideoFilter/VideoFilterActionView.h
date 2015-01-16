@@ -26,4 +26,6 @@
 - (void)hideDownloadImageView:(BOOL)yesOrNo;
 - (void)showSelectionView:(BOOL)yesOrNo;
 
+- (void)clickMe;
+
 @end

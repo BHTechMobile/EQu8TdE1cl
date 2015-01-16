@@ -254,6 +254,12 @@
             [self updateCurrentUser];
             [self startPlayAudio];
         }
+        else {
+            [_playAudioSelectButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_MIX_PLAY] forState:UIControlStateNormal];
+            if (_delegate && [_delegate respondsToSelector:@selector(didStopAudio:)]) {
+                [_delegate performSelector:@selector(didStopAudio:) withObject:self];
+            }
+        }
     }
     else{
         [_playAudioSelectButton setBackgroundImage:[UIImage imageNamed:IMAGE_NAME_ICON_MIX_PLAY] forState:UIControlStateNormal];
