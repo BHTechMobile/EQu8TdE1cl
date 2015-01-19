@@ -107,35 +107,35 @@
     // Sort data - Message Newest
     for (int i =0; i<_messagesNewest.count-1; ++i) {
         for (int j=i+1; j<_messagesNewest.count; ++j) {
-            if (((MessageObject*)_messagesNewest[i]).createDated.integerValue < ((MessageObject*)_messagesNewest[j]).createDated.integerValue) {
+            MessageObject *currentMessageI = _messagesHot[i];
+            MessageObject *currentMessageJ = _messagesHot[j];
+            if (currentMessageI.createDated.integerValue < currentMessageJ.createDated.integerValue) {
                 [_messagesNewest exchangeObjectAtIndex:i withObjectAtIndex:j];
             }
         }
     }
     
-    for (int i = 0; i < _messagesNewest.count; i++) {
-        MessageObject *cur = [_messagesNewest objectAtIndex:i];
-        NSLog(@"current voted: %@ - message id: %@",cur.voted, cur.messageID);
-    }
-    
     // Sort data - Message Hot
     for (int i =0; i < _messagesHot.count-1; ++i) {
         for (int j= i+1; j<_messagesHot.count; ++j) {
-            if (((MessageObject*)_messagesHot[i]).totalVotes.integerValue < ((MessageObject*)_messagesHot[j]).totalVotes.integerValue) {
+            MessageObject *currentMessageI = _messagesHot[i];
+            MessageObject *currentMessageJ = _messagesHot[j];
+            if (currentMessageI.totalVotes.integerValue < currentMessageJ.totalVotes.integerValue) {
                 [_messagesHot exchangeObjectAtIndex:i withObjectAtIndex:j];
             }
         }
     }
+    
     // 2nd Sort Message hot - sort with vote and second is create date
-    for (int i = 0; i < _messagesHot.count - 1; i++)
+    for (int i = 0; i < _messagesHot.count - 1; ++i)
     {
         for (int j= i+1; j<_messagesHot.count; ++j) {
-            if (((MessageObject*)_messagesHot[i]).totalVotes.integerValue == ((MessageObject*)_messagesHot[j]).totalVotes.integerValue) {
-                if (((MessageObject*)_messagesNewest[i]).createDated.integerValue < ((MessageObject*)_messagesNewest[j]).createDated.integerValue) {
-                    [_messagesNewest exchangeObjectAtIndex:i withObjectAtIndex:j];
+            MessageObject *currentMessageI = _messagesHot[i];
+            MessageObject *currentMessageJ = _messagesHot[j];
+            if (currentMessageI.totalVotes.integerValue == currentMessageJ.totalVotes.integerValue) {
+                if (currentMessageI.createDated.integerValue < currentMessageJ.createDated.integerValue) {
+                    [_messagesHot exchangeObjectAtIndex:i withObjectAtIndex:j];
                 }
-            }else{
-                break;
             }
         }
     }

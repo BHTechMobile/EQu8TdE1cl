@@ -26,6 +26,10 @@
 #define USER_NUMBER_OF_CREDITS @"USERNUMBEROFCREDITS"
 #define USER_NUMBER_OF_STICKERS @"USERNUMBEROFSTICKERS"
 
+#define NEED_REFRESH_ME_SCREEN @"NEEDREFRESHMESCREEN"
+#define NEED_REFRESH_PUBLIC_SCREEN @"NEEDREFRESHPUBLICSCREEN"
+#define PREVIOUS_FACEBOOK_ID @"PREVIOUSFACEBOOKID"
+
 +(UserData*)currentAccount{
     static UserData *_sharedInstance = nil;
     static dispatch_once_t oncePredicate;
@@ -46,6 +50,16 @@
 }
 
 - (void)setStrFacebookId:(NSString *)strFacebookId{
+    if ([strFacebookId isEqualToString:self.previousFacebookID])
+    {
+        [self setNeedRefreshMeScreen:@"0"];
+        [self setNeedRefreshPublicScreen:@"0"];
+    }
+    else
+    {
+        [self setNeedRefreshMeScreen:@"1"];
+        [self setNeedRefreshPublicScreen:@"1"];
+    }
     [[NSUserDefaults standardUserDefaults] setValue:strFacebookId forKey:USERFACEBOOKID];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -128,6 +142,13 @@
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:USERFACEBOOKID];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:USERID];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:USERCTOKEN];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_NUMBER_OF_GIFTS];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_NUMBER_OF_REQUESTS];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_NUMBER_OF_FRIENDS];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_NUMBER_OF_CREDITS];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_NUMBER_OF_STICKERS];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:NEED_REFRESH_ME_SCREEN];
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:NEED_REFRESH_PUBLIC_SCREEN];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -198,6 +219,43 @@
 - (NSString *)strUserNumberOfStickers
 {
     return [[NSUserDefaults standardUserDefaults] valueForKey:USER_NUMBER_OF_STICKERS];
+}
+
+#pragma mark - Refresh
+
+- (NSString *)needRefreshMeScreen
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:NEED_REFRESH_ME_SCREEN];
+}
+
+- (void)setNeedRefreshMeScreen:(NSString *)needRefreshMeScreen
+{
+    
+    [[NSUserDefaults standardUserDefaults] setValue:needRefreshMeScreen forKey:NEED_REFRESH_ME_SCREEN];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)needRefreshPublicScreen
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:NEED_REFRESH_PUBLIC_SCREEN];
+}
+
+- (void)setNeedRefreshPublicScreen:(NSString *)needRefreshPublicScreen
+{
+    
+    [[NSUserDefaults standardUserDefaults] setValue:needRefreshPublicScreen forKey:NEED_REFRESH_PUBLIC_SCREEN];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)setPreviousFacebookID:(NSString *)previousFacebookID
+{
+    [[NSUserDefaults standardUserDefaults] setValue:previousFacebookID forKey:PREVIOUS_FACEBOOK_ID];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (NSString *)previousFacebookID
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:PREVIOUS_FACEBOOK_ID];
 }
 
 @end

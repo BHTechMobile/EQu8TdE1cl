@@ -25,6 +25,9 @@
 @property (nonatomic,retain) NSString *strUserNumberOfCredits;
 @property (nonatomic,retain) NSString *strUserNumberOfStickers;
 
+@property (nonatomic,retain) NSString *needRefreshMeScreen;
+@property (nonatomic,retain) NSString *needRefreshPublicScreen;
+@property (nonatomic,retain) NSString *previousFacebookID;
 
 +(UserData*)currentAccount;
 
