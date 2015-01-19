@@ -55,6 +55,10 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
     [self initNewMessageView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushNSNotifications:)
                                                  name:CALL_PUSH_NOTIFICATIONS object:nil];
+    [self getAllMessage];
+    [UserData currentAccount].needRefreshPublicScreen = @"0";
+
+
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -88,9 +92,12 @@ static NSString * const MomentViewCellIdentifier = @"MomentViewCellIdentifier";
     [_momentModel getAllMessagesSuccess:^(id result) {
         NSLog(@"Message hot count : %lu",(unsigned long)_momentModel.messagesHot.count);
         NSLog(@"Message newest count : %lu",(unsigned long)_momentModel.messagesNewest.count);
-        [self setupTable];
-        [_messagesHotTableView reloadData];
-        [_messagesNewestTableView reloadData];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self setupTable];
+            [_messagesHotTableView reloadData];
+            [_messagesNewestTableView reloadData];
+
+        });
         [_hud hide:YES];
     } failure:^(NSError *error) {
         [_hud hide:YES];

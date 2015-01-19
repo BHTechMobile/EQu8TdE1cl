@@ -62,8 +62,8 @@
     [super viewDidLoad];
     
     _bottomHeightConstraint.constant = _topHeightConstraint.constant = (self.view.bounds.size.height - self.view.bounds.size.width)/2 - 40;
-    _scaned = NO;
-    [self createCapture];
+//    _scaned = NO;
+//    [self createCapture];
     [self createUI];
     [_imvAvatar.layer setMasksToBounds:YES];
     [_imvAvatar.layer setCornerRadius:17];
@@ -187,6 +187,15 @@
 }
 
 - (void)createCapture {
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:UserDefaultKeyNeedUpdateQRCodeScreen]) {
+        _capture.delegate = nil;
+        [_capture order_skip];
+        [_capture hard_stop];
+        _capture = nil;
+        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:UserDefaultKeyNeedUpdateQRCodeScreen];
+    }
+    
     if (!_capture) {
         _capture = [[ZXCapture alloc] init];
         _capture.camera = _capture.back;

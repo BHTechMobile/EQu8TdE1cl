@@ -68,23 +68,12 @@
     else{
         NSLog(@"Download avatar");
         NSURL *imageURL = [NSURL URLWithString:avatarURLString];
-        [[SDWebImageManager sharedManager] downloadImageWithURL:imageURL options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize){
-        }completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
-            if (!error) {
-                if (image) {
-                    [[SDImageCache sharedImageCache] storeImage:image forKey:avatarURLString];
-                
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        _thumbnailImageView.image = image;
-                    });
-                }
-            }
-            else {
-                NSLog(@"%@",error.localizedDescription);
+        [_thumbnailImageView sd_setImageWithURL:imageURL placeholderImage:nil options:SDWebImageProgressiveDownload completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (image) {
+                [[SDImageCache sharedImageCache] storeImage:image forKey:avatarURLString];
             }
         }];
     }
-    
     
     //attachment2
     
@@ -100,19 +89,9 @@
         NSLog(@"Download attachment2");
 
         NSURL *imageURL = [NSURL URLWithString:attachement2URLString];
-        [[SDWebImageManager sharedManager] downloadImageWithURL:imageURL options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize){
-        }completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
-            if (!error) {
-                if (image) {
-                    [[SDImageCache sharedImageCache] storeImage:image forKey:attachement2URLString];
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        _attachment2ImageView.image = image;
-                    });
-                }
-            }
-            else {
-                NSLog(@"%@",error.localizedDescription);
+        [_attachment2ImageView sd_setImageWithURL:imageURL placeholderImage:nil options:SDWebImageProgressiveDownload completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (image) {
+                [[SDImageCache sharedImageCache] storeImage:image forKey:attachement2URLString];
             }
         }];
     }

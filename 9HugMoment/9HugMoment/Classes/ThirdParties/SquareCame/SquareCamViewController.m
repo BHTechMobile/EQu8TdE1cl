@@ -846,7 +846,9 @@ bail:
 
 
 - (IBAction)backButtonTapped:(id)sender {
-
+    if (_delegate && [_delegate respondsToSelector:@selector(didCaptureCamera:) ]){
+        [_delegate didCaptureCamera:nil];
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 

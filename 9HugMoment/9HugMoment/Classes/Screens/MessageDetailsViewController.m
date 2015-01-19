@@ -411,7 +411,10 @@
 }
 
 - (void)didCaptureCamera:(UIImage *)image{
-    [self loadPhotoEditorWithImage:image];
+    if (image) {
+        [self loadPhotoEditorWithImage:image];
+    }
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:UserDefaultKeyNeedUpdateQRCodeScreen];
 }
 
 #pragma mark - MessagePictureTableViewCell delegate
