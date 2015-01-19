@@ -374,4 +374,8 @@ typedef NS_ENUM(NSInteger, TypeToShowMessage)
 #define SIZE_FONT_LABEL_INPUT_STATUS_ME_SCREEN_VIEW_CONTROLLER 21
 #define SIZE_FONT_LABEL_CREDIT_TOP_CONTENT_ME_SCREEN_VIEW_CONTROLLER 18
 
+#pragma mark - User Default Key
+
+#define UserDefaultKeyNeedUpdateQRCodeScreen @"UserDefaultKeyNeedUpdateQRCodeScreen"
+
 #endif
