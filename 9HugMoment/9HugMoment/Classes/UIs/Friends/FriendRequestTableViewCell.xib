@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="FriendRequestTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_circle_gray" translatesAutoresizingMaskIntoConstraints="NO" id="DPm-wg-CPk">
+                        <rect key="frame" x="20" y="5" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="g2Q-gC-boR"/>
+                            <constraint firstAttribute="height" constant="60" id="vp5-Os-Yn3"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friend Request" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gkc-rN-yzI">
+                        <rect key="frame" x="90" y="12" width="194" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="Gyb-8J-80v"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cHB-rj-bng">
+                        <rect key="frame" x="90" y="37" width="62" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="18" id="5lX-D2-5Te"/>
+                            <constraint firstAttribute="width" constant="62" id="P3Z-uk-Kha"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="12"/>
+                        <color key="textColor" red="0.74901960779999999" green="0.74901960779999999" blue="0.74901960779999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_arrow_forward" translatesAutoresizingMaskIntoConstraints="NO" id="vMP-hr-bGZ">
+                        <rect key="frame" x="292" y="26" width="10" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="10" id="XiY-4H-o4F"/>
+                            <constraint firstAttribute="height" constant="17" id="cSn-OX-J67"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4 second ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e1a-g7-AJx">
+                        <rect key="frame" x="156" y="37" width="136" height="18"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="18" id="au9-MA-0jl"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="12"/>
+                        <color key="textColor" red="0.74901960779999999" green="0.74901960779999999" blue="0.74901960779999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="e1a-g7-AJx" firstAttribute="top" secondItem="gkc-rN-yzI" secondAttribute="bottom" constant="4" id="2fr-pH-u8f"/>
+                    <constraint firstAttribute="centerY" secondItem="DPm-wg-CPk" secondAttribute="centerY" constant="-0.5" id="6dD-EG-zgX"/>
+                    <constraint firstItem="cHB-rj-bng" firstAttribute="top" secondItem="gkc-rN-yzI" secondAttribute="bottom" constant="4" id="Aer-65-TA6"/>
+                    <constraint firstItem="gkc-rN-yzI" firstAttribute="leading" secondItem="DPm-wg-CPk" secondAttribute="trailing" constant="10" id="NF3-Rt-Ifc"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="vMP-hr-bGZ" secondAttribute="trailing" constant="10" id="SdW-s8-zcj"/>
+                    <constraint firstItem="gkc-rN-yzI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="Vjg-M2-8Zc"/>
+                    <constraint firstItem="DPm-wg-CPk" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="arP-BA-DKk"/>
+                    <constraint firstItem="e1a-g7-AJx" firstAttribute="leading" secondItem="cHB-rj-bng" secondAttribute="trailing" constant="4" id="axw-Fc-Uug"/>
+                    <constraint firstAttribute="centerY" secondItem="vMP-hr-bGZ" secondAttribute="centerY" id="bUe-up-29m"/>
+                    <constraint firstItem="vMP-hr-bGZ" firstAttribute="leading" secondItem="gkc-rN-yzI" secondAttribute="trailing" constant="8" id="gG8-Eq-CqC"/>
+                    <constraint firstItem="vMP-hr-bGZ" firstAttribute="leading" secondItem="e1a-g7-AJx" secondAttribute="trailing" id="vhs-Ua-gyP"/>
+                    <constraint firstItem="cHB-rj-bng" firstAttribute="leading" secondItem="DPm-wg-CPk" secondAttribute="trailing" constant="10" id="z9o-ei-gHb"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="timeRequestLabel" destination="e1a-g7-AJx" id="7tJ-5Y-lY6"/>
+                <outlet property="titleFriendRequestLabel" destination="gkc-rN-yzI" id="h3M-tu-mgA"/>
+                <outlet property="userImageView" destination="DPm-wg-CPk" id="9ND-Uv-lED"/>
+                <outlet property="userNameRequestLabel" destination="cHB-rj-bng" id="Wul-hh-q8T"/>
+                <outlet property="widthUserNameRequestConstraint" destination="P3Z-uk-Kha" id="xFc-2i-jCP"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon_arrow_forward" width="24" height="40"/>
+        <image name="icon_circle_gray" width="90" height="90"/>
+    </resources>
+</document>

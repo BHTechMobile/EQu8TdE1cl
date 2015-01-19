@@ -11,6 +11,12 @@
 		041CBCBC1A5BFFAB00522FD7 /* MeScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 041CBCBB1A5BFFAB00522FD7 /* MeScreenViewController.m */; };
 		0455037B1A67C9A100237484 /* PublicScreenServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 0455037A1A67C9A100237484 /* PublicScreenServices.m */; };
 		046F3D3C1A65199300F6ABD6 /* Calibri.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 046F3D3B1A65199300F6ABD6 /* Calibri.ttf */; };
+		0482E06F1A6CB19E007EFDFC /* FriendTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0482E06D1A6CB19E007EFDFC /* FriendTableViewCell.m */; };
+		0482E0701A6CB19E007EFDFC /* FriendTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0482E06E1A6CB19E007EFDFC /* FriendTableViewCell.xib */; };
+		0482E0741A6CB713007EFDFC /* FriendRequestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0482E0721A6CB713007EFDFC /* FriendRequestTableViewCell.m */; };
+		0482E0751A6CB714007EFDFC /* FriendRequestTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0482E0731A6CB713007EFDFC /* FriendRequestTableViewCell.xib */; };
+		0482E0791A6CB884007EFDFC /* FriendRecommendationsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0482E0771A6CB884007EFDFC /* FriendRecommendationsTableViewCell.m */; };
+		0482E07A1A6CB884007EFDFC /* FriendRecommendationsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0482E0781A6CB884007EFDFC /* FriendRecommendationsTableViewCell.xib */; };
 		0499E2251A65144C00523444 /* MeScreenServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499E2241A65144C00523444 /* MeScreenServices.m */; };
 		0499E22A1A65145500523444 /* MeScreenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0499E2271A65145500523444 /* MeScreenModel.m */; };
 		04A469221A5B86130091F948 /* MessageDetailsServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A469211A5B86130091F948 /* MessageDetailsServices.m */; };
@@ -28,6 +34,8 @@
 		04A469471A5B92860091F948 /* RecordObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 04A469461A5B92860091F948 /* RecordObject.m */; };
 		04BC5EB81A5B820B0053B5F0 /* MessageDetailsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC5EB71A5B820B0053B5F0 /* MessageDetailsModel.m */; };
 		04BC5EBB1A5B822E0053B5F0 /* MessageDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BC5EBA1A5B822E0053B5F0 /* MessageDetailsViewController.m */; };
+		04D5E5461A6CE2A10037903F /* FriendHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04D5E5451A6CE2A10037903F /* FriendHeaderView.m */; };
+		04D5E5481A6CE2AD0037903F /* FriendHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 04D5E5471A6CE2AD0037903F /* FriendHeaderView.xib */; };
 		04EA40AE1A5E3B1900290CB7 /* MixVideoServices.m in Sources */ = {isa = PBXBuildFile; fileRef = 04EA40AD1A5E3B1900290CB7 /* MixVideoServices.m */; };
 		50122DC05EA6BE8B2C84D3E2 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C244774540907ADC2E89DBF /* libPods.a */; };
 		9F0671E61A2716AA0077F66B /* Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F0671E51A2716AA0077F66B /* Utilities.m */; };
@@ -203,6 +211,15 @@
 		045503791A67C9A100237484 /* PublicScreenServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PublicScreenServices.h; sourceTree = "<group>"; };
 		0455037A1A67C9A100237484 /* PublicScreenServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PublicScreenServices.m; sourceTree = "<group>"; };
 		046F3D3B1A65199300F6ABD6 /* Calibri.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Calibri.ttf; sourceTree = "<group>"; };
+		0482E06C1A6CB19E007EFDFC /* FriendTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendTableViewCell.h; sourceTree = "<group>"; };
+		0482E06D1A6CB19E007EFDFC /* FriendTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendTableViewCell.m; sourceTree = "<group>"; };
+		0482E06E1A6CB19E007EFDFC /* FriendTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendTableViewCell.xib; sourceTree = "<group>"; };
+		0482E0711A6CB713007EFDFC /* FriendRequestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendRequestTableViewCell.h; sourceTree = "<group>"; };
+		0482E0721A6CB713007EFDFC /* FriendRequestTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendRequestTableViewCell.m; sourceTree = "<group>"; };
+		0482E0731A6CB713007EFDFC /* FriendRequestTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendRequestTableViewCell.xib; sourceTree = "<group>"; };
+		0482E0761A6CB884007EFDFC /* FriendRecommendationsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendRecommendationsTableViewCell.h; sourceTree = "<group>"; };
+		0482E0771A6CB884007EFDFC /* FriendRecommendationsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendRecommendationsTableViewCell.m; sourceTree = "<group>"; };
+		0482E0781A6CB884007EFDFC /* FriendRecommendationsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendRecommendationsTableViewCell.xib; sourceTree = "<group>"; };
 		0499E2231A65144C00523444 /* MeScreenServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeScreenServices.h; sourceTree = "<group>"; };
 		0499E2241A65144C00523444 /* MeScreenServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeScreenServices.m; sourceTree = "<group>"; };
 		0499E2261A65145500523444 /* MeScreenModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeScreenModel.h; sourceTree = "<group>"; };
@@ -232,6 +249,9 @@
 		04BC5EB71A5B820B0053B5F0 /* MessageDetailsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDetailsModel.m; sourceTree = "<group>"; };
 		04BC5EB91A5B822E0053B5F0 /* MessageDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageDetailsViewController.h; sourceTree = "<group>"; };
 		04BC5EBA1A5B822E0053B5F0 /* MessageDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageDetailsViewController.m; sourceTree = "<group>"; };
+		04D5E5441A6CE2A10037903F /* FriendHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendHeaderView.h; sourceTree = "<group>"; };
+		04D5E5451A6CE2A10037903F /* FriendHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendHeaderView.m; sourceTree = "<group>"; };
+		04D5E5471A6CE2AD0037903F /* FriendHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FriendHeaderView.xib; sourceTree = "<group>"; };
 		04EA40AC1A5E3B1900290CB7 /* MixVideoServices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MixVideoServices.h; sourceTree = "<group>"; };
 		04EA40AD1A5E3B1900290CB7 /* MixVideoServices.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MixVideoServices.m; sourceTree = "<group>"; };
 		09E7E7659CA4BCEEA9396327 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -541,6 +561,25 @@
 			path = fonts;
 			sourceTree = "<group>";
 		};
+		0482E06B1A6CB17C007EFDFC /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+				0482E06C1A6CB19E007EFDFC /* FriendTableViewCell.h */,
+				0482E06D1A6CB19E007EFDFC /* FriendTableViewCell.m */,
+				0482E06E1A6CB19E007EFDFC /* FriendTableViewCell.xib */,
+				0482E0711A6CB713007EFDFC /* FriendRequestTableViewCell.h */,
+				0482E0721A6CB713007EFDFC /* FriendRequestTableViewCell.m */,
+				0482E0731A6CB713007EFDFC /* FriendRequestTableViewCell.xib */,
+				0482E0761A6CB884007EFDFC /* FriendRecommendationsTableViewCell.h */,
+				0482E0771A6CB884007EFDFC /* FriendRecommendationsTableViewCell.m */,
+				0482E0781A6CB884007EFDFC /* FriendRecommendationsTableViewCell.xib */,
+				04D5E5441A6CE2A10037903F /* FriendHeaderView.h */,
+				04D5E5451A6CE2A10037903F /* FriendHeaderView.m */,
+				04D5E5471A6CE2AD0037903F /* FriendHeaderView.xib */,
+			);
+			path = Friends;
+			sourceTree = "<group>";
+		};
 		04A469231A5B87980091F948 /* MessageDetails */ = {
 			isa = PBXGroup;
 			children = (
@@ -592,6 +631,7 @@
 		9F0671E81A2738110077F66B /* UIs */ = {
 			isa = PBXGroup;
 			children = (
+				0482E06B1A6CB17C007EFDFC /* Friends */,
 				04A469231A5B87980091F948 /* MessageDetails */,
 				D25383511A398B6400C3AFF4 /* MomentDetails */,
 				9FA12BEE1A35D66300CE737C /* MessageController */,
@@ -1331,6 +1371,7 @@
 				DDB63B521A679A0E000C0076 /* transparentBar@2x.png in Resources */,
 				9FA12BFC1A35D66300CE737C /* UpvoteMessageTableViewCell.xib in Resources */,
 				DDB63B4B1A679A0E000C0076 /* pause-button.png in Resources */,
+				0482E0701A6CB19E007EFDFC /* FriendTableViewCell.xib in Resources */,
 				9F8D55F21A36952D00735634 /* UserInfoTableViewCell.xib in Resources */,
 				9F8D55ED1A3694A700735634 /* PlayerViewTableViewCell.xib in Resources */,
 				DDB63B4A1A679A0E000C0076 /* minimize-button@2x.png in Resources */,
@@ -1341,6 +1382,7 @@
 				DDB63BD41A67ABDD000C0076 /* CLImageEditor.bundle in Resources */,
 				DDB63B441A679A0E000C0076 /* SquareCamViewController.xib in Resources */,
 				DDB63B581A679A0E000C0076 /* LICENSE in Resources */,
+				0482E07A1A6CB884007EFDFC /* FriendRecommendationsTableViewCell.xib in Resources */,
 				DDB63B371A679A0E000C0076 /* VolumeView.xib in Resources */,
 				DDB63B331A679A0E000C0076 /* PlayerView.xib in Resources */,
 				DDB63B4E1A679A0E000C0076 /* play-button@2x.png in Resources */,
@@ -1348,6 +1390,7 @@
 				04A4693C1A5B883D0091F948 /* MessageAudioTableViewCell.xib in Resources */,
 				CE3E23541A233CE000008D27 /* LaunchScreen.xib in Resources */,
 				DDB63B491A679A0E000C0076 /* minimize-button.png in Resources */,
+				0482E0751A6CB714007EFDFC /* FriendRequestTableViewCell.xib in Resources */,
 				CECCB7AD1A23482600C1220C /* MyMoments.storyboard in Resources */,
 				DDB63B471A679A0E000C0076 /* fullscreen-button.png in Resources */,
 				9F9F98221A2820200089018B /* VideoFilterActionView.xib in Resources */,
@@ -1358,6 +1401,7 @@
 				04A4693E1A5B883D0091F948 /* MessageCaptionTableViewCell.xib in Resources */,
 				046F3D3C1A65199300F6ABD6 /* Calibri.ttf in Resources */,
 				DDB63B311A679A0E000C0076 /* AudioRangerSelectorView.xib in Resources */,
+				04D5E5481A6CE2AD0037903F /* FriendHeaderView.xib in Resources */,
 				DDB63B4D1A679A0E000C0076 /* play-button.png in Resources */,
 				D23BA4691A357F75000EDE47 /* MomentsMessageTableViewCell.xib in Resources */,
 				DDB63B4C1A679A0E000C0076 /* pause-button@2x.png in Resources */,
@@ -1434,6 +1478,7 @@
 				DDB63BF01A67ABDD000C0076 /* CLClassList.m in Sources */,
 				DDB63B341A679A0E000C0076 /* ScheduleView.m in Sources */,
 				D23BA4741A357FA0000EDE47 /* NSDate+Helpers.m in Sources */,
+				04D5E5461A6CE2A10037903F /* FriendHeaderView.m in Sources */,
 				DDB63BEB1A67ABDD000C0076 /* CLColorPickerView.m in Sources */,
 				0499E2251A65144C00523444 /* MeScreenServices.m in Sources */,
 				9FF86FAC1A4181F500EA94EA /* MyMomentsModel.m in Sources */,
@@ -1470,6 +1515,7 @@
 				DDB63BF21A67ABDD000C0076 /* UIDevice+SystemVersion.m in Sources */,
 				DDD04ECB1A5A42A600AE0CE8 /* Frame.m in Sources */,
 				9FA12BF51A35D66300CE737C /* CommentHeaderTableViewCell.m in Sources */,
+				0482E06F1A6CB19E007EFDFC /* FriendTableViewCell.m in Sources */,
 				DDB63BE01A67ABDD000C0076 /* CLPixellateEffect.m in Sources */,
 				0499E22A1A65145500523444 /* MeScreenModel.m in Sources */,
 				DDB63B3E1A679A0E000C0076 /* NavigationView.m in Sources */,
@@ -1477,6 +1523,7 @@
 				DDB63BD61A67ABDD000C0076 /* CLImageEditorTheme.m in Sources */,
 				CE3E23431A233CDF00008D27 /* main.m in Sources */,
 				9FEA53D71A42883900CC6B89 /* ImageCacheObject.m in Sources */,
+				0482E0741A6CB713007EFDFC /* FriendRequestTableViewCell.m in Sources */,
 				DDB63BF11A67ABDD000C0076 /* CLSplineInterpolator.m in Sources */,
 				04A4693D1A5B883D0091F948 /* MessageCaptionTableViewCell.m in Sources */,
 				D23BA46A1A357F75000EDE47 /* DownloadVideoView.m in Sources */,
@@ -1489,6 +1536,7 @@
 				DDB63BDE1A67ABDD000C0076 /* CLHighlightShadowEffect.m in Sources */,
 				DDB63BE51A67ABDD000C0076 /* CLFilterBase.m in Sources */,
 				DDB63BE11A67ABDD000C0076 /* CLPosterizeEffect.m in Sources */,
+				0482E0791A6CB884007EFDFC /* FriendRecommendationsTableViewCell.m in Sources */,
 				DDB63B531A679A0E000C0076 /* AirplayActiveView.m in Sources */,
 				04A469471A5B92860091F948 /* RecordObject.m in Sources */,
 				9FA12BF71A35D66300CE737C /* CommentMessageTableViewCell.m in Sources */,

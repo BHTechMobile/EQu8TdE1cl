@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="KGk-i7-Jjw" customClass="FriendRecommendationsTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_circle_gray" translatesAutoresizingMaskIntoConstraints="NO" id="p1a-Vj-Ac7">
+                        <rect key="frame" x="20" y="5" width="60" height="60"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="pid-7m-23p"/>
+                            <constraint firstAttribute="height" constant="60" id="xHS-tg-WCJ"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d1i-iO-BEe">
+                        <rect key="frame" x="90" y="12" width="210" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="Jmf-DT-jR6"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friend on facebook for 3 years" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Joj-n6-Lnj">
+                        <rect key="frame" x="90" y="39" width="210" height="14"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="14" id="oe1-YV-yLP"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                        <color key="textColor" red="0.74901960779999999" green="0.74901960779999999" blue="0.74901960779999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Joj-n6-Lnj" firstAttribute="leading" secondItem="p1a-Vj-Ac7" secondAttribute="trailing" constant="10" id="58t-HA-3sa"/>
+                    <constraint firstAttribute="centerY" secondItem="p1a-Vj-Ac7" secondAttribute="centerY" id="J5C-0a-LKu"/>
+                    <constraint firstAttribute="trailing" secondItem="d1i-iO-BEe" secondAttribute="trailing" constant="20" id="Rw0-pu-mTL"/>
+                    <constraint firstItem="p1a-Vj-Ac7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="c4g-in-Wq8"/>
+                    <constraint firstItem="d1i-iO-BEe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="12" id="eGw-vH-iOA"/>
+                    <constraint firstAttribute="trailing" secondItem="Joj-n6-Lnj" secondAttribute="trailing" constant="20" id="uQU-Ji-5iT"/>
+                    <constraint firstItem="d1i-iO-BEe" firstAttribute="leading" secondItem="p1a-Vj-Ac7" secondAttribute="trailing" constant="10" id="wfU-tm-5de"/>
+                    <constraint firstItem="Joj-n6-Lnj" firstAttribute="top" secondItem="d1i-iO-BEe" secondAttribute="bottom" constant="6" id="z25-gR-7Re"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="detailsFriendLabel" destination="Joj-n6-Lnj" id="ts0-mv-xi4"/>
+                <outlet property="userImageView" destination="p1a-Vj-Ac7" id="YPJ-ON-Ph0"/>
+                <outlet property="userNameLabel" destination="d1i-iO-BEe" id="tNa-Z5-lBW"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon_circle_gray" width="90" height="90"/>
+    </resources>
+</document>
